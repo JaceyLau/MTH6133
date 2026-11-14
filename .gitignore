@@ -1,0 +1,39 @@
+# 私人工作檔
+.workbuddy/
+
+# Office 暫存檔
+~$*
+
+# 課程文件與媒體（不屬於網頁應用程式）
+*.docx
+*.pdf
+*.pptx
+*.jpg
+*.jpeg
+*.png
+
+# 開發測試腳本
+_test*.js
+
+# 其他 HTML（只發佈 index.html）
+*.html
+!index.html
+
+# 舊版本與舊說明（只保留在本機，不發佈）
+index(1).html
+index-v1.html
+index-v2.html
+index-v3.html
+index-v4.html
+index-v5.html
+index-v6.html
+index-v7.html
+index-v8.html
+index-v9.html
+index-v10.html
+README(1).md
+README-v1.md
+README-v2.md
+README-v3.md
+README-v4.md
+README-v5.md

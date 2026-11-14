@@ -1,0 +1,3111 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fff7e8">
+<title>香港茶餐廳</title>
+<style>
+  :root{
+    --ink:#2f241c; --ink-soft:#6f5b4b; --cream:#fff7e8; --paper:#fffdf8;
+    --red:#d94f3b; --red-deep:#a93424; --yellow:#ffc94d; --green:#1f7a4c;
+    --green-soft:#e8f6ee; --blue:#3b6fb6; --blue-soft:#eaf2ff; --line:#e8d5b7;
+    --shadow:0 14px 36px rgba(101,67,31,.13); --radius:22px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; min-height:100vh; color:var(--ink); font-size:18px; line-height:1.6;
+    font-family:"PingFang HK","Microsoft JhengHei","Noto Sans TC","Segoe UI",system-ui,-apple-system,sans-serif;
+    background-color:var(--cream);
+    background-image:radial-gradient(circle at 12% 0%,rgba(255,201,77,.30),transparent 34rem),
+      radial-gradient(circle at 95% 18%,rgba(31,122,76,.10),transparent 30rem),
+      radial-gradient(rgba(104,71,37,.055) 1.2px,transparent 1.3px);
+    background-size:auto,auto,26px 26px;
+  }
+  [hidden]{display:none !important}
+  button,input,textarea,select{font-family:inherit;font-size:inherit}
+  button{cursor:pointer}
+  :focus-visible{outline:4px solid #3b6fb6;outline-offset:3px}
+  body.modal-open{overflow:hidden}
+  .awning{height:16px;background:repeating-linear-gradient(90deg,#d94f3b 0 46px,#fff3df 46px 92px);border-bottom:3px solid #b93a28}
+  .page{width:min(1460px,97vw);margin:0 auto;padding:12px 0 24px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+  .brand{display:flex;align-items:center;gap:14px;flex:1 1 280px;min-width:0}
+  .brand-badge{width:66px;height:66px;flex:none;border-radius:20px;background:linear-gradient(145deg,#ffe4a8,#ffc94d);display:grid;place-items:center;font-size:36px;border:2px solid #e8b53f;box-shadow:inset 0 -4px 0 rgba(181,132,28,.18);transform:rotate(-3deg)}
+  .brand h1{margin:0;font-size:clamp(26px,3.4vw,42px);line-height:1.15;letter-spacing:1px}
+  .brand p{margin:6px 0 0;font-size:16px;color:var(--ink-soft)}
+  .top-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .icon-btn{border:2px solid var(--line);background:#fffaf0;color:var(--ink);border-radius:14px;padding:8px 13px;font-weight:800;font-size:15px;box-shadow:0 3px 0 var(--line);transition:transform .12s,background .12s}
+  .icon-btn:hover{background:#fff1d6;transform:translateY(-1px)}
+  .icon-btn:active{transform:translateY(1px);box-shadow:0 1px 0 var(--line)}
+  .lang-toggle{display:flex;gap:4px;background:#fffaf0;border:2px solid var(--line);border-radius:14px;padding:4px}
+  .lang-toggle button{border:0;background:transparent;border-radius:10px;padding:6px 11px;font-weight:900;font-size:14px;color:#7b6250}
+  .lang-toggle button.active{background:var(--ink);color:#fff7ec}
+
+  /* ===== 首页 ===== */
+  .start-screen{min-height:calc(100vh - 22px);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px 0}
+  .start-top{width:100%;justify-content:center;margin-bottom:4px}
+  .start-screen .brand{flex:0 1 auto;justify-content:center}
+  .start-screen .top-actions{justify-content:center;margin-top:12px;width:100%}
+  .start-sub{margin:2px 0 0;font-size:18px;color:var(--ink-soft);text-align:center}
+  .home-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:22px 0 6px}
+  .home-btn{border:2px solid var(--line);background:#fffaf0;color:var(--ink);border-radius:16px;padding:12px 16px;font-weight:800;font-size:16px;box-shadow:0 3px 0 var(--line);display:inline-flex;align-items:center;gap:7px;transition:transform .12s}
+  .home-btn:hover{background:#fff1d6;transform:translateY(-1px)}
+  .home-btn:active{transform:translateY(1px);box-shadow:0 1px 0 var(--line)}
+  .home-btn.primary{border-color:var(--red-deep);background:linear-gradient(180deg,#f97b4c,#ef5d32);color:#fff;box-shadow:0 4px 0 var(--red-deep)}
+  .home-btn.primary:hover{background:linear-gradient(180deg,#fa8459,#f26a41)}
+
+  .section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:20px 4px 12px}
+  .section-title h2{margin:0;font-size:clamp(22px,2.6vw,28px)}
+  .level-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+  .level-card{width:100%;text-align:left;font:inherit;color:inherit;background:var(--paper);border:3px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 6px 0 var(--line);display:flex;flex-direction:column;gap:12px;transition:transform .15s,box-shadow .15s}
+  .level-card:hover{transform:translateY(-4px);box-shadow:0 10px 0 var(--line)}
+  .level-card.basic{border-color:#a9d9bd;box-shadow:0 6px 0 #a9d9bd}
+  .level-card.advanced{border-color:#f0c27a;box-shadow:0 6px 0 #f0c27a}
+  .level-card.challenge{border-color:#9fc1ee;box-shadow:0 6px 0 #9fc1ee}
+  .level-card h3{margin:0;font-size:22px;line-height:1.25}
+  .level-focus{background:#fff9ef;border:1.5px dashed #e2cfb2;border-radius:12px;padding:8px 10px;font-size:14.5px;font-weight:800;color:#6d4d2f;line-height:1.5}
+  .level-time{font-size:15px;font-weight:900;color:#237a4c;text-align:center}
+  .level-start{margin-top:auto;border:2px solid var(--red-deep);background:linear-gradient(180deg,#f97b4c,#ef5d32);color:#fff;border-radius:14px;padding:13px 16px;font-size:18px;font-weight:900;box-shadow:0 4px 0 var(--red-deep)}
+  .level-start:hover{background:linear-gradient(180deg,#fa8459,#f26a41)}
+  .level-start:active{transform:translateY(2px);box-shadow:0 2px 0 var(--red-deep)}
+  .page-foot{text-align:center;color:#8a715c;font-size:15px;margin-top:30px}
+  .level-art{width:100%;max-width:200px;height:120px;display:grid;place-items:center;background:radial-gradient(circle at 50% 44%,#fff3d6,#fffdf8 72%);border-radius:18px;border:1.5px dashed #e2cfb2;overflow:hidden;margin:0 auto}
+  .level-art svg{width:100%;height:100%;display:block}
+
+  /* ===== 营业主画面（一屏免滑动横向餐单 + 右侧餐盘） ===== */
+  .game-topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:rgba(255,253,247,.97);border:2px solid var(--line);border-radius:16px;padding:7px 12px;box-shadow:0 6px 18px rgba(101,67,31,.10);margin-bottom:8px;backdrop-filter:blur(6px)}
+  .game-topbar .brand{flex:0 1 auto;gap:10px}
+  .game-topbar .brand h1{font-size:19px;letter-spacing:.5px}
+  .game-topbar .brand-badge{width:38px;height:38px;font-size:21px;border-radius:11px}
+  .level-badge{border-radius:999px;padding:5px 12px;font-weight:900;font-size:14px;background:#eef8f1;color:#237a4c;white-space:nowrap}
+  .level-badge.advanced{background:#fff3d9;color:#9a5a0a}
+  .level-badge.challenge{background:#eaf2ff;color:#2b5b9c}
+  .game-topbar .top-actions{margin-left:auto}
+
+  /* 营业信息栏 */
+  .biz-bar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:8px}
+  .biz-card{background:var(--paper);border:2px solid var(--line);border-radius:13px;padding:5px 10px;display:flex;align-items:center;justify-content:center;gap:8px}
+  .biz-card .label{font-size:13px;font-weight:800;color:var(--ink-soft)}
+  .biz-card .value{font-size:19px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.15}
+  .biz-card.timer .value{color:#1f7a4c}
+  .biz-card.timer.warn .value{color:#d94f3b;animation:timerPulse 1.2s ease-in-out infinite}
+  @keyframes timerPulse{0%,100%{opacity:1}50%{opacity:.55}}
+
+  /* 客人 */
+  .customer-box{display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,#fff3d9,#fffdf8);border:2.5px solid #f0d59c;border-radius:16px;padding:9px 14px;margin-bottom:10px;box-shadow:0 3px 0 #f0d59c}
+  .customer-avatar{flex:none;width:54px;height:54px;border-radius:14px;background:#fff;border:2px solid #f0d59c;display:grid;place-items:center;overflow:hidden}
+  .customer-avatar svg{width:100%;height:100%}
+  .customer-speech{flex:1;min-width:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .customer-name{margin:0;font-size:14.5px;font-weight:900;color:#9a5a0a;white-space:nowrap}
+  .speech-bubble{position:relative;flex:1;min-width:240px;background:#fff;border:2px solid #f0d59c;border-radius:12px;padding:7px 12px;font-size:15.5px;color:#5f4837;line-height:1.4}
+  .speech-bubble strong{color:#2f241c;font-weight:900}
+
+  /* 横向餐单 + 右侧餐盘布局 */
+  .game-layout{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(310px,.82fr);gap:14px;align-items:start}
+  .menu-panel{min-width:0}
+  .panel{background:var(--paper);border:2px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 4px 0 var(--line)}
+  .panel + .panel{margin-top:10px}
+  .panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px}
+  .panel-head h2,.panel-head h3{margin:0;font-size:18px}
+  .panel-head p{margin:0;font-size:13px;color:var(--ink-soft)}
+  .filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+  .filter-btn{border:1.5px solid var(--line);background:#fffaf0;border-radius:999px;padding:4px 11px;font-size:13.5px;font-weight:800;color:#6d4d2f}
+  .filter-btn.active{background:var(--ink);color:#fff7ec;border-color:var(--ink)}
+
+  /* 6列横向紧凑食物网格：28种食物一屏全部显示 */
+  .menu-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+  .food-card{background:var(--paper);border:2px solid #eeddc5;border-radius:12px;padding:6px;box-shadow:0 2px 0 #eeddc5;display:flex;flex-direction:column;gap:4px;transition:transform .12s,box-shadow .12s;min-width:0}
+  .food-card:hover{transform:translateY(-2px);box-shadow:0 4px 0 #eeddc5}
+  .food-card.in-cart{border-color:#f0b64e;box-shadow:0 2px 0 #f0d59c;background:#fffcf4}
+  .food-top{display:flex;gap:6px;align-items:center;min-width:0}
+  .food-emoji{width:34px;height:34px;flex:none;border-radius:10px;background:var(--food-bg,#fff1cf);display:grid;place-items:center;font-size:21px;border:1px solid rgba(90,55,20,.08)}
+  .food-emoji svg{width:28px;height:28px}
+  .food-title{min-width:0;flex:1}
+  .food-head-line{display:flex;align-items:baseline;justify-content:space-between;gap:3px;min-width:0}
+  .food-title h3{margin:0;font-size:14px;font-weight:900;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .price-now{font-size:14.5px;font-weight:900;color:#b93a28;flex:none;line-height:1}
+  .pack-row{display:flex;gap:4px;flex-wrap:wrap;align-items:center;min-width:0}
+  .pack-badge{border-radius:8px;padding:2px 6px;font-size:11px;font-weight:800;line-height:1.25;border:1.5px solid #e8d5b7;background:#fff9ef;color:#6d4d2f;white-space:normal;word-break:keep-all}
+  .pack-badge.eco-high,.tray-pack.eco-high{background:#e8f6ee;border-color:#9fd6b7;color:#1f7a4c}
+  .pack-badge.eco-mid,.tray-pack.eco-mid{background:#fff6d6;border-color:#ebd07a;color:#8a5a0a}
+  .pack-badge.eco-low,.tray-pack.eco-low{background:#fff1ee;border-color:#f0b3a8;color:#b93a28}
+  .eco-legend{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:8px;font-size:12.5px;font-weight:800}
+  .eco-legend span{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:999px;border:1.5px solid transparent}
+  .eco-legend .leg-high{background:#e8f6ee;border-color:#9fd6b7;color:#1f7a4c}
+  .eco-legend .leg-mid{background:#fff6d6;border-color:#ebd07a;color:#8a5a0a}
+  .eco-legend .leg-low{background:#fff1ee;border-color:#f0b3a8;color:#b93a28}
+  .tag-row{display:flex;gap:3px;flex-wrap:nowrap;overflow:hidden;margin-top:2px}
+  .tag{background:#f4ecdf;color:#6d4d2f;border-radius:999px;padding:1px 6px;font-size:11px;font-weight:700;line-height:1.3;white-space:nowrap}
+  .tag.healthy{background:#e8f6ee;color:#1f7a4c}
+  .food-actions{display:flex;align-items:center;gap:5px;margin-top:auto}
+  .add-btn{flex:1;border:1.5px solid var(--red-deep);background:linear-gradient(180deg,#f97b4c,#ef5d32);color:#fff;border-radius:9px;padding:4px 6px;font-weight:900;font-size:12.5px;box-shadow:0 2px 0 var(--red-deep);line-height:1.25}
+  .add-btn:active{transform:translateY(1px);box-shadow:none}
+  .add-btn.added{background:#eef8f1;color:#237a4c;border-color:#a9d9bd;box-shadow:0 2px 0 #a9d9bd}
+  .qty-badge{font-size:12px;font-weight:900;color:#237a4c;white-space:nowrap}
+
+  .side-panel{min-width:0;position:sticky;top:64px;max-height:calc(100vh - 76px);overflow:auto;padding-right:2px;scrollbar-width:thin;scrollbar-color:#e6d3b8 transparent}
+  .side-panel::-webkit-scrollbar{width:6px}.side-panel::-webkit-scrollbar-thumb{background:#e6d3b8;border-radius:999px}
+
+  .tray-list{display:flex;flex-direction:column;gap:7px}
+  .empty-tray{border:2px dashed #e6d3b8;border-radius:14px;background:#fffbf3;padding:14px 10px;text-align:center;color:#a68a6e}
+  .empty-tray b{display:block;font-size:16px;color:#806347;margin:3px 0 2px}
+  .empty-tray span{font-size:13.5px}
+  .tray-line{display:flex;gap:8px;align-items:center;background:#fffdf8;border:1.5px solid #f0e1cc;border-radius:12px;padding:7px 8px}
+  .tray-emoji{font-size:24px;width:30px;text-align:center;flex:none}
+  .tray-emoji svg{width:26px;height:26px}
+  .tray-info{flex:1;min-width:0}
+  .tray-name{font-size:15px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tray-name small{font-size:13px;color:#8a7059;font-weight:700}
+  .tray-pack{display:inline-block;font-size:11.5px;font-weight:800;color:#6d4d2f;margin-top:3px;padding:1px 7px;border-radius:8px;border:1px solid #e8d5b7;background:#fff9ef}
+  .tray-side{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex:none}
+  .qty-control{display:flex;align-items:center;gap:4px}
+  .qty-btn{width:28px;height:28px;border-radius:8px;border:1.5px solid #e2cfb2;background:#fff7e9;color:#63462d;font-size:16px;font-weight:900;display:grid;place-items:center;line-height:1;padding:0;box-shadow:0 2px 0 #e2cfb2}
+  .qty-btn:active{transform:translateY(1px);box-shadow:none}
+  .qty-btn:disabled{opacity:.4;cursor:not-allowed}
+  .qty-num{min-width:18px;text-align:center;font-size:16px;font-weight:900}
+  .remove-btn{border:0;background:none;color:#b06a50;font-size:12px;padding:1px 3px;border-radius:6px;font-weight:700}
+  .remove-btn:hover{background:#fff0e8;color:#c94a27}
+
+  .checkout-btn{width:100%;border:2px solid var(--red-deep);background:linear-gradient(180deg,#f97b4c,#ef5d32);color:#fff;border-radius:14px;padding:13px 16px;font-size:19px;font-weight:900;letter-spacing:1px;box-shadow:0 4px 0 var(--red-deep)}
+  .checkout-btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--red-deep)}
+  .checkout-btn[aria-disabled="true"]{filter:grayscale(.75);opacity:.6;cursor:not-allowed}
+
+  /* ===== 翻页计算流程 ===== */
+  .flow-screen{min-height:calc(100vh - 22px);display:flex;flex-direction:column;align-items:center;padding:16px 0}
+  .flow-topbar{width:100%;max-width:860px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+  .flow-progress{flex:1;min-width:200px;text-align:center;font-size:17px;font-weight:900;color:#6d4d2f}
+  .flow-progress .dots{display:flex;gap:6px;justify-content:center;margin-top:6px}
+  .flow-progress .dot{width:14px;height:14px;border-radius:50%;background:#e8d5b7;border:2px solid #d7c4a6}
+  .flow-progress .dot.done{background:#7ccf9e;border-color:#2f7d53}
+  .flow-progress .dot.now{background:var(--yellow);border-color:#d9a520;transform:scale(1.2)}
+  .flow-card{width:100%;max-width:860px;background:var(--paper);border:3px solid var(--line);border-radius:24px;padding:22px 22px;box-shadow:0 8px 0 var(--line);transition:transform .25s,opacity .25s}
+  .flow-card.leaving{transform:translateX(-40px) rotate(-1deg);opacity:0}
+  .flow-card.entering{transform:translateX(40px);opacity:0}
+  .flow-card h2{margin:0 0 12px;font-size:25px;font-weight:900;color:#245c3d;text-align:center}
+  .flow-card .flow-sub{margin:0 0 14px;font-size:16px;color:var(--ink-soft)}
+  .flow-q{margin:0 0 10px;font-size:18px;font-weight:800;color:#4a3322;line-height:1.5}
+  .flow-hint{background:#fff9ef;border:1.5px dashed #e2cfb2;border-radius:12px;padding:9px 12px;font-size:15px;font-weight:800;color:#6d4d2f;margin-top:8px}
+  .flow-expr{min-height:58px;border:2px dashed #b9d6c4;border-radius:12px;background:#fff;padding:10px 14px;font-size:24px;font-weight:900;color:#245c3d;word-break:break-all;line-height:1.4;font-variant-numeric:tabular-nums;display:flex;align-items:center;min-width:0}
+  .flow-expr.empty{color:#9bb3a4;font-size:16px;font-weight:700}
+  .flow-expr .num{color:#1f5e8a}
+  .flow-expr .op{color:#b4481c}
+  .flow-expr .paren{color:#d94f3b}
+  .flow-feedback{font-size:16.5px;font-weight:800;margin:12px 0 4px;min-height:24px;text-align:center}
+  .flow-feedback.ok{color:#237a4c}
+  .flow-feedback.bad{color:#a93424}
+
+  /* 订单摘要（每步固定显示） */
+  .order-summary{background:#fff9ef;border:2px solid #f0d59c;border-radius:14px;padding:12px 14px;margin-bottom:14px}
+  .order-summary h3{margin:0 0 8px;font-size:17px;color:#9a5a0a}
+  .summary-customer{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+  .summary-avatar{flex:none;width:44px;height:44px;border-radius:12px;background:#fff;border:2px solid #f0d59c;display:grid;place-items:center;overflow:hidden}
+  .summary-avatar svg{width:100%;height:100%}
+  .summary-speech{flex:1;background:#fff;border:2px solid #f0d59c;border-radius:10px;padding:7px 10px;font-size:15px;color:#5f4837;line-height:1.45}
+  .summary-speech strong{color:#2f241c;font-weight:900}
+  .summary-rows{margin-top:6px}
+  .summary-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0;border-bottom:1px dotted rgba(190,154,106,.35);font-size:16px}
+  .summary-row:last-child{border-bottom:0}
+  .summary-food-name{font-size:17px;font-weight:800;color:var(--ink)}
+  .summary-qty-price{font-size:20px;font-weight:900;color:#b4481c;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .summary-row b{font-variant-numeric:tabular-nums}
+  .summary-paid{color:#b4481c;font-size:17px;font-weight:800;padding-top:6px}
+  .summary-paid b{font-size:20px;font-weight:900}
+  .summary-expr{margin-top:8px;padding-top:8px;border-top:2px dashed #e2cfb2;font-size:16px;font-weight:900;color:#245c3d;word-break:break-all}
+  .summary-expr small{display:block;font-size:13px;font-weight:800;color:#8a7059}
+
+  /* 答案框（第四页） */
+  .answer-input{width:100%;min-height:58px;border:2px dashed #b9d6c4;border-radius:12px;background:#fff;padding:10px 12px;font-size:26px;font-weight:900;color:#245c3d;text-align:center;font-variant-numeric:tabular-nums}
+  .answer-input:focus{outline:3px solid #b9d6c4;border-color:#2f7d53}
+
+  /* 精简算式构建面板（无0-9计算器，只显示本题数字与运算符） */
+  .builder-box{margin-top:10px;background:#f7fbf8;border:1.5px solid #cfe3d6;border-radius:14px;padding:12px 14px}
+  .builder-group + .builder-group{margin-top:10px;padding-top:10px;border-top:1px dashed #d5e6dc}
+  .builder-label{display:block;font-size:13.5px;font-weight:800;color:#527a63;margin-bottom:7px}
+  .builder-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .num-chip{min-width:52px;height:46px;border:2px solid #9cc2df;background:#fff;color:#1f5e8a;border-radius:14px;padding:0 14px;font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;box-shadow:0 3px 0 #c5dff2;transition:transform .1s,background .1s}
+  .num-chip:hover{background:#eaf4fc;transform:translateY(-1px)}
+  .num-chip:active{transform:translateY(2px);box-shadow:none}
+  .num-chip:disabled{opacity:.45;cursor:not-allowed;transform:none}
+  .op-chip{min-width:46px;height:46px;border:2px solid #e8c9a8;background:#fff4e6;color:#b4481c;border-radius:12px;padding:0 12px;font-size:21px;font-weight:900;box-shadow:0 3px 0 #e8c9a8;transition:transform .1s,background .1s}
+  .op-chip.paren{border-color:#e9b3aa;background:#fff3f0;color:#c93d2b;box-shadow:0 3px 0 #e9b3aa}
+  .op-chip.util{border-color:#d7c4a6;background:#f4ecdf;color:#6d4d2f;font-size:14.5px;padding:0 14px;box-shadow:0 3px 0 #d7c4a6}
+  .op-chip:hover{filter:brightness(.97);transform:translateY(-1px)}
+  .op-chip:active{transform:translateY(2px);box-shadow:none}
+  .op-chip:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+  .flow-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+  .flow-check-btn{border:2px solid #2f7d53;background:linear-gradient(180deg,#3f9c6c,#2f7d53);color:#fff;border-radius:13px;padding:12px 26px;font-size:18px;font-weight:900;box-shadow:0 3px 0 #1f5c3d}
+  .flow-check-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #1f5c3d}
+  .flow-check-btn:disabled{opacity:.55;cursor:not-allowed}
+  .flow-next-btn{border:2px solid var(--red-deep);background:linear-gradient(180deg,#f97b4c,#ef5d32);color:#fff;border-radius:13px;padding:12px 28px;font-size:19px;font-weight:900;box-shadow:0 4px 0 var(--red-deep);animation:nextPop .22s ease-out}
+  .flow-next-btn:hover{background:linear-gradient(180deg,#fa8459,#f26a41)}
+  .flow-next-btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--red-deep)}
+  @keyframes nextPop{from{transform:scale(.94);opacity:.7}to{transform:scale(1);opacity:1}}
+
+  .hint-wrap{margin:10px 0 8px}
+  .hint-btn{border:1.5px dashed #b9d6c4;background:#fff;color:#527a63;border-radius:10px;padding:7px 14px;font-size:14px;font-weight:800}
+  .hint-btn:hover{background:#f3faf5}
+
+  /* 选择题（第三页） */
+  .mc-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+  .mc-btn{text-align:left;border:2px solid #d7c4a6;background:#fffaf0;border-radius:14px;padding:12px 14px;font-size:18px;font-weight:800;color:#4a3322;box-shadow:0 2px 0 #d7c4a6;line-height:1.45}
+  .mc-btn:hover{background:#fff1d6}
+  .mc-btn.correct{border-color:#7ccf9e;background:#eef8f1;color:#1f6b46}
+  .mc-btn.wrong{border-color:#e9a296;background:#fff3f0;color:#a93424}
+
+  .flow-receipt{background:#fffaf0;border:2px dashed #d9b98c;border-radius:14px;padding:12px 13px;font-size:16px;margin-top:12px}
+  .receipt-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:6px 0;border-bottom:1px dotted rgba(190,154,106,.3)}
+  .receipt-row:last-child{border-bottom:0}
+  .receipt-row span{min-width:0;padding-right:6px}
+  .receipt-row small{display:block;font-size:13px;color:#a08467;margin-top:2px}
+  .receipt-row b{white-space:nowrap;font-variant-numeric:tabular-nums}
+  .receipt-row.total{border-top:2px dashed #c99f65;margin-top:4px;padding-top:9px;font-size:20px;font-weight:900;color:#b4481c}
+
+  /* ===== 营业结算 ===== */
+  .report-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+  .report-card{background:#fff9ef;border:2px solid #f0e1cc;border-radius:14px;padding:12px;text-align:center}
+  .report-card .label{display:block;font-size:13px;font-weight:800;color:var(--ink-soft)}
+  .report-card .value{display:block;font-size:24px;font-weight:900;font-variant-numeric:tabular-nums}
+
+  /* ===== 数据/成就/账号/排行榜页面 ===== */
+  .data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0}
+  .data-card{background:var(--paper);border:2px solid var(--line);border-radius:16px;padding:14px}
+  .data-card .label{display:block;font-size:13px;font-weight:800;color:var(--ink-soft)}
+  .data-card .value{display:block;font-size:22px;font-weight:900;font-variant-numeric:tabular-nums}
+  .avatar-row{display:flex;gap:8px;flex-wrap:wrap}
+  .avatar-opt{width:52px;height:52px;border-radius:14px;border:3px solid var(--line);background:#fff;display:grid;place-items:center;font-size:28px;line-height:1;overflow:hidden;padding:0}
+  .avatar-opt.sel{border-color:var(--green);background:#eef8f1}
+  .guest-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;background:#fffdf8;border:2px solid var(--line);border-radius:14px;padding:6px 12px}
+  .guest-bar label{font-size:14px;font-weight:800;color:#6d4d2f}
+  .guest-bar input{height:34px;border:1.5px solid #e2cfb2;border-radius:9px;padding:0 10px;font-size:15px;font-weight:800;color:var(--ink);background:#fffaf0;width:170px}
+  .guest-bar input:focus{outline:2px solid #b9d6c4;border-color:#2f7d53}
+  .lb-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+  .lb-tab{border:2px solid var(--line);background:#fffaf0;color:#6d4d2f;border-radius:12px;padding:8px 14px;font-size:15px;font-weight:900}
+  .lb-tab.active{background:var(--ink);color:#fff7ec;border-color:var(--ink)}
+  .lb-row-me td{background:#eef8f1 !important;font-weight:900;color:#1f6b46}
+  .me-pill{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:#2f7d53;color:#fff;font-size:11.5px;font-weight:900}
+  .rules-card-box{background:#fff9ef;border:2px solid #f0d59c;border-radius:16px;padding:14px 16px;text-align:center}
+  .rules-card-box .rc-focus{font-size:17px;font-weight:900;color:#245c3d;margin-bottom:6px}
+  .rules-card-box .rc-time{font-size:15px;font-weight:800;color:#9a5a0a}
+  .rules-flow-pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+  .rules-flow-pills span{background:#fff;border:1.5px solid #e8d5b7;border-radius:999px;padding:4px 12px;font-size:14px;font-weight:800;color:#6d4d2f}
+  .ach-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:14px 0}
+  .ach-card{border:3px solid var(--line);border-radius:16px;padding:14px;text-align:center;background:var(--paper);display:flex;flex-direction:column;gap:6px;align-items:center}
+  .ach-card.unlocked{border-color:#7ccf9e;background:#f5fcf8}
+  .ach-card.locked{opacity:.55}
+  .ach-icon{font-size:38px;line-height:1}
+  .ach-name{font-weight:900;font-size:16px}
+  .ach-desc{font-size:13px;color:var(--ink-soft);line-height:1.4}
+  .ach-date{font-size:12px;color:#237a4c;font-weight:800}
+  .ach-progress{width:100%;height:10px;background:#f0e3ce;border-radius:999px;overflow:hidden}
+  .ach-progress i{display:block;height:100%;background:linear-gradient(90deg,#2f9e63,#7ccf9e)}
+
+  .table-wrap{overflow-x:auto}
+  table.data-table{width:100%;border-collapse:collapse;font-size:15px;min-width:560px}
+  .data-table th,.data-table td{border:1px solid #e8d5b7;padding:8px 10px;text-align:center}
+  .data-table th{background:#fff3d9;font-weight:900;color:#6d4d2f}
+  .data-table tr:nth-child(even) td{background:#fffdf8}
+  .mistake-list{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+  .mistake-row{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff9ef;border:1.5px solid #f0e1cc;border-radius:12px;padding:9px 12px}
+  .mistake-row .mname{font-weight:800;font-size:15px}
+  .mistake-row .mbar{flex:1;height:10px;background:#f0e3ce;border-radius:999px;overflow:hidden;min-width:80px}
+  .mistake-row .mbar i{display:block;height:100%;background:linear-gradient(90deg,#e98a3a,#d94f3b)}
+  .mistake-row .mcount{font-size:14px;font-weight:900;font-variant-numeric:tabular-nums;min-width:34px;text-align:right}
+
+  .feedback-box{background:#eef8f1;border:1.5px solid #cbe7d6;border-radius:14px;padding:12px 14px;margin:12px 0}
+  .feedback-box h3{margin:0 0 8px;font-size:17px;color:#237a4c}
+  .feedback-box li{margin:6px 0;font-size:15px;line-height:1.5}
+
+  .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+  .field label{font-size:15px;font-weight:900;color:#6d4d2f}
+  .field input,.field select{height:48px;border:2px solid #e2cfb2;border-radius:12px;padding:0 12px;font-size:17px;background:#fff;color:var(--ink)}
+  .field input:focus,.field select:focus{outline:3px solid #b9d6c4;border-color:#2f7d53}
+  .warn-note{background:#fff3f0;border:1.5px solid #e9a296;color:#a93424;border-radius:12px;padding:10px 12px;font-size:14px;font-weight:800;line-height:1.5;margin:10px 0}
+
+  /* ===== modal / toast / confetti ===== */
+  .overlay{position:fixed;inset:0;z-index:100;background:rgba(47,36,28,.55);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:18px;opacity:0;transition:opacity .18s}
+  .overlay.show{opacity:1}
+  .modal{width:min(620px,100%);max-height:92vh;overflow:auto;background:#fffdf8;border:3px solid #3c2a1e;border-radius:26px;box-shadow:0 26px 70px rgba(45,28,14,.35);padding:26px 24px 22px;position:relative;transform:translateY(10px) scale(.98);transition:transform .2s}
+  .modal.wide{width:min(920px,100%)}
+  .overlay.show .modal{transform:none}
+  .modal.tone-ok{border-color:#2f7d53}
+  .modal.tone-bad{border-color:#b93a28}
+  .modal-close{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:1.5px solid #e5d3b9;background:#fff7e9;color:#8b6e52;font-weight:900;font-size:18px;line-height:1}
+  .modal-close:hover{background:#ffefd4}
+  .modal-head{text-align:center;padding:0 14px}
+  .modal-hero{font-size:58px;line-height:1.1;margin-bottom:2px}
+  .modal h2{margin:2px 0 6px;font-size:26px;letter-spacing:.5px}
+  .modal.tone-ok h2{color:#236b47}.modal.tone-bad h2{color:#a63c2a}
+  .modal-sub{margin:0 auto;max-width:520px;font-size:17px;line-height:1.6;color:#6f5b4b}
+  .modal-body{margin-top:15px;font-size:16px;line-height:1.65;color:#5f4837}
+  .modal-body p{margin:0 0 9px}
+  .modal-body h3{margin:14px 0 7px;font-size:18px}
+  .modal-body h3:first-child{margin-top:0}
+  .modal-actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:19px}
+  .btn{border-radius:13px;padding:12px 20px;font-size:17px;font-weight:900;border:2px solid transparent;min-width:120px}
+  .btn-primary{border-color:var(--red-deep);background:linear-gradient(180deg,#f97b4c,#ef5d32);color:#fff;box-shadow:0 3px 0 var(--red-deep)}
+  .btn-ghost{border-color:#e2cfb2;background:#fffaf1;color:#765b43;box-shadow:0 3px 0 #e2cfb2}
+  .btn-green{border-color:#1f5c3d;background:linear-gradient(180deg,#3f9c6c,#2f7d53);color:#fff;box-shadow:0 3px 0 #1f5c3d}
+  .btn:active{transform:translateY(2px);box-shadow:none}
+
+  .toast{position:fixed;left:50%;bottom:26px;z-index:150;transform:translate(-50%,16px);background:rgba(47,36,28,.96);color:#fff8ef;padding:11px 19px;border-radius:999px;font-size:16px;font-weight:800;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;max-width:92vw;text-align:center}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+  .confetti{position:fixed;inset:0;z-index:120;pointer-events:none;overflow:hidden}
+  .confetti-piece{position:absolute;top:-24px;border-radius:2px;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(112vh) rotate(720deg);opacity:.9}}
+
+  /* 成就弹窗动画 */
+  .ach-pop{position:fixed;top:18px;right:18px;z-index:200;background:#fffdf8;border:3px solid #7ccf9e;border-radius:20px;padding:16px 18px;box-shadow:0 18px 50px rgba(0,0,0,.3);display:flex;gap:14px;align-items:center;max-width:340px;animation:achIn .4s cubic-bezier(.2,.9,.3,1.3)}
+  .ach-pop .icon{font-size:44px;line-height:1}
+  .ach-pop .title{font-size:13px;font-weight:900;color:#237a4c;letter-spacing:1px}
+  .ach-pop .name{font-size:19px;font-weight:900}
+  .ach-pop .desc{font-size:14px;color:var(--ink-soft)}
+  @keyframes achIn{from{transform:translateX(120%);opacity:0}to{transform:none;opacity:1}}
+  .ach-pop .close{position:absolute;top:6px;right:8px;border:0;background:none;font-size:18px;color:#8b6e52}
+
+  .tray-fab{display:none}
+  @media(max-width:1280px){
+    .menu-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  }
+  @media(max-width:980px){
+    .game-layout{grid-template-columns:1fr}
+    .side-panel{position:static;max-height:none;overflow:visible;padding-right:0}
+    .menu-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .page{padding-bottom:92px}
+    .tray-fab{display:inline-flex;position:fixed;right:max(14px,calc((100vw - min(1460px,97vw))/2));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:95;align-items:center;gap:9px;background:var(--green);color:#fff;border:2px solid #145c38;border-radius:999px;padding:9px 17px 9px 9px;font-weight:900;font-size:16px;line-height:1.2;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+    .tray-fab:active{transform:scale(.97)}
+    .tray-fab-num{display:grid;place-items:center;min-width:32px;height:32px;padding:0 8px;border-radius:999px;background:#fff;color:var(--green);font-size:15px;font-weight:900}
+  }
+  @media(max-width:700px){
+    body{font-size:17px}
+    .page{width:min(1460px,95vw);padding-top:10px}
+    .brand h1{font-size:24px}
+    .brand-badge{width:52px;height:52px;font-size:28px}
+    .level-grid{grid-template-columns:1fr}
+    .game-topbar{gap:8px;padding:8px 10px}
+    .game-topbar .brand{display:none}
+    .game-topbar .top-actions{margin-left:0;width:100%;justify-content:flex-end}
+    .menu-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .biz-bar{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .modal{padding:22px 16px 18px;border-radius:22px}
+    .modal h2{font-size:22px}
+    .btn{padding:11px 14px;min-width:104px;font-size:16px}
+    .customer-box{flex-direction:column;align-items:flex-start}
+    .customer-avatar{width:50px;height:50px}
+    .flow-card{padding:18px 14px}
+    .flow-card h2{font-size:21px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
+    .flow-card.leaving{transform:none;opacity:1}
+    .flow-card.entering{transform:none;opacity:1}
+  }
+</style>
+</head>
+<body>
+<div class="awning" aria-hidden="true"></div>
+<div class="page" id="app"></div>
+<div class="overlay" id="overlay" hidden>
+  <div class="modal" id="modalBox" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1"></div>
+</div>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+'use strict';
+/* =====================================================================
+   香港茶餐廳 —— 店長營業模式 v5
+   Hong Kong Cha Chaan Teng — Manager Challenge
+   單一 HTML 檔案，零外部依賴，可離線使用。
+   ===================================================================== */
+const T = (zh, en) => ({zh, en});
+
+/* ========================= 食物資料（22種，刪除叉燒包（包子），只保留叉燒包） ========================= */
+const FOODS = [
+  {id:'pineapple', name:T('菠蘿包','Pineapple Bun'), emoji:'🍍', bg:'#fff0c9', desc:T('香港經典，外脆內軟','HK classic, crispy outside, soft inside'), price:8, unit:T('個','pc'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:3, tags:['filling']},
+  {id:'eggtart', name:T('蛋撻','Egg Tart'), emoji:'🥚', bg:'#ffe6d5', desc:T('酥皮蛋香，下午茶之選','Flaky pastry with egg custard'), price:7, unit:T('個','pc'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:3, tags:['snack']},
+  {id:'cocktail', name:T('雞尾包','Cocktail Bun'), emoji:'🥯', bg:'#fff0cf', desc:T('椰絲香甜，飽肚小食','Sweet coconut bun, filling snack'), price:6, unit:T('個','pc'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:3, tags:['filling']},
+  {id:'cheungfun', name:T('腸粉','Rice Noodle Roll'), emoji:'🍥', bg:'#e3f5e8', desc:T('滑溜米漿，配甜醬油','Silky rice rolls with sweet soy sauce'), price:14, unit:T('份','portion'), packaging:T('沒有獨立膠盒','No separate plastic box'), packIcon:'🍽️', eco:3, tags:['filling']},
+  {id:'siumai', name:T('燒賣','Siu Mai'), emoji:'🥟', bg:'#eee6ff', desc:T('魚肉燒賣，點心必吃','Fish siu mai, a dim sum favourite'), price:12, unit:T('份','portion'), packaging:T('膠盒包裝','Plastic box'), packIcon:'🥡', eco:1, tags:['snack']},
+  {id:'fishball', name:T('魚蛋','Fish Balls'), emoji:'🍢', bg:'#e4f1ff', desc:T('彈牙魚蛋，街頭風味','Springy fish balls, street-food style'), price:10, unit:T('份','portion'), packaging:T('紙杯包裝','Paper cup'), packIcon:'🥤', eco:2, tags:['snack']},
+  {id:'congee', name:T('艇仔粥','Sampan Congee'), emoji:'🥣', bg:'#fff3db', desc:T('綿滑靚粥，材料豐富','Smooth congee with rich toppings'), price:18, unit:T('碗','bowl'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['filling','healthy']},
+  {id:'soymilk', name:T('豆漿','Soy Milk'), emoji:'🥛', bg:'#e4f1ff', desc:T('微甜豆香，健康飲品','Lightly sweet soy milk'), price:7, unit:T('杯','cup'), packaging:T('膠杯包裝','Plastic cup'), packIcon:'🥤', eco:1, tags:['drink','healthy']},
+  {id:'milktea', name:T('奶茶','Milk Tea'), emoji:'☕', bg:'#f3e4d2', desc:T('港式絲襪奶茶，香濃滑','HK-style milk tea, rich and smooth'), price:14, unit:T('杯','cup'), packaging:T('膠杯包裝','Plastic cup'), packIcon:'🥤', eco:1, tags:['drink']},
+  {id:'lemontea', name:T('檸檬茶','Lemon Tea'), emoji:'🍋', bg:'#fff6c9', desc:T('清新檸檬，醒神之選','Refreshing lemon tea'), price:15, unit:T('杯','cup'), packaging:T('膠杯包裝','Plastic cup'), packIcon:'🥤', eco:1, tags:['drink']},
+  {id:'water', name:T('樽裝水','Bottled Water'), emoji:'💧', bg:'#e4f1ff', desc:T('方便攜帶，但膠樽不環保','Convenient, but not eco-friendly'), price:5, unit:T('樽','bottle'), packaging:T('膠樽包裝','Plastic bottle'), packIcon:'🧴', eco:0, tags:['drink','healthy']},
+  {id:'freshmilk', name:T('鮮奶','Fresh Milk'), emoji:'🥛', bg:'#eef2ff', desc:T('紙包鮮奶，補充鈣質','Fresh milk in a paper carton'), price:10, unit:T('盒','carton'), packaging:T('紙包飲品','Paper carton'), packIcon:'🧃', eco:2, tags:['drink','healthy']},
+  {id:'sandwich', name:T('三文治','Sandwich'), emoji:'🥪', bg:'#e3f5e8', desc:T('新鮮蔬菜，健康飽肚','Fresh veggies, healthy and filling'), price:16, unit:T('份','portion'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:3, tags:['filling','healthy']},
+  {id:'frenchtoast', name:T('西多士','French Toast'), emoji:'🍞', bg:'#fff0cf', desc:T('金黃香脆，港式經典','Golden French toast, HK classic'), price:20, unit:T('份','portion'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['filling']},
+  {id:'macaroni', name:T('通粉','Macaroni Soup'), emoji:'🍜', bg:'#fff3db', desc:T('暖胃通粉，湯底清甜','Warm macaroni soup'), price:22, unit:T('碗','bowl'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['filling','healthy']},
+  {id:'sticky', name:T('糯米雞','Sticky Rice Chicken'), emoji:'🍙', bg:'#e8f5df', desc:T('荷葉清香，糯米軟糯','Sticky rice in lotus leaf'), price:16, unit:T('隻','piece'), packaging:T('荷葉包裝','Lotus leaf wrap'), packIcon:'🍃', eco:2, tags:['filling']},
+  {id:'bbqbun', name:T('叉燒包','BBQ Pork Bun'), emoji:'🥟', bg:'#ffe6d5', desc:T('蜜汁叉燒，鬆軟包身','BBQ pork in a soft bun'), price:10, unit:T('個','pc'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:3, tags:['filling']},
+  {id:'waffle', name:T('雞蛋仔','Egg Waffle'), emoji:'🧇', bg:'#fff0c9', desc:T('外脆內軟，香港小食','Crispy egg waffle, HK snack'), price:15, unit:T('份','portion'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:3, tags:['snack']},
+  {id:'salad', name:T('沙律','Salad'), emoji:'🥗', bg:'#e3f5e8', desc:T('新鮮沙律，健康之選','Fresh salad, healthy choice'), price:18, unit:T('份','portion'), packaging:T('膠盒包裝','Plastic box'), packIcon:'🥡', eco:1, tags:['healthy','snack']},
+  {id:'chickenleg', name:T('炸雞髀','Fried Chicken Leg'), emoji:'🍗', bg:'#ffe6d5', desc:T('香脆雞髀，惹味飽肚','Crispy chicken leg, filling'), price:22, unit:T('隻','piece'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:2, tags:['filling']},
+  {id:'noodles', name:T('豉油皇炒麵','Soy Sauce Fried Noodles'), emoji:'🍝', bg:'#fff0cf', desc:T('鑊氣炒麵，街坊最愛','Wok-fried noodles, neighbourhood favourite'), price:15, unit:T('份','portion'), packaging:T('發泡膠盒','Foam box'), packIcon:'📦', eco:0, tags:['filling']},
+  {id:'youtiao', name:T('油條','Fried Dough Stick'), emoji:'🥖', bg:'#fff0c9', desc:T('金黃香脆，早餐良伴','Golden crispy dough stick'), price:6, unit:T('條','stick'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:3, tags:['filling']},
+  {id:'buttertoast', name:T('牛油多士','Butter Toast'), emoji:'🍞', bg:'#fff0c9', desc:T('香脆厚多士塗滿牛油，堂食碟裝','Crispy toast with butter, served on a plate'), price:9, unit:T('份','portion'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['snack']},
+  {id:'samosa', name:T('咖喱角','Curry Samosa'), emoji:'🥟', bg:'#ffe6d5', desc:T('金黃香脆咖喱角，堂食免包裝','Golden crispy curry samosa, dine-in plate'), price:10, unit:T('份','portion'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['snack']},
+  {id:'springroll', name:T('炸春卷','Fried Spring Rolls'), emoji:'🥢', bg:'#fff0cf', desc:T('香脆可口春卷，堂食餐碟盛載','Crispy spring rolls served on a dine-in plate'), price:12, unit:T('份','portion'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['snack']},
+  {id:'hotlemonwater', name:T('熱檸檬水','Hot Lemon Water'), emoji:'🍋', bg:'#fff6c9', desc:T('玻璃杯盛載新鮮檸檬水，零一次性包裝','Fresh lemon water in a reusable glass, zero packaging'), price:12, unit:T('杯','cup'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['drink','healthy']},
+  {id:'hotmilktea', name:T('熱奶茶','Hot Milk Tea'), emoji:'☕', bg:'#f3e4d2', desc:T('經典黑白淡奶陶瓷杯熱奶茶，堂食無包裝','Classic HK milk tea in a ceramic cup, dine-in'), price:13, unit:T('杯','cup'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['drink']},
+  {id:'hotcocoa', name:T('熱朱古力','Hot Chocolate'), emoji:'🍫', bg:'#f0e1d2', desc:T('香濃熱朱古力，堂食陶瓷杯盛載','Rich hot chocolate in a reusable ceramic mug'), price:14, unit:T('杯','cup'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['drink']}
+];
+
+/* 卡通 SVG（主要食物） */
+const FOOD_ART = {
+// ... existing code ... -->
+  sandwich:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="54" rx="24" ry="4.5" fill="#e8d3b5" opacity=".6"/><path d="M10 24l44-4 6 10-50 4z" fill="#f0c27a" stroke="#5a3a22" stroke-width="2.4" stroke-linejoin="round"/><path d="M13 24l3 14h30l3-14" fill="#fffdf8" stroke="#5a3a22" stroke-width="2"/><path d="M16 30h30" stroke="#e8d3b5" stroke-width="2.2"/><circle cx="22" cy="26" r="2.5" fill="#6aa85a"/><circle cx="34" cy="27" r="2.5" fill="#c94f3b"/><circle cx="43" cy="25" r="2.5" fill="#ffd75e"/><path d="M10 30l44-4" stroke="#5a3a22" stroke-width="2.4" stroke-linejoin="round" fill="none"/></svg>`,
+  youtiao:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="53" rx="22" ry="4.5" fill="#e8d3b5" opacity=".6"/><g transform="rotate(-12 32 32)"><path d="M18 44c0-16 6-26 14-26s14 10 14 26z" fill="#f2c35e" stroke="#5a3a22" stroke-width="2.4" stroke-linejoin="round"/><path d="M22 42c0-12 4.5-20 10-20s10 8 10 20z" fill="#ffd98a"/></g><path d="M12 46c4 2 8 2 12 0M40 46c4 2 8 2 12 0" fill="none" stroke="#c9872c" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+  buttertoast:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="52" rx="25" ry="6" fill="#e7eef2" stroke="#5a3a22" stroke-width="2"/><path d="M15 24c0-4 3-7 7-7h20c4 0 7 3 7 7 0 2-1 3.5-2 4.5V45c0 2.5-2 4.5-4.5 4.5h-21C19 49.5 17 47.5 17 45V28.5c-1-1-2-2.5-2-4.5z" fill="#d99a52" stroke="#5a3a22" stroke-width="2.3" stroke-linejoin="round"/><rect x="20" y="21" width="24" height="25" rx="3" fill="#fbe3a6"/><rect x="25" y="26" width="14" height="10" rx="2.5" fill="#ffd75e" stroke="#c9872c" stroke-width="1.6"/></svg>`,
+  samosa:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="52" rx="25" ry="6" fill="#e7eef2" stroke="#5a3a22" stroke-width="2"/><polygon points="13,47 26,20 39,47" fill="#f2c35e" stroke="#5a3a22" stroke-width="2.3" stroke-linejoin="round"/><polygon points="27,49 40,22 52,49" fill="#ffd98a" stroke="#5a3a22" stroke-width="2.3" stroke-linejoin="round"/><circle cx="26" cy="36" r="1.4" fill="#c9872c"/><circle cx="40" cy="38" r="1.4" fill="#c9872c"/><circle cx="36" cy="43" r="1.3" fill="#c9872c"/></svg>`,
+  springroll:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="52" rx="25" ry="6" fill="#e7eef2" stroke="#5a3a22" stroke-width="2"/><g transform="rotate(-14 32 36)"><rect x="13" y="34" width="36" height="10" rx="5" fill="#e8b25c" stroke="#5a3a22" stroke-width="2.2"/><rect x="16" y="24" width="36" height="10" rx="5" fill="#f6c96b" stroke="#5a3a22" stroke-width="2.2"/><path d="M23 26l-2 6M33 26l-2 6M43 26l-2 6" stroke="#b87833" stroke-width="1.6" stroke-linecap="round"/></g></svg>`,
+  hotlemonwater:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M25 10c-1.5 3 1.5 5 0 8M33 9c-1.5 3 1.5 5 0 8M41 10c-1.5 3 1.5 5 0 8" fill="none" stroke="#9ec5db" stroke-width="2" stroke-linecap="round"/><path d="M19 22h26l-2.5 29c-.3 3-2.6 5-5.6 5H27.1c-3 0-5.3-2-5.6-5z" fill="#e6f7ff" stroke="#5a3a22" stroke-width="2.3" stroke-linejoin="round"/><path d="M20.5 28h23l-2 22.5c-.2 2-1.8 3.5-3.8 3.5H26.3c-2 0-3.6-1.5-3.8-3.5z" fill="#fff3b0"/><circle cx="32" cy="39" r="7" fill="#ffe066" stroke="#d99a26" stroke-width="1.6"/><path d="M32 32v14M25 39h14" stroke="#d99a26" stroke-width="1.3"/></svg>`,
+  hotmilktea:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="54" rx="22" ry="4.5" fill="#e7eef2" stroke="#5a3a22" stroke-width="2"/><path d="M26 11c-1.5 3 1.5 5 0 8M35 10c-1.5 3 1.5 5 0 8" fill="none" stroke="#c9b49c" stroke-width="2" stroke-linecap="round"/><path d="M44 29h4c3.5 0 6 2.5 6 6s-2.5 6-6 6h-4" fill="none" stroke="#5a3a22" stroke-width="2.4" stroke-linecap="round"/><path d="M18 24h28v15c0 8-6 14-14 14s-14-6-14-14z" fill="#fffdf8" stroke="#5a3a22" stroke-width="2.3" stroke-linejoin="round"/><path d="M19 30h26" stroke="#d94f3b" stroke-width="2.5"/><ellipse cx="32" cy="24" rx="14" ry="3.5" fill="#c98242" stroke="#5a3a22" stroke-width="2"/></svg>`,
+  hotcocoa:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="54" rx="22" ry="4.5" fill="#e7eef2" stroke="#5a3a22" stroke-width="2"/><path d="M26 11c-1.5 3 1.5 5 0 8M35 10c-1.5 3 1.5 5 0 8" fill="none" stroke="#c9b49c" stroke-width="2" stroke-linecap="round"/><path d="M44 29h4c3.5 0 6 2.5 6 6s-2.5 6-6 6h-4" fill="none" stroke="#5a3a22" stroke-width="2.4" stroke-linecap="round"/><path d="M18 24h28v15c0 8-6 14-14 14s-14-6-14-14z" fill="#fff3df" stroke="#5a3a22" stroke-width="2.3" stroke-linejoin="round"/><ellipse cx="32" cy="24" rx="14" ry="3.5" fill="#6b3e26" stroke="#5a3a22" stroke-width="2"/><circle cx="29" cy="24" r="2.2" fill="#fffaf0"/><circle cx="35" cy="24" r="1.8" fill="#fffaf0"/></svg>`
+};
+
+/* 關卡標誌（店長） */
+const LEVEL_ART = {
+  basic:`<svg viewBox="0 0 120 90" aria-hidden="true" focusable="false"><ellipse cx="60" cy="82" rx="46" ry="5" fill="#e8d3b5" opacity=".6"/><circle cx="60" cy="44" r="26" fill="#ffd98a" stroke="#5a3a22" stroke-width="2.4"/><path d="M44 38c2-3 6-4 9-4M68 38c2-3 6-4 9-4" stroke="#c9872c" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="52" cy="46" r="2.4" fill="#5a3a22"/><circle cx="68" cy="46" r="2.4" fill="#5a3a22"/><path d="M54 56c4 3 8 3 12 0" stroke="#5a3a22" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M34 46c-8 2-12 8-13 16h78c-1-8-5-14-13-16" fill="none" stroke="#2f7d53" stroke-width="3" stroke-linecap="round"/><rect x="18" y="64" width="84" height="16" rx="6" fill="#fff3df" stroke="#5a3a22" stroke-width="2.2"/><path d="M18 70h84" stroke="#5a3a22" stroke-width="1.8"/><text x="60" y="58" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" font-weight="900" fill="#2f7d53">TRAINEE</text></svg>`,
+  advanced:`<svg viewBox="0 0 120 90" aria-hidden="true" focusable="false"><ellipse cx="60" cy="83" rx="44" ry="5" fill="#e8d3b5" opacity=".6"/><rect x="24" y="12" width="72" height="62" rx="10" fill="#fff6e6" stroke="#5a3a22" stroke-width="2.4"/><rect x="32" y="19" width="56" height="16" rx="4" fill="#e8f6ee" stroke="#5a3a22" stroke-width="2"/><text x="60" y="30" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="900" fill="#1f7a4c">$50.00</text><g fill="#fff" stroke="#5a3a22" stroke-width="1.5"><rect x="32" y="40" width="10" height="8" rx="2"/><rect x="45" y="40" width="10" height="8" rx="2"/><rect x="32" y="51" width="10" height="8" rx="2"/><rect x="45" y="51" width="10" height="8" rx="2"/><rect x="32" y="62" width="23" height="7" rx="2"/></g><rect x="59" y="40" width="29" height="29" rx="5" fill="#ffd98a" stroke="#5a3a22" stroke-width="1.8"/><text x="73.5" y="58" text-anchor="middle" font-family="Arial,sans-serif" font-size="8.5" font-weight="900" fill="#7d4e0b">CASH</text></svg>`,
+  challenge:`<svg viewBox="0 0 120 90" aria-hidden="true" focusable="false"><ellipse cx="60" cy="83" rx="44" ry="5" fill="#e8d3b5" opacity=".6"/><circle cx="60" cy="42" r="26" fill="#9fd8f7" stroke="#5a3a22" stroke-width="2.4"/><path d="M46 30c6-4 12-3 14 2s-2 10 2 13 9-1 10 4-4 8-9 9c-7 1-15-4-18-11s-2-13 1-17z" fill="#6aa85a" opacity=".95"/><path d="M72 22c6 3 10 8 12 14-4-1-9-4-12-14z" fill="#6aa85a" opacity=".95"/><path d="M78 18c8-6 17-5 22 0-4 8-13 12-22 10z" fill="#3f8a4a" stroke="#2f6b38" stroke-width="1.8"/><path d="M82 24c6-1 13-4 18-8" fill="none" stroke="#2f6b38" stroke-width="1.6" stroke-linecap="round"/><circle cx="60" cy="42" r="20" fill="none" stroke="#2f6b38" stroke-width="1.6" stroke-dasharray="4 4"/><text x="60" y="80" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" font-weight="900" fill="#2f7d53">ECO</text></svg>`
+};
+
+/* 客人卡通造型 */
+const CUSTOMER_ART = {
+  uncle:`<svg viewBox="0 0 80 80" aria-hidden="true" focusable="false"><circle cx="40" cy="34" r="22" fill="#ffd9b0" stroke="#5a3a22" stroke-width="2.4"/><path d="M18 30c-2 12 4 20 22 20s24-8 22-20" fill="#4a3322"/><path d="M18 28c6-6 14-9 22-9" fill="none" stroke="#4a3322" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="36" r="2.4" fill="#5a3a22"/><circle cx="48" cy="36" r="2.4" fill="#5a3a22"/><path d="M34 46c4 3 8 3 12 0" stroke="#5a3a22" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M10 60c4 16 14 22 30 22s26-6 30-22" fill="#d94f3b"/><path d="M40 52v30" stroke="#5a3a22" stroke-width="2"/></svg>`,
+  aunty:`<svg viewBox="0 0 80 80" aria-hidden="true" focusable="false"><circle cx="40" cy="34" r="22" fill="#ffd9b0" stroke="#5a3a22" stroke-width="2.4"/><path d="M16 24c4-8 14-12 24-12s20 4 24 12c-2 8-10 13-24 13S18 32 16 24z" fill="#4a3322"/><path d="M16 24c-2 10 2 20 12 26M64 24c2 10-2 20-12 26" fill="none" stroke="#4a3322" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="38" r="2.4" fill="#5a3a22"/><circle cx="48" cy="38" r="2.4" fill="#5a3a22"/><path d="M34 48c4 3 8 3 12 0" stroke="#5a3a22" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 60c4 16 14 22 28 22s24-6 28-22" fill="#3b6fb6"/></svg>`,
+  student:`<svg viewBox="0 0 80 80" aria-hidden="true" focusable="false"><circle cx="40" cy="36" r="22" fill="#ffd9b0" stroke="#5a3a22" stroke-width="2.4"/><path d="M18 28c2-8 8-12 14-12 4 0 8 2 8 2s4-2 8-2c6 0 12 4 14 12" fill="#2f241c"/><path d="M24 26h32" stroke="#5a3a22" stroke-width="2.4"/><circle cx="32" cy="38" r="2.4" fill="#5a3a22"/><circle cx="48" cy="38" r="2.4" fill="#5a3a22"/><path d="M34 48c4 3 8 3 12 0" stroke="#5a3a22" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M14 62c4 14 14 20 26 20s22-6 26-20" fill="#1f7a4c"/><path d="M40 54v26" stroke="#5a3a22" stroke-width="2"/></svg>`,
+  grandma:`<svg viewBox="0 0 80 80" aria-hidden="true" focusable="false"><circle cx="40" cy="36" r="22" fill="#ffd9b0" stroke="#5a3a22" stroke-width="2.4"/><path d="M16 26c4-10 14-15 24-15s20 5 24 15c-2 9-10 14-24 14S18 35 16 26z" fill="#c9c2b8"/><path d="M18 24c-1 8 3 15 12 20M62 24c1 8-3 15-12 20" fill="none" stroke="#c9c2b8" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="40" r="2.2" fill="#5a3a22"/><circle cx="48" cy="40" r="2.2" fill="#5a3a22"/><path d="M34 49c4 2 8 2 12 0" stroke="#5a3a22" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 62c4 15 14 21 28 21s24-6 28-21" fill="#7a5c8a"/></svg>`
+};
+const CUSTOMER_NAMES = {
+  uncle:T('街坊陳伯','Uncle Chan'), aunty:T('靚女李太','Mrs Lee'),
+  student:T('學生仔小明','Ming the Student'), grandma:T('陳婆婆','Granny Chan')
+};
+
+/* 健康分 */
+const TAG_HEALTH = { healthy:2, filling:0, snack:0, drink:0 };
+
+/* 關卡設定：店長營業模式 */
+const LEVELS = {
+  basic:{ id:'basic', duration:900, maxTypes:2, minTypes:2, maxQty:1, maxNumbers:3,
+    name:T('基礎：實習店長','Basic: Trainee Manager'), tag:T('基礎','Basic'),
+    focus:T('圓括號 · 三個數加減混合運算','Brackets · three-number add/subtract'),
+    icon:T('實習名牌','trainee badge'), timeLabel:T('15 分鐘','15 min')},
+  advanced:{ id:'advanced', duration:900, maxTypes:3, minTypes:2, maxQty:3, maxNumbers:4,
+    name:T('進階：正式店長','Advanced: Formal Manager'), tag:T('進階','Advanced'),
+    focus:T('乘加乘減混合運算','Multiply-add and multiply-subtract'),
+    icon:T('收銀機','cash register'), timeLabel:T('15 分鐘','15 min')},
+  challenge:{ id:'challenge', duration:900, maxTypes:3, minTypes:1, maxQty:3, maxNumbers:4,
+    name:T('挑戰：環保達人','Challenge: Eco Champion'), tag:T('挑戰','Challenge'),
+    focus:T('四則運算 · 環保','Four operations · Eco'),
+    icon:T('綠葉','green leaf'), timeLabel:T('15 分鐘','15 min')}
+};
+
+const STR = {
+  appTitle:T('香港茶餐廳','Hong Kong Cha Chaan Teng'),
+  appSubtitle:T('做店長・接訂單・學計算','Manager Challenge — take orders, do the maths'),
+  appSubtitleEn:T('Manager Challenge','Manager Challenge'),
+  chooseLevel:T('選擇關卡','Choose a level'),
+  startBtn:T('開始營業','Open for business'),
+  bizTimeLabel:T('營業時間：','Business time: '),
+  footer:T('🌏 環保小提醒：自備餐具，少用一次性包裝。','🌏 Eco reminder: bring your own utensils and use less single-use packaging.'),
+  backHome:T('← 主頁','← Home'), rulesBtn:T('規則','Rules'),
+  langZh:T('中文','中文'), langEn:T('EN','EN'),
+
+  btnProfile:T('店長個人數據','Manager Stats'),
+  btnAchievements:T('成就欄','Achievements'),
+  btnLeaderboard:T('店長排行榜','Leaderboard'),
+  btnAccount:T('登入／切換店長','Login / Switch Manager'),
+  btnGuest:T('訪客試玩','Play as Guest'),
+  guestNameLabel:T('訪客名字：','Guest name: '),
+  guestNamePlaceholder:T('輸入訪客店長名字','Enter guest name'),
+  guestDefaultName:T('訪客店長','Guest Manager'),
+
+  menuTitle:T('餐牌','Menu'), menuHint:T('按「加入餐盤」為客人配餐，可加減份數','Tap "Add to tray" to serve the customer; adjust portions or remove.'),
+  filterAll:T('全部','All'), filterFilling:T('飽肚','Filling'), filterSnack:T('小食','Snacks'), filterDrink:T('飲品','Drinks'), filterHealthy:T('健康','Healthy'),
+  ecoLegendHigh:T('高環保包裝','Eco-friendly'),
+  ecoLegendMid:T('一般環保包裝','Moderate'),
+  ecoLegendLow:T('多塑膠／不環保包裝','High plastic'),
+  addBtn:T('加入餐盤','Add to tray'), addedBtn:T('已加入','Added'), addAria:T('把 {name} 加入餐盤','Add {name} to the tray'),
+  tagFilling:T('飽肚','Filling'), tagSnack:T('小食','Snack'), tagDrink:T('飲品','Drink'), tagHealthy:T('健康','Healthy'),
+
+  trayTitle:T('餐盤','Tray'), trayEmpty:T('餐盤還是空的','Your tray is empty'),
+  trayEmptyHint:T('在餐牌選食物，為客人準備。','Choose food from the menu to serve the customer.'),
+  trayCount:T('{t} 款 · 共 {n} 份','{t} types · {n} portions'),
+  removeBtn:T('移除','Remove'), qtyMinus:T('減少一份','One less'), qtyPlus:T('增加一份','One more'),
+  goTray:T('查看餐盤','View tray'),
+
+  checkoutBtn:T('結賬','Checkout'),
+  bizTime:T('剩餘時間','Time left'), bizOrders:T('完成訂單','Orders'), bizRevenue:T('營業額','Revenue'),
+  bizAccuracy:T('正確率','Accuracy'), bizStreak:T('連續正確','Streak'),
+
+  customerAskTitle:T('客人點單','Customer order'),
+  orderPaid:T('客人付款 $ {n}','Pays $ {n}'),
+  orderBudget:T('預算 ≤ $ {n}','Budget ≤ $ {n}'),
+  orderHealthy:T('健康 ≥ {n}','Healthy ≥ {n}'),
+  orderQty:T('食物 ≥ {n} 份','Food ≥ {n} portions'),
+  orderDineIn:T('堂食','Dine-in'), orderTakeaway:T('外賣','Takeaway'),
+
+  /* 结账前检查提示 */
+  chkNeedQty:T('客人要求 {n} 份 {name}。','The customer wants {n} × {name}.'),
+  chkMissingType:T('餐盤少了一款食物。','The tray is missing one food type.'),
+  chkNeedTotal:T('這張訂單需要最少 {n} 份食物。','This order needs at least {n} portions of food.'),
+  chkNeedRec3:T('客人要求推薦 3 份食物（目前餐盤有 {n} 份）。','The customer asked you to recommend 3 food items (currently {n} in tray).'),
+  chkWrongCat:T('請按客人要求的食物種類配搭推薦（如飽肚、小食、飲品）。','Please match the food categories requested by the customer (e.g. filling, snack, drink).'),
+  chkOverBudget:T('食物總額超過客人的預算。','The total exceeds the budget.'),
+  chkOverPaid:T('推薦食物的總價不可超過客人付款金額 ${n}。','The total cost cannot exceed the customer\'s payment of ${n}.'),
+  chkNeedMul:T('進階關卡要有一款食物買 2 份或以上。','This level needs at least 2 portions of one item.'),
+  chkEcoLowButRight:T('計算正確，但這張訂單的環保包裝未達客人要求（{items}），請重新調整配搭。','The maths is correct, but the packaging did not meet the customer\'s eco request ({items}). Please adjust your recommendation.'),
+
+  /* 四页流程 */
+  flowStep1:T('請列出花錢算式','Please write the spending expression'),
+  flowStep1Hint:T('留意訂單中的每一款食物，想一想應使用哪個運算符號連接價格。','Look at each food in the order, and think about which operator connects the prices.'),
+  flowStep1HintAdv:T('同一款食物有多份時，可以用「份數 × 單價」表示。','When one food has several portions, use "quantity × price".'),
+  flowStep1HintSamePrice:T('訂單中有相同單價的食物時，請用「單價 × 份數」的乘法表示（例如 10 × 2）。','When items share the same price, use multiplication "price × quantity" (e.g. 10 × 2).'),
+  flowStep2:T('請列出找錢算式','Please write the change expression'),
+  flowStep2Hint:T('找錢要由客人的付款金額開始，並把整張訂單的商品算式放在圓括號內。','Start from the amount paid, and put the whole order cost expression inside round brackets.'),
+  flowStep3:T('先計算哪一步？','Which step first?'),
+  flowStep3Hint:T('先觀察圓括號內的部分。','Look inside the round brackets first.'),
+  flowStep3HintAdv:T('在同一個括號內，乘法通常在加減法之前計算。','Inside the same brackets, multiplication is usually done before addition and subtraction.'),
+  flowStep3HintCh:T('先處理括號，再按照先乘除、後加減的次序計算。','Handle brackets first, then multiply/divide before add/subtract.'),
+  flowStep4:T('計算找錢答案','Find the change amount'),
+  flowStep4Question:T('客人應找回多少元？','How much change should the customer get?'),
+  flowStep4Hint:T('按照上一頁判斷的運算次序，逐步計算，最後只填寫找錢金額。','Follow the order of operations from the previous page, then fill in just the change amount.'),
+  flowPageOf:T('第 {n} 頁／共 4 頁','Page {n} of 4'),
+  flowCheck:T('核對','Check'),
+  flowNext:T('下一步 →','Next →'),
+  flowBack:T('← 上一頁','← Back'),
+  flowCorrect:T('計算正確！','Correct!'),
+  flowCorrectDetail1:T('你正確計算了整張訂單的開銷，請按「下一步」繼續。','You correctly calculated the order cost. Click "Next" to continue.'),
+  flowCorrectDetail2:T('找錢算式正確，請按「下一步」繼續。','The change expression is correct. Click "Next" to continue.'),
+  flowCorrectDetail3:T('運算次序正確，請按「下一步」繼續。','The order of operations is correct. Click "Next" to continue.'),
+  flowCorrectDetail4:T('找錢答案正確，請按「下一步」完成訂單！','The change is correct. Click "Next" to complete the order!'),
+  flowExprPlaceholder:T('點擊下方數字與符號按鈕列式…','Tap the number and symbol buttons below to build your expression...'),
+  flowAnswerPlaceholder:T('輸入答案…','Enter the answer...'),
+  flowHintShow:T('顯示提示','Show hint'),
+  flowHintHide:T('隱藏提示','Hide hint'),
+  keyBack:T('退格','Back'), keyClear:T('清除','Clear'),
+  quickNums:T('本題所需數字','Numbers needed for this question'),
+  opsAndParens:T('運算符號與括號','Operators & brackets'),
+  priceTag:T('價格','Price'), qtyTag:T('份數','Qty'), payTag:T('付款','Paid'), costTag:T('開銷','Cost'),
+
+  /* 第三页题型 */
+  mcQ1:T('哪一條算式能表示「先把兩款食物的價格加起來，再由付款金額減去開銷」？','Which expression means "add the two food prices first, then subtract the cost from the amount paid"?'),
+  mcQ2:T('應該先計算哪一步？','Which step should be calculated first?'),
+  mcQ2b:T('括號內應該先計算哪一步？','Which step inside the brackets comes first?'),
+  mcWhy:T('為甚麼要使用圓括號？','Why use round brackets?'),
+  mcWhyA:T('因為圓括號表示整張訂單的食物開銷，所以要先計算括號內。','Because the brackets group the whole order cost, so it is calculated first.'),
+  mcWhyB:T('因為括號內的數最大。','Because the numbers inside are the biggest.'),
+  mcWhyC:T('因為括號讓算式更長。','Because brackets make the expression longer.'),
+
+  /* 订单摘要 */
+  orderSummaryTitle:T('客人訂單','Customer order'),
+  summaryQtyPrice:T('份數 × 單價','Qty × price'),
+  summaryPaid:T('客人付款','Amount paid'),
+  summaryYourExpr:T('你的算式','Your expression'),
+
+  exprOk:T('列式正確！','Expression correct!'),
+  exprEmpty:T('先按數字和符號列式。','Use the number and symbol buttons to build the expression.'),
+  exprInvalid:T('算式還未完整，檢查括號和符號。','The expression is incomplete. Check the brackets and symbols.'),
+  exprNeedMul:T('有一款食物買了多份，要用 × 乘法。','One item has several portions. Use × multiplication.'),
+  exprSamePriceMul:T('訂單中有相同單價的食物（如 ${price} 共有 {qty} 份），進階／挑戰難度請使用乘法（× {qty}）計算，不要用連加。','There are {qty} items with the same price (${price}). In Advanced/Challenge mode, please use multiplication (× {qty}) instead of repeated addition.'),
+  exprNoDiv:T('這一步不需要除法。','This step does not need division.'),
+  exprShouldAdd:T('這一步是把食物價格加起來，用加法。','This step adds the food prices. Use addition.'),
+  exprShouldSub:T('找錢應該用減法。','Change should use subtraction.'),
+  exprReversed:T('想一想：應該用客人付款金額減去甚麼？被減數和減數的位置可能調轉了。','Think: what should you subtract from the amount paid? The numbers may be reversed.'),
+  exprShouldAddCost:T('找錢應該用減法，不是把開銷加起來。','Change uses subtraction, not addition.'),
+  exprBUseTotal:T('請先檢查上一頁的食物開銷。','Please check the food cost from the previous step.'),
+  exprUseFoodNumbers:T('只可以用餐盤上每款食物的價格和份數，不可用其他數字。','Use only the price and quantity of each food in the tray; no other numbers.'),
+  exprANeedAll:T('要把餐盤內每一款食物都計入算式。','Include every food in the tray in the expression.'),
+  exprAWrong:T('總數不對，逐款檢查價格和數量。','The total is not right. Check each price and quantity.'),
+  exprNeedParen:T('要用圓括號把食物開銷括起來。','Use round brackets around the food cost.'),
+  exprNeedPaid:T('要用付款金額減去開銷。','Subtract the cost from the amount paid.'),
+  exprCWrong:T('完整算式的結果不對，先檢查前面的步驟。','The full expression is wrong. Check the earlier steps first.'),
+  exprNoAnswerOnly:T('不可只輸入最後答案，要列出完整算式。','Do not enter only the final answer; write the full expression.'),
+  exprReplaceTotal:T('請保留商品的完整計算式，不要直接使用商品總額。','Keep the full food-cost expression; do not replace it with the total.'),
+  exprMissingFood:T('有一款食物還未計算。','One food item has not been calculated.'),
+  exprWrongQty:T('請檢查食物份數。','Please check the food quantities.'),
+  exprMulHint:T('多份相同食物需要使用乘法。','Use multiplication for multiple portions of the same food.'),
+  exprPaidFirst:T('付款金額應放在減號前。','The amount paid should come before the minus sign.'),
+  exprParenPos:T('請檢查圓括號的位置。','Please check the bracket position.'),
+  exprOrderHint:T('請重新考慮運算次序。','Please reconsider the order of operations.'),
+
+  /* 订单完成 */
+  orderDoneTitle:T('訂單完成！','Order complete!'),
+  orderDoneSub:T('你成功服務了一位客人！','You successfully served a customer!'),
+  receiptTitle:T('電子小票','Receipt'),
+  receiptOrderNo:T('訂單編號','Order No.'),
+  receiptPaid:T('客人付款','Amount paid'),
+  receiptCost:T('食物開銷','Food cost'),
+  receiptChange:T('找錢','Change'),
+  receiptExpr:T('我的算式','My expression'),
+  receiptAcc:T('正確率','Accuracy'),
+  receiptTime:T('完成時間','Time taken'),
+  receiptRevenue:T('本次營業額','Revenue added'),
+  receiptPackaging:T('包裝方式','Packaging'),
+  receiptEcoOk:T('符合顧客環保要求','Eco request met'),
+  receiptEcoBad:T('未達顧客環保要求','Eco request not met'),
+  receiptEcoComment:T('環保評語','Eco comment'),
+  btnNextCustomer:T('服務下一位客人','Serve next customer'),
+  btnViewRecord:T('查看營業紀錄','View records'),
+  btnEndShift:T('結束營業','End shift'),
+
+  /* 营业结算 */
+  reportTitle:T('營業報告','Shift report'),
+  reportLevel:T('關卡','Level'),
+  reportOrders:T('完成訂單數','Orders completed'),
+  reportRevenue:T('總營業額','Total revenue'),
+  reportQuestions:T('總答題數','Questions answered'),
+  reportCorrect:T('正確題數','Correct'),
+  reportAccuracy:T('正確率','Accuracy'),
+  reportAvgTime:T('平均每單時間','Avg. time per order'),
+  reportWorstStep:T('最常出錯步驟','Most common mistake'),
+  reportWorstOp:T('最常出錯運算','Most common operation'),
+  reportNewAch:T('新解鎖成就','New achievements'),
+  reportRankNow:T('同難度目前排名','Current rank in this level'),
+  reportEcoRate:T('環保達標比例','Eco met rate'),
+  reportZeroPlastic:T('零塑膠訂單','Zero-plastic orders'),
+  reportEcoRevenue:T('環保營業額','Eco revenue'),
+  reportEcoRating:T('環保評級','Eco rating'),
+  btnAgain:T('再營業一次','Run shift again'),
+  btnHome:T('返回首頁','Back to home'),
+  btnViewProfile:T('查看店長數據','View manager stats'),
+  btnViewAch:T('查看成就','View achievements'),
+  btnViewLb:T('查看同難度排行榜','View level leaderboard'),
+  lbTitle:T('店長排行榜（同難度排名）','Manager Leaderboard (By Level)'),
+  lbSub:T('與其他店長在同一難度下比拼營業額與計算正確率！','Compare revenue and accuracy with other managers in the same difficulty!'),
+  lbRank:T('排名','Rank'),
+  lbManager:T('店長名稱','Manager'),
+  lbRole:T('身份','Role'),
+  lbRoleReg:T('註冊店長','Registered'),
+  lbRoleGuest:T('訪客','Guest'),
+  lbRolePeer:T('同儕店長','Peer'),
+  lbMeTag:T('你','You'),
+
+  /* 环保评级 */
+  rating5:T('綠色五星店長','Five-Star Green Manager'),
+  rating4:T('環保模範店長','Eco Model Manager'),
+  rating3:T('綠色實習店長','Green Trainee Manager'),
+  rating1:T('環保仍需努力','Keep Working on Eco'),
+
+  /* 账号 */
+  accTitle:T('店長帳號','Manager Account'),
+  accCreate:T('建立店長帳號','Create account'),
+  accLogin:T('登入帳號','Login'),
+  accLogout:T('登出帳號','Logout'),
+  accSwitch:T('切換店長','Switch manager'),
+  accEditName:T('修改店長名稱','Edit name'),
+  accChooseAvatar:T('選擇卡通頭像','Choose avatar'),
+  accPin:T('四位數字 PIN','4-digit PIN'),
+  accPinHint:T('可留空；填寫後登入需要輸入。','Optional; required at login if set.'),
+  accDelete:T('刪除帳號','Delete account'),
+  accExport:T('匯出個人紀錄','Export records'),
+  accImport:T('匯入個人紀錄','Import records'),
+  accName:T('店長名稱','Manager name'),
+  accLocalNote:T('此帳號只保存在目前裝置和瀏覽器，不是網上帳號。清除瀏覽器資料可能會刪除紀錄，建議定期匯出備份。','This account is stored only on this device and browser — it is not an online account. Clearing browser data may delete your records. Consider exporting a backup regularly.'),
+  guestModeNote:T('訪客模式不會永久保存個人紀錄。建立店長帳號後即可保存數據和成就。','Guest mode does not permanently save your records. Create a manager account to save data and achievements.'),
+  guestLabel:T('訪客','Guest'),
+  accDeleteConfirm:T('確定要刪除這個帳號嗎？此操作無法復原。','Are you sure you want to delete this account? This cannot be undone.'),
+  accImportConfirm:T('匯入會覆蓋目前帳號的紀錄，確定繼續？','Importing will overwrite the current account. Continue?'),
+  accNoAccount:T('尚未建立帳號，目前為訪客模式。','No account yet — currently in guest mode.'),
+
+  /* 成就 */
+  achTitle:T('成就欄','Achievements'),
+  achUnlocked:T('已解鎖','Unlocked'),
+  achLocked:T('未解鎖','Locked'),
+  achUnlockNow:T('成就解鎖！','Achievement unlocked!'),
+  achClose:T('關閉','Close'),
+  ach1name:T('碳水炸彈','Carb Bomb'),
+  ach1desc:T('叉燒包加油條，能量滿滿！','BBQ pork bun + fried dough stick, full of energy!'),
+  ach2name:T('優秀店長','Excellent Manager'),
+  ach2desc:T('完成十次營業，累積正確率達 90%！','Completed ten shifts with 90% accuracy!'),
+  ach3name:T('第一張訂單','First Order'),
+  ach3desc:T('首次成功完成一位客人的訂單','First successful order'),
+  ach4name:T('初次營業','First Shift'),
+  ach4desc:T('首次完成一場限時營業','First completed shift'),
+  ach5name:T('百發百中','Perfect Run'),
+  ach5desc:T('一次營業中正確率達 100%','100% accuracy in one shift'),
+  ach6name:T('五連正確','Five in a Row'),
+  ach6desc:T('連續五張訂單沒有答錯','Five orders in a row without mistakes'),
+  ach7name:T('收銀高手','Cashier Pro'),
+  ach7desc:T('累積正確完成 50 次找錢計算','50 correct change calculations'),
+  ach8name:T('括號專家','Bracket Expert'),
+  ach8desc:T('連續答對 20 題圓括號題目','20 bracket questions in a row'),
+  ach9name:T('運算次序大師','Order Master'),
+  ach9desc:T('連續答對 20 題運算次序題目','20 order-of-operations questions in a row'),
+  ach10name:T('萬元店長','Ten-Thousand Manager'),
+  ach10desc:T('累積營業額達到 $10000','$10000 cumulative revenue'),
+  ach11name:T('綠色店長','Green Manager'),
+  ach11desc:T('首次完成所有訂單均環保達標的營業','First shift with all orders eco-compliant'),
+  ach12name:T('零塑膠達人','Zero-Plastic Pro'),
+  ach12desc:T('完成 10 張零塑膠訂單','10 zero-plastic orders'),
+  ach13name:T('茶餐廳之星','Cha Chaan Teng Star'),
+  ach13desc:T('三個關卡各完成至少十次營業','10 shifts in each of the three levels'),
+
+  /* 数据页 */
+  profileTitle:T('店長個人數據','Manager Statistics'),
+  profileOverview:T('數據總覽','Overview'),
+  pSessions:T('累積營業次數','Total shifts'),
+  pOrders:T('累積完成訂單','Orders completed'),
+  pRevenue:T('累積營業額','Total revenue'),
+  pAccuracy:T('整體正確率','Overall accuracy'),
+  pBestStreak:T('最佳連續正確','Best streak'),
+  pAchCount:T('已解鎖成就','Achievements unlocked'),
+  pLastLogin:T('最近登入時間','Last login'),
+  profileLevels:T('各關卡數據','Level statistics'),
+  pLevelSessions:T('營業次數','Shifts'),
+  pLevelOrders:T('完成訂單','Orders'),
+  pLevelBestRevenue:T('最高營業額','Best revenue'),
+  pLevelAvgRevenue:T('平均營業額','Avg. revenue'),
+  pLevelBestOrders:T('最佳訂單數','Best orders'),
+  pLevelQuestions:T('總題目數','Questions'),
+  pLevelCorrect:T('答對題目','Correct'),
+  pLevelAccuracy:T('正確率','Accuracy'),
+  pLevelAvgTime:T('平均完成時間','Avg. time'),
+  pLevelLastPlay:T('最近遊玩','Last played'),
+  mistakeTitle:T('錯誤分析','Error analysis'),
+  mistakeSteps:T('各步驟錯誤次數','Mistakes by step'),
+  mistakePatterns:T('常見錯誤模式','Error patterns'),
+  feedbackTitle:T('個人化反饋','Personalised feedback'),
+  feedbackNone:T('還沒有足夠數據，先玩幾局吧！','Not enough data yet — play a few rounds!'),
+  stepFoodSelection:T('選擇食物','Choosing food'),
+  stepExpense:T('計算食物開銷','Calculating cost'),
+  stepChange:T('計算找錢','Calculating change'),
+  stepParen:T('判斷圓括號位置','Bracket placement'),
+  stepOrder:T('判斷運算次序','Order of operations'),
+  stepFinal:T('填寫最終答案','Final answer'),
+  stepEco:T('達到環保要求','Eco requirement'),
+  patMissingFood:T('漏計食物','Missing food'),
+  patWrongQty:T('份數錯誤','Wrong quantity'),
+  patMissingMul:T('多份沒用乘法','No multiplication'),
+  patSignError:T('加減符號錯誤','Sign error'),
+  patReversedSub:T('被減數減數調轉','Reversed subtraction'),
+  patParenPos:T('圓括號位置錯誤','Bracket position'),
+  patForgotParen:T('忘記圓括號','Forgot brackets'),
+  patMissingParentheses:T('漏用圓括號','Missing parentheses'),
+  patMulFirst:T('先加後乘','Added before multiplying'),
+  patCarry:T('計算進位錯誤','Carrying error'),
+  patBorrow:T('計算退位錯誤','Borrowing error'),
+  patEcoLow:T('環保值不足','Eco too low'),
+  patReplacedTotal:T('用總額取代算式','Replaced with total'),
+  backBtn:T('← 返回','← Back'),
+
+  rulesTitle:T('遊戲規則','How to play'),
+  rulesIntro:T('你是香港茶餐廳店長，接待客人、配餐、找錢、賺取營業額！','You are the manager of a Hong Kong cha chaan teng. Serve customers, prepare food, give change and earn revenue!'),
+  rulesClose:T('知道啦','Got it'),
+
+  toastAdded:T('已加入餐盤！','Added to tray!'), toastRemoved:T('已移除。','Removed.'),
+  toastMaxTypes:T('這個關卡最多 {n} 款食物。','This level allows at most {n} food types.'),
+  toastMaxQty:T('每款食物最多 {n} 份。','Each item allows at most {n} portions.'),
+  toastMaxNumbers:T('這個配搭的算式會超過 {n} 個數。','That combination uses more than {n} numbers.'),
+  toastNeedFood:T('先選食物吧。','Choose some food first.'),
+  toastLang:T('已切換語言。','Language switched.'),
+  toastExport:T('紀錄已匯出。','Records exported.'),
+  toastImport:T('紀錄已匯入。','Records imported.'),
+  toastNoAccount:T('請先建立或登入帳號。','Please create or log in to an account.'),
+  toastPinWrong:T('PIN 錯誤。','Wrong PIN.'),
+  toastDeleted:T('帳號已刪除。','Account deleted.'),
+  toastSaved:T('已保存。','Saved.'),
+  endShiftConfirm:T('確定結束營業嗎？未完成的訂單不會計入營業額。','End the shift? Unfinished orders will not count toward revenue.'),
+  endShiftYes:T('結束營業','End shift'), endShiftNo:T('繼續營業','Keep serving'),
+  modalClose:T('關閉','Close'),
+  notReady:T('還未準備好','Not ready yet'),
+  timeUp:T('營業時間結束！','Time is up!'),
+  noAchievements:T('尚未解鎖任何成就。','No achievements unlocked yet.')
+};
+
+/* ========================= 状态与存储 ========================= */
+const app = document.getElementById('app');
+const overlay = document.getElementById('overlay');
+const modalBox = document.getElementById('modalBox');
+const toastEl = document.getElementById('toast');
+const confettiEl = document.getElementById('confetti');
+const FOOD_BY_ID = Object.fromEntries(FOODS.map(f => [f.id, f]));
+
+const STORE_ACCOUNTS = 'cct_v5_accounts';
+const STORE_CURRENT = 'cct_v5_current';
+const STORE_LANG = 'cct_v5_lang';
+const STORE_GUEST_NAME = 'cct_v5_guest_name';
+const STORE_GUEST_SCORES = 'cct_v5_guest_scores';
+
+const state = {
+  lang:'zh',
+  screen:'start',       // start | game | flow | report | profile | achievements | account | leaderboard
+  level:null,
+  account:null,         // 当前账号 id（null = 访客）
+  guestName:'',
+  lbLevel:'basic',
+  cart:{},
+  filter:'all',
+  // 订单流程
+  customer:null,
+  orderNo:1,
+  orderStartTime:0,
+  // 营业
+  timeLeft:0, timeTotal:0, timerId:null,
+  revenue:0, ordersDone:0,
+  shiftQuestions:0, shiftCorrect:0, shiftStreak:0,
+  shiftMistakeStep:{}, shiftMistakeOp:{},
+  shiftOrders:[],
+  // 四页流程
+  flow:{ step:1, expr:'', answer:'', status:'', msg:'', hint:false, mcOptions:[], mcAnswered:false, mcChosen:null, _mcType:null, _mcCorrectIndex:0, orderAnswers:{1:null,2:null,3:null,4:null} }
+};
+
+function t(o){ return o ? (o[state.lang] || o.zh || '') : ''; }
+function bi(zh,en){ return state.lang === 'en' ? en : zh; }
+function tf(o,vars){ let s = t(o); if(vars){ Object.keys(vars).forEach(k => { s = s.split('{'+k+'}').join(String(vars[k])); }); } return s; }
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function money(n){ return '$' + n; }
+function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+function ecoTierClass(eco){ return eco >= 3 ? 'eco-high' : (eco === 2 ? 'eco-mid' : 'eco-low'); }
+
+/* ========================= 访客名字与排行榜数据 ========================= */
+function getGuestName(){
+  try{ return localStorage.getItem(STORE_GUEST_NAME) || ''; }catch(e){ return ''; }
+}
+function setGuestName(name){
+  const clean = String(name || '').trim().slice(0, 20);
+  state.guestName = clean;
+  try{
+    if(clean) localStorage.setItem(STORE_GUEST_NAME, clean);
+    else localStorage.removeItem(STORE_GUEST_NAME);
+  }catch(e){}
+}
+function displayGuestName(){
+  return (state.guestName && state.guestName.trim()) ? state.guestName.trim() : t(STR.guestDefaultName);
+}
+function loadGuestScores(){
+  try{ return JSON.parse(localStorage.getItem(STORE_GUEST_SCORES) || '[]'); }catch(e){ return []; }
+}
+function saveGuestScore(rec){
+  const list = loadGuestScores();
+  list.push(rec);
+  try{ localStorage.setItem(STORE_GUEST_SCORES, JSON.stringify(list.slice(-100))); }catch(e){}
+}
+const PEER_SCORES = {
+  basic: [
+    { name:'陳家豪', avatar:'👦', revenue:185, accuracy:96, orders:7, role:'peer' },
+    { name:'林思琪', avatar:'👧', revenue:150, accuracy:92, orders:6, role:'peer' },
+    { name:'黃梓軒', avatar:'🧑', revenue:120, accuracy:88, orders:5, role:'peer' },
+    { name:'張美玲', avatar:'👩', revenue:90, accuracy:85, orders:4, role:'peer' }
+  ],
+  advanced: [
+    { name:'李俊傑', avatar:'👨', revenue:260, accuracy:95, orders:7, role:'peer' },
+    { name:'周曉晴', avatar:'👧', revenue:215, accuracy:90, orders:6, role:'peer' },
+    { name:'吳子朗', avatar:'😎', revenue:170, accuracy:86, orders:5, role:'peer' },
+    { name:'何芷晴', avatar:'👩', revenue:125, accuracy:82, orders:4, role:'peer' }
+  ],
+  challenge: [
+    { name:'環保小先鋒', avatar:'🐱', revenue:240, accuracy:94, orders:6, role:'peer' },
+    { name:'梁嘉欣', avatar:'👧', revenue:195, accuracy:91, orders:5, role:'peer' },
+    { name:'鄭浩然', avatar:'👦', revenue:155, accuracy:87, orders:4, role:'peer' },
+    { name:'蔡詠琳', avatar:'👩', revenue:110, accuracy:80, orders:3, role:'peer' }
+  ]
+};
+function getLeaderboard(levelId){
+  const rows = [];
+  const accs = loadAccounts();
+  Object.values(accs).forEach(p => {
+    const lv = p.levels && p.levels[levelId];
+    if(lv && (lv.sessions > 0 || lv.bestRevenue > 0)){
+      const accPct = lv.totalQuestions > 0 ? Math.round(lv.correctQuestions / lv.totalQuestions * 100) : 0;
+      rows.push({
+        id: p.id,
+        name: p.name,
+        avatar: p.avatar || '🧑',
+        revenue: lv.bestRevenue || 0,
+        accuracy: accPct,
+        orders: lv.bestOrders || 0,
+        role: 'reg',
+        isMe: state.account === p.id
+      });
+    }
+  });
+  const gScores = loadGuestScores().filter(g => g.level === levelId);
+  const myGuest = displayGuestName();
+  gScores.forEach((g, idx) => {
+    rows.push({
+      id: 'guest_' + idx,
+      name: g.name || t(STR.guestDefaultName),
+      avatar: '👤',
+      revenue: g.revenue || 0,
+      accuracy: g.accuracy || 0,
+      orders: g.orders || 0,
+      role: 'guest',
+      isMe: !state.account && (g.name === myGuest)
+    });
+  });
+  (PEER_SCORES[levelId] || []).forEach((p, idx) => {
+    rows.push({
+      id: 'peer_' + idx,
+      name: p.name,
+      avatar: p.avatar,
+      revenue: p.revenue,
+      accuracy: p.accuracy,
+      orders: p.orders,
+      role: 'peer',
+      isMe: false
+    });
+  });
+  rows.sort((a, b) => (b.revenue - a.revenue) || (b.accuracy - a.accuracy) || (b.orders - a.orders));
+  return rows;
+}
+
+/* ========================= 账号存储 ========================= */
+function loadAccounts(){
+  try{ return JSON.parse(localStorage.getItem(STORE_ACCOUNTS) || '{}'); }catch(e){ return {}; }
+}
+function saveAccounts(acc){
+  try{ localStorage.setItem(STORE_ACCOUNTS, JSON.stringify(acc)); }catch(e){}
+}
+function getCurrentAccountId(){
+  try{ return localStorage.getItem(STORE_CURRENT) || null; }catch(e){ return null; }
+}
+function setCurrentAccountId(id){
+  try{ if(id) localStorage.setItem(STORE_CURRENT, id); else localStorage.removeItem(STORE_CURRENT); }catch(e){}
+}
+function currentProfile(){
+  if(!state.account) return null;
+  const acc = loadAccounts();
+  return acc[state.account] || null;
+}
+function saveProfile(profile){
+  if(!state.account) return;
+  const acc = loadAccounts();
+  acc[state.account] = profile;
+  saveAccounts(acc);
+}
+function newProfile(id, name, avatar, pinHash){
+  return {
+    id:id, name:name, avatar:avatar || '🧑', pinHash:pinHash || '', createdAt:new Date().toISOString(),
+    lastLoginAt:new Date().toISOString(), language:'zh-HK',
+    totals:{ sessions:0, completedOrders:0, revenue:0, totalQuestions:0, correctQuestions:0, bestStreak:0 },
+    levels:{
+      basic:{ sessions:0, completedOrders:0, revenue:0, bestRevenue:0, bestOrders:0, totalQuestions:0, correctQuestions:0, totalTime:0, totalEco:0, lastPlay:null },
+      advanced:{ sessions:0, completedOrders:0, revenue:0, bestRevenue:0, bestOrders:0, totalQuestions:0, correctQuestions:0, totalTime:0, totalEco:0, lastPlay:null },
+      challenge:{ sessions:0, completedOrders:0, revenue:0, bestRevenue:0, bestOrders:0, totalQuestions:0, correctQuestions:0, totalTime:0, totalEco:0, ecoOrders:0, zeroPlasticOrders:0, lastPlay:null }
+    },
+    mistakes:{ foodSelection:0, expenseExpression:0, changeExpression:0, operationOrder:0, finalAnswer:0, ecoRequirement:0,
+      missingFood:0, wrongQuantity:0, missingMultiplication:0, missingParentheses:0, reversedSubtraction:0, replacedExpressionWithTotal:0, signError:0, parenPos:0, forgotParen:0, mulFirst:0, carry:0, borrow:0, ecoLow:0 },
+    counters:{ changeCorrect:0, parenStreak:0, parenBest:0, orderStreak:0, orderBest:0, zeroPlastic:0 },
+    achievements: {}
+  };
+}
+function ensureAchievements(profile){
+  const defs = ACHIEVEMENTS;
+  let changed = false;
+  defs.forEach(a => { if(!profile.achievements[a.id]){ profile.achievements[a.id] = { unlocked:false, unlockedAt:null, progress:0 }; changed = true; } });
+  return changed;
+}
+
+/* ========================= 数学：表达式解析 ========================= */
+function normalizeExpr(str){
+  return String(str == null ? '' : str)
+    .replace(/×/g,'*').replace(/÷/g,'/')
+    .replace(/[−–—－]/g,'-')
+    .replace(/[，,\s]/g,'');
+}
+function evalExpr(str){
+  const s = normalizeExpr(str);
+  if(!s) return null;
+  let i = 0;
+  function parseExpr(){ let v = parseTerm(); if(v===null) return null; while(i<s.length && (s[i]==='+'||s[i]==='-')){ const op=s[i++]; const r=parseTerm(); if(r===null) return null; v = op==='+'?v+r:v-r; } return v; }
+  function parseTerm(){ let v=parseFactor(); if(v===null) return null; while(i<s.length && (s[i]==='*'||s[i]==='/')){ const op=s[i++]; const r=parseFactor(); if(r===null) return null; if(op==='/'){ if(r===0) return null; v=v/r; } else v=v*r; } return v; }
+  function parseFactor(){ if(i>=s.length) return null; if(s[i]==='('){ i++; const v=parseExpr(); if(v===null||s[i]!==')') return null; i++; return v; } if(s[i]==='-'){ i++; const v=parseFactor(); return v===null?null:-v; } if(s[i]==='+'){ i++; return parseFactor(); } const m=/^\d+/.exec(s.slice(i)); if(!m) return null; i+=m[0].length; return Number(m[0]); }
+  const v = parseExpr();
+  if(v===null || i!==s.length) return null;
+  return Number.isFinite(v)?v:null;
+}
+function parseExprAST(str){
+  const s = normalizeExpr(str);
+  if(!s) return null;
+  let i = 0;
+  function parseExpr(){ let node=parseTerm(); if(!node) return null; while(i<s.length && (s[i]==='+'||s[i]==='-')){ const op=s[i++]; const right=parseTerm(); if(!right) return null; node={type:'bin',op:op,left:node,right:right}; } return node; }
+  function parseTerm(){ let node=parseFactor(); if(!node) return null; while(i<s.length && (s[i]==='*'||s[i]==='/')){ const op=s[i++]; const right=parseFactor(); if(!right) return null; node={type:'bin',op:op,left:node,right:right}; } return node; }
+  function parseFactor(){ if(i>=s.length) return null; if(s[i]==='('){ i++; const inner=parseExpr(); if(!inner||s[i]!==')') return null; i++; return {type:'paren',expr:inner}; } if(s[i]==='-'||s[i]==='+'){ const op=s[i++]; const inner=parseFactor(); if(!inner) return null; return {type:'unary',op:op,expr:inner}; } const m=/^\d+/.exec(s.slice(i)); if(!m) return null; i+=m[0].length; return {type:'num',value:Number(m[0])}; }
+  const ast = parseExpr();
+  if(!ast || i!==s.length) return null;
+  return ast;
+}
+function evalAST(n){
+  if(!n) return null;
+  if(n.type==='num') return n.value;
+  if(n.type==='paren') return evalAST(n.expr);
+  if(n.type==='unary'){ const v=evalAST(n.expr); return v===null?null:(n.op==='-'?-v:v); }
+  if(n.type==='bin'){ const a=evalAST(n.left), b=evalAST(n.right); if(a===null||b===null) return null; if(n.op==='+') return a+b; if(n.op==='-') return a-b; if(n.op==='*') return a*b; if(n.op==='/') return b===0?null:a/b; }
+  return null;
+}
+function astNumbers(n, out){
+  out = out || [];
+  if(!n) return out;
+  if(n.type==='num') out.push(n.value);
+  else if(n.type==='paren') astNumbers(n.expr,out);
+  else if(n.type==='unary') astNumbers(n.expr,out);
+  else if(n.type==='bin'){ astNumbers(n.left,out); astNumbers(n.right,out); }
+  return out;
+}
+function astHasOp(n, op){
+  if(!n) return false;
+  if(n.type==='bin' && n.op===op) return true;
+  if(n.type==='paren'||n.type==='unary') return astHasOp(n.expr,op);
+  if(n.type==='bin') return astHasOp(n.left,op)||astHasOp(n.right,op);
+  return false;
+}
+function astCountOp(n, op){
+  if(!n) return 0;
+  if(n.type==='paren'||n.type==='unary') return astCountOp(n.expr,op);
+  if(n.type==='bin') return (n.op===op?1:0) + astCountOp(n.left,op) + astCountOp(n.right,op);
+  return 0;
+}
+function astHasDiv(n){ return astHasOp(n,'/'); }
+function sameMultiset(a,b){
+  if(a.length!==b.length) return false;
+  const x=a.slice().sort((p,q)=>p-q), y=b.slice().sort((p,q)=>p-q);
+  for(let j=0;j<x.length;j++){ if(x[j]!==y[j]) return false; }
+  return true;
+}
+function isMulMode(levelId){
+  const lv = levelId || state.level;
+  return lv === 'advanced' || lv === 'challenge';
+}
+function groupPrices(ent){
+  const map = new Map();
+  ent.forEach(e => {
+    const p = e.food.price;
+    if(!map.has(p)) map.set(p, { price:p, totalQty:0, itemCount:0 });
+    const g = map.get(p);
+    g.totalQty += e.qty;
+    g.itemCount += 1;
+  });
+  return Array.from(map.values());
+}
+function expectedSpendNumbers(ent, levelId){
+  const out=[];
+  if(isMulMode(levelId)){
+    groupPrices(ent).forEach(g => {
+      out.push(g.price);
+      if(g.totalQty >= 2) out.push(g.totalQty);
+    });
+    return out;
+  }
+  ent.forEach(e => { out.push(e.food.price); if(e.qty>1) out.push(e.qty); });
+  return out;
+}
+
+/* ========================= 游戏数据模型 ========================= */
+function entries(){
+  return Object.keys(state.cart).filter(id => state.cart[id]>0 && FOOD_BY_ID[id]).map(id => ({ food:FOOD_BY_ID[id], qty:state.cart[id] }));
+}
+function spendOf(ent){ return ent.reduce((s,e)=>s+e.qty*e.food.price,0); }
+function ecoOf(ent){ return ent.reduce((s,e)=>s+e.qty*e.food.eco,0); }
+function foodHealth(f){ return (f.tags||[]).reduce((s,tag)=>s+(TAG_HEALTH[tag]||0),0); }
+function healthOf(ent){ return ent.reduce((s,e)=>s+e.qty*foodHealth(e.food),0); }
+function portionsOf(ent){ return ent.reduce((s,e)=>s+e.qty,0); }
+function numbersOf(ent, levelId){
+  if(!ent.length) return 0;
+  if(isMulMode(levelId)){
+    return 1 + groupPrices(ent).reduce((s,g)=>s+(g.totalQty>=2?2:1),0);
+  }
+  return 1 + ent.reduce((s,e)=>s+(e.qty>1?2:1),0);
+}
+function hasMulOf(ent, levelId){
+  if(isMulMode(levelId)) return groupPrices(ent).some(g => g.totalQty >= 2);
+  return ent.some(e=>e.qty>1);
+}
+function hasSamePriceMul(ent, levelId){
+  return isMulMode(levelId) && groupPrices(ent).some(g => g.totalQty >= 2 && g.itemCount > 1);
+}
+
+function canAdd(id){
+  const f = FOOD_BY_ID[id], L = LEVELS[state.level];
+  if(!f || !L) return { ok:false, msg:tf(STR.toastMaxTypes,{n:2}) };
+  const cur = state.cart[id] || 0;
+  if(cur >= L.maxQty) return { ok:false, msg:tf(STR.toastMaxQty,{n:L.maxQty}) };
+  const ent = entries();
+  if(cur===0 && ent.length >= L.maxTypes) return { ok:false, msg:tf(STR.toastMaxTypes,{n:L.maxTypes}) };
+  const proj = Object.assign({}, state.cart);
+  proj[id] = (proj[id]||0)+1;
+  const projEnt = Object.keys(proj).filter(k=>proj[k]>0).map(k=>({food:FOOD_BY_ID[k], qty:proj[k]}));
+  if(numbersOf(projEnt) > L.maxNumbers) return { ok:false, msg:tf(STR.toastMaxNumbers,{n:L.maxNumbers}) };
+  return { ok:true };
+}
+
+/* ========================= 订单生成 ========================= */
+function customerPaidFor(ent){
+  const sp = spendOf(ent);
+  let pay = Math.ceil((sp + 3) / 10) * 10;
+  if(pay <= sp) pay += 10;
+  return pay;
+}
+function genOrder(levelId){
+  const all = FOODS.slice();
+  const pick = (arr, n) => { const a = arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a.slice(0,n); };
+
+  if(levelId === 'basic'){
+    const chosen = pick(all, 2);
+    const request = { items: chosen.map(f => ({ id:f.id, qty:1 })), totalQty:2 };
+    return { type: randomCustomerType(), request, paid: customerPaidFor(request.items.map(x=>({food:FOOD_BY_ID[x.id],qty:x.qty}))) };
+  }
+  if(levelId === 'advanced'){
+    const chosen = pick(all, 2);
+    const mulIdx = Math.random() < 0.5 ? 0 : 1;
+    const qty = 2 + Math.floor(Math.random()*2);
+    const request = { items: chosen.map((f,i) => ({ id:f.id, qty: i===mulIdx ? qty : 1 })), totalQty: qty+1 };
+    return { type: randomCustomerType(), request, paid: customerPaidFor(request.items.map(x=>({food:FOOD_BY_ID[x.id],qty:x.qty}))) };
+  }
+  // challenge（環保模式）：顧客要求店長推薦三個食物（可重複），並符合高環保包裝條件
+  const templates = [
+    { cats:{ filling:2, drink:1 }, dineIn:false, paid:40 },
+    { cats:{ filling:1, snack:1, drink:1 }, dineIn:true, paid:50 },
+    { cats:{ filling:2, snack:1 }, dineIn:true, paid:50 },
+    { cats:{ filling:1, drink:2 }, dineIn:false, paid:40 },
+    { cats:{ snack:2, drink:1 }, dineIn:false, paid:40 }
+  ];
+  const tpl = templates[Math.floor(Math.random()*templates.length)];
+  return {
+    type: randomCustomerType(),
+    request: {
+      isRecommend: true,
+      cats: Object.assign({}, tpl.cats),
+      totalQty: 3,
+      dineIn: tpl.dineIn,
+      budget: tpl.paid
+    },
+    paid: tpl.paid
+  };
+}
+function randomCustomerType(){
+  const types = ['uncle','aunty','student','grandma'];
+  return types[Math.floor(Math.random()*types.length)];
+}
+
+/* 生成客人点单话术 */
+function formatCatList(cats, bold){
+  const order = ['filling','snack','drink'];
+  const parts = [];
+  order.forEach(cat => {
+    const n = cats[cat] || 0;
+    if(!n) return;
+    if(state.lang === 'en'){
+      const catLabel = cat==='filling' ? (n>1?'filling foods':'filling food') : cat==='snack' ? (n>1?'snacks':'snack') : (n>1?'drinks':'drink');
+      const txt = n + ' ' + catLabel;
+      parts.push(bold ? '<strong>'+esc(txt)+'</strong>' : txt);
+    } else {
+      const catLabel = cat==='filling' ? '飽肚的食物' : cat==='snack' ? '小食' : '飲品';
+      const txt = n + '種' + catLabel;
+      parts.push(bold ? '<strong>'+esc(txt)+'</strong>' : txt);
+    }
+  });
+  if(state.lang === 'en'){
+    return parts.length <= 2 ? parts.join(' and ') : parts.slice(0,-1).join(', ') + ' and ' + parts[parts.length-1];
+  }
+  return parts.length <= 2 ? parts.join(' 和 ') : parts.slice(0,-1).join('、') + ' 和 ' + parts[parts.length-1];
+}
+function customerSpeech(customer){
+  const pay = customer.paid;
+  if(state.level === 'challenge' && customer.request.isRecommend){
+    const catStr = formatCatList(customer.request.cats, false);
+    if(customer.request.dineIn){
+      return state.lang==='en'
+        ? 'Please recommend ' + catStr + ', to eat here. I will pay $' + pay + '. Remember, no packaging!'
+        : '請推薦' + catStr + '，在這裡吃，我會付$' + pay + '，記得不要有包裝！';
+    }
+    return state.lang==='en'
+      ? 'Please recommend ' + catStr + ', for takeaway. I will pay $' + pay + '. Remember not to use too much plastic packaging!'
+      : '請推薦' + catStr + '，打包拎走，我會付$' + pay + '，記得不要使用太多塑膠包裝！';
+  }
+  const items = customer.request.items;
+  const list = items.map(x => {
+    const f = FOOD_BY_ID[x.id];
+    if(state.lang === 'en'){
+      return String(x.qty) + ' × ' + t(f.name);
+    }
+    const qtyWord = x.qty===1 ? '一' : x.qty===2 ? '兩' : x.qty===3 ? '三' : String(x.qty);
+    return qtyWord + t(f.unit) + t(f.name);
+  }).join(state.lang==='en' ? ' and ' : ' 和 ');
+  if(state.level === 'basic'){
+    return bi('早晨！我要','Good morning! I would like') + ' ' + list + bi('。我會付 $'+pay+'，麻煩你幫我準備和找錢。','. I will pay $'+pay+'. Please prepare them and give me the change.');
+  }
+  return bi('早晨！我要','Good morning! I would like') + ' ' + list + bi('。我會付 $'+pay+'，請問要找回多少錢？','. I will pay $'+pay+'. How much change should I get?');
+}
+function customerSpeechHTML(customer){
+  const payHTML = '<strong>$' + esc(customer.paid) + '</strong>';
+  if(state.level === 'challenge' && customer.request.isRecommend){
+    const catHTML = formatCatList(customer.request.cats, true);
+    if(customer.request.dineIn){
+      return state.lang==='en'
+        ? 'Please recommend ' + catHTML + ', <strong>to eat here</strong>. I will pay ' + payHTML + '. Remember, <strong>no packaging</strong>!'
+        : '請推薦' + catHTML + '，<strong>在這裡吃</strong>，我會付' + payHTML + '，記得<strong>不要有包裝</strong>！';
+    }
+    return state.lang==='en'
+      ? 'Please recommend ' + catHTML + ', <strong>for takeaway</strong>. I will pay ' + payHTML + '. Remember <strong>not to use too much plastic packaging</strong>!'
+      : '請推薦' + catHTML + '，<strong>打包拎走</strong>，我會付' + payHTML + '，記得<strong>不要使用太多塑膠包裝</strong>！';
+  }
+  const items = customer.request.items;
+  const list = items.map(x => {
+    const f = FOOD_BY_ID[x.id];
+    if(state.lang === 'en'){
+      return '<strong>' + esc(String(x.qty)) + '</strong> × <strong>' + esc(t(f.name)) + '</strong>';
+    }
+    const qtyWord = x.qty===1 ? '一' : x.qty===2 ? '兩' : x.qty===3 ? '三' : String(x.qty);
+    return '<strong>' + esc(qtyWord + t(f.unit) + t(f.name)) + '</strong>';
+  }).join(state.lang==='en' ? ' and ' : ' 和 ');
+  if(state.level === 'basic'){
+    return esc(bi('早晨！我要','Good morning! I would like')) + ' ' + list + esc(bi('。我會付 ','. I will pay ')) + payHTML + esc(bi('，麻煩你幫我準備和找錢。','. Please prepare them and give me the change.'));
+  }
+  return esc(bi('早晨！我要','Good morning! I would like')) + ' ' + list + esc(bi('。我會付 ','. I will pay ')) + payHTML + esc(bi('，請問要找回多少錢？','. How much change should I get?'));
+}
+
+/* 檢查餐盤食物是否符合顧客要求的類別配搭 */
+function matchCategories(ent, reqCats){
+  const foods = [];
+  ent.forEach(e => { for(let i=0;i<e.qty;i++) foods.push(e.food); });
+  const slots = [];
+  Object.keys(reqCats).forEach(cat => { for(let i=0;i<(reqCats[cat]||0);i++) slots.push(cat); });
+  if(foods.length !== slots.length) return false;
+  const perms = [[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]];
+  return perms.some(p => p.every((fi, si) => foods[fi] && foods[fi].tags.includes(slots[si])));
+}
+
+/* 計算完成後自動判斷是否符合顧客的環保包裝要求 */
+function evaluateChallengeEco(ent, req){
+  const items = [];
+  ent.forEach(e => { for(let i=0;i<e.qty;i++) items.push(e.food); });
+  const badItems = [];
+  if(req.dineIn){
+    // 在這裡吃：不要有包裝（所有餐點皆須為沒有包裝的堂食餐碟／杯裝，排除紙袋、紙杯與塑膠包裝）
+    items.forEach(f => {
+      if(f.packIcon !== '🍽️' || f.eco < 3){
+        if(badItems.indexOf(t(f.name)) === -1) badItems.push(t(f.name));
+      }
+    });
+    return { ok: badItems.length === 0, badItems };
+  } else {
+    // 打包拎走：不要使用太多塑膠包裝（不可有發泡膠/膠樽 eco===0，且高環保+一般環保總分 >= 7）
+    items.forEach(f => {
+      if(f.eco <= 1){
+        if(badItems.indexOf(t(f.name)) === -1) badItems.push(t(f.name));
+      }
+    });
+    const hasZero = items.some(f => f.eco === 0);
+    const totalEco = items.reduce((s,f) => s + f.eco, 0);
+    const ok = !hasZero && totalEco >= 7;
+    return { ok, badItems };
+  }
+}
+
+/* ========================= 结账前检查 ========================= */
+function preCheckoutCheck(){
+  const c = state.customer, L = LEVELS[state.level];
+  const ent = entries();
+  if(state.level === 'challenge' && c.request.isRecommend){
+    const tot = portionsOf(ent);
+    if(tot !== 3){
+      return { ok:false, msg: tf(STR.chkNeedRec3, {n:tot}) };
+    }
+    if(!matchCategories(ent, c.request.cats)){
+      return { ok:false, msg: t(STR.chkWrongCat) };
+    }
+    if(spendOf(ent) >= c.paid){
+      return { ok:false, msg: tf(STR.chkOverPaid, {n:c.paid}) };
+    }
+    return { ok:true };
+  }
+  for(const item of c.request.items){
+    const got = state.cart[item.id] || 0;
+    if(got !== item.qty){
+      const f = FOOD_BY_ID[item.id];
+      return { ok:false, msg: tf(STR.chkNeedQty, {n:item.qty, name:t(f.name)}) };
+    }
+  }
+  if(ent.length < L.minTypes){
+    return { ok:false, msg: t(STR.chkMissingType) };
+  }
+  if(c.request.totalQty && portionsOf(ent) < c.request.totalQty){
+    return { ok:false, msg: tf(STR.chkNeedTotal, {n:c.request.totalQty}) };
+  }
+  if(state.level==='advanced' && !hasMulOf(ent)){
+    return { ok:false, msg: t(STR.chkNeedMul) };
+  }
+  return { ok:true };
+}
+
+/* ========================= 反馈 UI ========================= */
+let toastTimer = null;
+function toast(msg){ toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(()=>toastEl.classList.remove('show'), 2800); }
+function confetti(){
+  const colors = ['#d94f3b','#ffc94d','#1f7a4c','#3b6fb6','#f08a78','#7ccf9e'];
+  for(let i=0;i<90;i++){
+    const p=document.createElement('i'); p.className='confetti-piece';
+    p.style.left=(Math.random()*100)+'%'; p.style.width=(6+Math.random()*8)+'px'; p.style.height=(8+Math.random()*10)+'px';
+    p.style.background=colors[i%colors.length]; p.style.animationDuration=(2.1+Math.random()*2.2)+'s'; p.style.animationDelay=(Math.random()*.45)+'s';
+    confettiEl.appendChild(p);
+  }
+  setTimeout(()=>{ confettiEl.innerHTML=''; }, 4800);
+}
+let modalTimer = null;
+function openModal(opts){
+  opts = opts || {};
+  if(modalTimer){ clearTimeout(modalTimer); modalTimer=null; }
+  overlay.hidden = false;
+  modalBox.className = 'modal' + (opts.wide?' wide':'') + (opts.tone?' tone-'+opts.tone:'');
+  modalBox.innerHTML =
+    '<button class="modal-close" data-close aria-label="'+esc(t(STR.modalClose))+'">✕</button>' +
+    '<div class="modal-head">' + (opts.hero?'<div class="modal-hero">'+opts.hero+'</div>':'') +
+    '<h2 id="modalTitle">'+(opts.title||'')+'</h2>' + (opts.sub?'<p class="modal-sub">'+opts.sub+'</p>':'') + '</div>' +
+    (opts.body?'<div class="modal-body">'+opts.body+'</div>':'') +
+    (opts.actions?'<div class="modal-actions">'+opts.actions+'</div>':'');
+  document.body.classList.add('modal-open');
+  requestAnimationFrame(()=>overlay.classList.add('show'));
+  setTimeout(()=>{ try{ modalBox.focus(); }catch(e){} }, 40);
+}
+function closeModal(){
+  overlay.classList.remove('show');
+  document.body.classList.remove('modal-open');
+  if(modalTimer) clearTimeout(modalTimer);
+  modalTimer = setTimeout(()=>{ overlay.hidden=true; modalBox.innerHTML=''; modalTimer=null; }, 200);
+}
+function langToggle(){
+  return '<div class="lang-toggle" role="group" aria-label="Language">' +
+    '<button data-lang="zh" class="'+(state.lang==='zh'?'active':'')+'">'+t(STR.langZh)+'</button>' +
+    '<button data-lang="en" class="'+(state.lang==='en'?'active':'')+'">'+t(STR.langEn)+'</button>' +
+  '</div>';
+}
+
+/* ========================= 首页 ========================= */
+function artHTML(f){ return FOOD_ART[f.id] || '<span aria-hidden="true">'+f.emoji+'</span>'; }
+function levelCards(){
+  return Object.values(LEVELS).map(L =>
+    '<article class="level-card '+L.id+'">' +
+      '<div class="level-art">'+LEVEL_ART[L.id]+'</div>' +
+      '<h3>'+t(L.name)+'</h3>' +
+      '<div class="level-focus">'+t(L.focus)+'</div>' +
+      '<div class="level-time">'+t(STR.bizTimeLabel)+t(L.timeLabel)+'</div>' +
+      '<button class="level-start" data-level="'+L.id+'">'+t(STR.startBtn)+'</button>' +
+    '</article>'
+  ).join('');
+}
+function renderStart(){
+  document.title = t(STR.appTitle);
+  const prof = currentProfile();
+  const name = prof ? esc(prof.name) : esc(displayGuestName());
+  const avatar = prof ? esc(prof.avatar) : '👤';
+  const guestInputHTML = !prof
+    ? '<div class="guest-bar"><label for="guestNameInput">✏️ '+t(STR.guestNameLabel)+'</label>' +
+      '<input id="guestNameInput" type="text" maxlength="20" value="'+esc(state.guestName)+'" placeholder="'+esc(t(STR.guestNamePlaceholder))+'"></div>'
+    : '';
+  app.innerHTML =
+    '<div class="start-screen">' +
+      '<div class="start-top"><div class="brand"><div class="brand-badge">🍵</div>' +
+        '<div><h1>'+t(STR.appTitle)+'</h1></div></div></div>' +
+      '<p class="start-sub">'+t(STR.appSubtitle)+'</p>' +
+      '<div class="top-actions" style="justify-content:center;width:100%;margin-top:10px">' +
+        '<span class="icon-btn" style="cursor:default">'+avatar+' '+name+'</span>' +
+        guestInputHTML +
+        langToggle() +
+      '</div>' +
+      '<div class="home-actions">' +
+        '<button class="home-btn primary" data-nav="game-select">🍽️ '+t(STR.startBtn)+'</button>' +
+        '<button class="home-btn" data-nav="leaderboard">🏅 '+t(STR.btnLeaderboard)+'</button>' +
+        '<button class="home-btn" data-nav="profile">📊 '+t(STR.btnProfile)+'</button>' +
+        '<button class="home-btn" data-nav="achievements">🏆 '+t(STR.btnAchievements)+'</button>' +
+        '<button class="home-btn" data-nav="account">👤 '+t(STR.btnAccount)+'</button>' +
+        '<button class="home-btn" data-nav="rules">📋 '+t(STR.rulesBtn)+'</button>' +
+      '</div>' +
+      '<div class="section-title"><h2>'+t(STR.chooseLevel)+'</h2></div>' +
+      '<div class="level-grid" style="width:100%;max-width:1120px">'+levelCards()+'</div>' +
+      '<p class="page-foot">'+t(STR.footer)+'</p>' +
+    '</div>';
+  const gInp = document.getElementById('guestNameInput');
+  if(gInp){
+    gInp.addEventListener('input', function(){
+      setGuestName(gInp.value);
+      const badge = app.querySelector('.top-actions .icon-btn');
+      if(badge) badge.textContent = '👤 ' + displayGuestName();
+    });
+  }
+}
+
+/* ========================= 营业主画面（横向餐单，一屏全部显示 + 右侧餐盘） ========================= */
+function foodCardHTML(f,L){
+  const qty = state.cart[f.id] || 0;
+  const visibleTags = L.id==='basic' ? f.tags.filter(tag => tag !== 'healthy') : f.tags;
+  const tags = visibleTags.map(tag => '<span class="tag '+(tag==='healthy'?'healthy':'')+'">'+t(STR['tag'+cap(tag)])+'</span>').join('');
+  const isChallenge = L.id==='challenge';
+  const tier = ecoTierClass(f.eco);
+  const packRow = isChallenge
+    ? '<div class="pack-row"><span class="pack-badge '+tier+'">'+f.packIcon+' '+t(f.packaging)+'</span></div>'
+    : '';
+  return '<article class="food-card '+(qty?'in-cart':'')+'" title="'+esc(t(f.name)+' - '+t(f.desc))+'">' +
+    '<div class="food-top">' +
+      '<div class="food-emoji" style="--food-bg:'+f.bg+'">'+artHTML(f)+'</div>' +
+      '<div class="food-title">' +
+        '<div class="food-head-line"><h3>'+t(f.name)+'</h3><span class="price-now">$'+f.price+'</span></div>' +
+        '<div class="tag-row">'+tags+'</div>' +
+      '</div>' +
+    '</div>' +
+    packRow +
+    '<div class="food-actions">' +
+      '<button class="add-btn '+(qty?'added':'')+'" data-add="'+f.id+'" aria-label="'+esc(tf(STR.addAria,{name:t(f.name)}))+'">' +
+        (qty?t(STR.addedBtn):t(STR.addBtn))+'</button>' +
+      (qty?'<span class="qty-badge">×'+qty+'</span>':'') +
+    '</div></article>';
+}
+function trayHTML(ent,L){
+  const showPack = L.id==='challenge';
+  const lines = ent.map(e => {
+    const id = e.food.id;
+    const tier = ecoTierClass(e.food.eco);
+    return '<div class="tray-line">' +
+      '<div class="tray-emoji">'+artHTML(e.food)+'</div>' +
+      '<div class="tray-info"><div class="tray-name">'+t(e.food.name)+' <small>×'+e.qty+'</small></div>' +
+      (showPack?'<div class="tray-pack '+tier+'">'+e.food.packIcon+' '+t(e.food.packaging)+'</div>':'') +
+      '</div>' +
+      '<div class="tray-side"><div class="qty-control">' +
+        '<button class="qty-btn" data-dec="'+id+'" aria-label="'+esc(t(STR.qtyMinus))+'">−</button>' +
+        '<span class="qty-num">'+e.qty+'</span>' +
+        '<button class="qty-btn" data-inc="'+id+'" aria-label="'+esc(t(STR.qtyPlus))+'"'+(e.qty>=L.maxQty?' disabled':'')+'>+</button>' +
+      '</div><button class="remove-btn" data-remove="'+id+'">'+t(STR.removeBtn)+'</button></div>' +
+    '</div>';
+  }).join('');
+  return '<section class="panel"><div class="panel-head"><h2>'+t(STR.trayTitle)+'</h2><p>'+tf(STR.trayCount,{n:portionsOf(ent),t:ent.length})+'</p></div>' +
+    (ent.length
+      ? '<div class="tray-list">'+lines+'</div>'
+      : '<div class="empty-tray"><div style="font-size:28px">🍽️</div><b>'+t(STR.trayEmpty)+'</b><span>'+t(STR.trayEmptyHint)+'</span></div>') +
+    '</section>';
+}
+function customerBoxHTML(){
+  const c = state.customer;
+  return '<div class="customer-box">' +
+    '<div class="customer-avatar">'+CUSTOMER_ART[c.type]+'</div>' +
+    '<div class="customer-speech"><p class="customer-name">'+t(CUSTOMER_NAMES[c.type])+'</p>' +
+    '<div class="speech-bubble" role="img" aria-label="'+esc(customerSpeech(c))+'">'+customerSpeechHTML(c)+'</div>' +
+    '</div></div>';
+}
+function bizBarHTML(){
+  const acc = state.shiftQuestions>0 ? Math.round(state.shiftCorrect/state.shiftQuestions*100)+'%' : '—';
+  const mm = Math.floor(state.timeLeft/60), ss = state.timeLeft%60;
+  const timeStr = mm+':'+String(ss).padStart(2,'0');
+  const warn = state.timeLeft<=30;
+  return '<div class="biz-bar">' +
+    '<div class="biz-card timer '+(warn?'warn':'')+'"><span class="label">'+t(STR.bizTime)+'</span><span class="value">'+timeStr+'</span></div>' +
+    '<div class="biz-card"><span class="label">'+t(STR.bizOrders)+'</span><span class="value">'+state.ordersDone+'</span></div>' +
+    '<div class="biz-card"><span class="label">'+t(STR.bizRevenue)+'</span><span class="value">$'+state.revenue+'</span></div>' +
+    '<div class="biz-card"><span class="label">'+t(STR.bizAccuracy)+'</span><span class="value">'+acc+'</span></div>' +
+    '<div class="biz-card"><span class="label">'+t(STR.bizStreak)+'</span><span class="value">'+state.shiftStreak+'</span></div>' +
+  '</div>';
+}
+function renderGame(){
+  const L = LEVELS[state.level];
+  if(!L){ renderStart(); return; }
+  const ent = entries();
+  const shown = FOODS.filter(f => state.filter==='all' || f.tags.includes(state.filter));
+  const filters = L.id==='basic'
+    ? [['all',STR.filterAll],['filling',STR.filterFilling],['snack',STR.filterSnack],['drink',STR.filterDrink]]
+    : [['all',STR.filterAll],['filling',STR.filterFilling],['snack',STR.filterSnack],['drink',STR.filterDrink],['healthy',STR.filterHealthy]];
+  const filterRow = filters.map(p => '<button class="filter-btn '+(state.filter===p[0]?'active':'')+'" data-filter="'+p[0]+'">'+t(p[1])+'</button>').join('');
+  const ecoLegend = L.id==='challenge'
+    ? '<div class="eco-legend" aria-label="Packaging eco level">' +
+        '<span class="leg-high">🟢 '+t(STR.ecoLegendHigh)+'</span>' +
+        '<span class="leg-mid">🟡 '+t(STR.ecoLegendMid)+'</span>' +
+        '<span class="leg-low">🔴 '+t(STR.ecoLegendLow)+'</span>' +
+      '</div>'
+    : '';
+  app.innerHTML =
+    '<div class="game-topbar">' +
+      '<div class="brand"><div class="brand-badge">🍵</div><h1>'+t(STR.appTitle)+'</h1></div>' +
+      '<span class="level-badge '+L.id+'">'+t(L.tag)+'</span>' +
+      '<div class="top-actions">' +
+        '<button class="icon-btn" data-end-shift>⏹ '+t(STR.btnEndShift)+'</button>' +
+        '<button class="icon-btn" data-home>'+t(STR.backHome)+'</button>' +
+        '<button class="icon-btn" data-rules>📋 '+t(STR.rulesBtn)+'</button>' +
+        langToggle() +
+      '</div>' +
+    '</div>' +
+    bizBarHTML() +
+    customerBoxHTML() +
+    '<div class="game-layout">' +
+      '<div class="menu-panel"><section class="panel">' +
+        '<div class="panel-head"><h2>'+t(STR.menuTitle)+'</h2><p>'+t(STR.menuHint)+'</p></div>' +
+        '<div class="filter-row">'+filterRow+'</div>' +
+        ecoLegend +
+        '<div class="menu-grid">'+shown.map(f=>foodCardHTML(f,L)).join('')+'</div>' +
+      '</section></div>' +
+      '<aside class="side-panel">' +
+        trayHTML(ent,L) +
+        '<section class="panel"><button class="checkout-btn" data-checkout>'+t(STR.checkoutBtn)+'</button></section>' +
+      '</aside>' +
+    '</div>' +
+    (ent.length ? '<button class="tray-fab" data-jump-tray aria-label="'+esc(t(STR.goTray))+'"><span class="tray-fab-num">'+portionsOf(ent)+'</span><span>'+t(STR.goTray)+' →</span></button>' : '');
+}
+
+/* ========================= 四步翻页流程 ========================= */
+function orderSummaryHTML(){
+  const c = state.customer;
+  const ent = entries();
+  const rows = ent.map(e => {
+    const f = e.food;
+    return '<div class="summary-row"><span class="summary-food-name">'+t(f.name)+'</span><span class="summary-qty-price">'+e.qty+' × $'+f.price+'</span></div>';
+  }).join('');
+  let exprLine = '';
+  if(state.flow.step >= 3 && state.flow.orderAnswers[2]){
+    exprLine = '<div class="summary-expr"><small>'+t(STR.summaryYourExpr)+'</small>'+esc(state.flow.orderAnswers[2])+'</div>';
+  }
+  return '<div class="order-summary">' +
+    '<h3>'+t(STR.orderSummaryTitle)+'</h3>' +
+    '<div class="summary-customer"><div class="summary-avatar">'+CUSTOMER_ART[c.type]+'</div>' +
+    '<div class="summary-speech" role="img" aria-label="'+esc(customerSpeech(c))+'">'+customerSpeechHTML(c)+'</div></div>' +
+    '<div class="summary-rows">'+rows+'</div>' +
+    '<div class="summary-row summary-paid"><span>'+t(STR.summaryPaid)+'</span><b>$'+c.paid+'</b></div>' +
+    exprLine +
+  '</div>';
+}
+function hintButtonHTML(){
+  const f = state.flow;
+  return '<div class="hint-wrap"><button type="button" class="hint-btn" data-flow-hint aria-expanded="'+(f.hint?'true':'false')+'" aria-controls="flowHintBox">' +
+    '💡 '+t(f.hint?STR.flowHintHide:STR.flowHintShow)+'</button>' +
+    '<div class="flow-hint" id="flowHintBox" '+(f.hint?'':'hidden')+'>'+t(getStepHint())+'</div></div>';
+}
+function getStepHint(){
+  const step = state.flow.step;
+  if(step === 1){
+    if(hasSamePriceMul(entries())) return STR.flowStep1HintSamePrice;
+    return hasMulOf(entries()) ? STR.flowStep1HintAdv : STR.flowStep1Hint;
+  }
+  if(step === 2) return STR.flowStep2Hint;
+  if(step === 3){
+    if(state.level==='basic') return STR.flowStep3Hint;
+    if(state.level==='advanced') return STR.flowStep3HintAdv;
+    return STR.flowStep3HintCh;
+  }
+  return STR.flowStep4Hint;
+}
+function expressionBuilderHTML(nums, disabled){
+  const dis = disabled ? ' disabled' : '';
+  const ops = ['+','−','×','÷','(',')'];
+  return '<div class="builder-box">' +
+    '<div class="builder-group"><span class="builder-label">'+t(STR.quickNums)+'</span>' +
+      '<div class="builder-row">' +
+        nums.map(n => '<button type="button" class="num-chip" data-flow-token="'+n+'"'+dis+'>'+n+'</button>').join('') +
+      '</div></div>' +
+    '<div class="builder-group"><span class="builder-label">'+t(STR.opsAndParens)+'</span>' +
+      '<div class="builder-row">' +
+        ops.map(k => '<button type="button" class="op-chip'+((k==='('||k===')')?' paren':'')+'" data-flow-token="'+k+'"'+dis+'>'+k+'</button>').join('') +
+        '<button type="button" class="op-chip util" data-flow-token="back"'+dis+'>'+t(STR.keyBack)+'</button>' +
+        '<button type="button" class="op-chip util" data-flow-token="clear"'+dis+'>'+t(STR.keyClear)+'</button>' +
+      '</div></div>' +
+  '</div>';
+}
+function renderFlowStepCard(){
+  const ent = entries();
+  const c = state.customer;
+  const f = state.flow;
+  const step = f.step;
+  const passed = f.status === 'ok';
+
+  let title='', body='';
+  const dots = [1,2,3,4].map(n => '<span class="dot'+(n<step?' done':n===step?' now':'')+'"></span>').join('');
+  const progress = '<div class="flow-progress">'+tf(STR.flowPageOf,{n:step})+'<div class="dots">'+dots+'</div></div>';
+  const summary = orderSummaryHTML();
+
+  if(step === 1){
+    title = t(STR.flowStep1);
+    const nums = [];
+    ent.forEach(e => { if(nums.indexOf(e.food.price)===-1) nums.push(e.food.price); });
+    if(isMulMode()){
+      groupPrices(ent).forEach(g => { if(g.totalQty>=2 && nums.indexOf(g.totalQty)===-1) nums.push(g.totalQty); });
+    } else {
+      ent.forEach(e => { if(e.qty>1 && nums.indexOf(e.qty)===-1) nums.push(e.qty); });
+    }
+    const actionBtn = passed
+      ? '<button type="button" class="flow-next-btn" data-flow-next>'+t(STR.flowNext)+'</button>'
+      : '<button type="button" class="flow-check-btn" data-flow-check>'+t(STR.flowCheck)+'</button>';
+    body = summary +
+      '<div class="flow-expr'+(f.expr?'':' empty')+'" data-flow-display>'+(f.expr?exprPrettyHTML(f.expr):esc(t(STR.flowExprPlaceholder)))+'</div>' +
+      hintButtonHTML() +
+      expressionBuilderHTML(nums, passed) +
+      '<div class="flow-actions">'+actionBtn+'</div>' +
+      '<p class="flow-feedback '+(f.status)+'" data-flow-feedback>'+esc(f.msg||'')+'</p>';
+  } else if(step === 2){
+    title = t(STR.flowStep2);
+    const nums = [c.paid];
+    ent.forEach(e => { if(nums.indexOf(e.food.price)===-1) nums.push(e.food.price); });
+    if(isMulMode()){
+      groupPrices(ent).forEach(g => { if(g.totalQty>=2 && nums.indexOf(g.totalQty)===-1) nums.push(g.totalQty); });
+    } else {
+      ent.forEach(e => { if(e.qty>1 && nums.indexOf(e.qty)===-1) nums.push(e.qty); });
+    }
+    const actionBtn = passed
+      ? '<button type="button" class="flow-next-btn" data-flow-next>'+t(STR.flowNext)+'</button>'
+      : '<button type="button" class="flow-check-btn" data-flow-check>'+t(STR.flowCheck)+'</button>';
+    body = summary +
+      '<div class="flow-expr'+(f.expr?'':' empty')+'" data-flow-display>'+(f.expr?exprPrettyHTML(f.expr):esc(t(STR.flowExprPlaceholder)))+'</div>' +
+      hintButtonHTML() +
+      expressionBuilderHTML(nums, passed) +
+      '<div class="flow-actions">'+actionBtn+'</div>' +
+      '<p class="flow-feedback '+(f.status)+'" data-flow-feedback>'+esc(f.msg||'')+'</p>';
+  } else if(step === 2){
+    title = t(STR.flowStep2);
+    const nums = [c.paid];
+    ent.forEach(e => { if(nums.indexOf(e.food.price)===-1) nums.push(e.food.price); });
+    ent.forEach(e => { if(e.qty>1 && nums.indexOf(e.qty)===-1) nums.push(e.qty); });
+    const actionBtn = passed
+      ? '<button type="button" class="flow-next-btn" data-flow-next>'+t(STR.flowNext)+'</button>'
+      : '<button type="button" class="flow-check-btn" data-flow-check>'+t(STR.flowCheck)+'</button>';
+    body = summary +
+      '<div class="flow-expr'+(f.expr?'':' empty')+'" data-flow-display>'+(f.expr?exprPrettyHTML(f.expr):esc(t(STR.flowExprPlaceholder)))+'</div>' +
+      hintButtonHTML() +
+      expressionBuilderHTML(nums, passed) +
+      '<div class="flow-actions">'+actionBtn+'</div>' +
+      '<p class="flow-feedback '+(f.status)+'" data-flow-feedback>'+esc(f.msg||'')+'</p>';
+  } else if(step === 3){
+    title = t(STR.flowStep3);
+    const nextAction = passed
+      ? '<div class="flow-actions"><button type="button" class="flow-next-btn" data-flow-next>'+t(STR.flowNext)+'</button></div>'
+      : '';
+    body = summary +
+      '<p class="flow-q">'+flowStep3Question()+'</p>' +
+      hintButtonHTML() +
+      '<div class="mc-list">'+flowStep3Options()+'</div>' +
+      nextAction +
+      '<p class="flow-feedback '+(f.status)+'" data-flow-feedback>'+esc(f.msg||'')+'</p>';
+  } else if(step === 4){
+    title = t(STR.flowStep4);
+    const actionBtn = passed
+      ? '<button type="button" class="flow-next-btn" data-flow-next>'+t(STR.flowNext)+'</button>'
+      : '<button type="button" class="flow-check-btn" data-flow-check>'+t(STR.flowCheck)+'</button>';
+    body = summary +
+      '<p class="flow-q">'+t(STR.flowStep4Question)+'</p>' +
+      hintButtonHTML() +
+      '<input class="answer-input" type="text" inputmode="numeric" data-answer-input value="'+esc(f.answer||'')+'" placeholder="'+esc(t(STR.flowAnswerPlaceholder))+'" aria-label="'+esc(t(STR.flowStep4))+'"'+(passed?' disabled':'')+'>' +
+      '<div class="flow-actions">'+actionBtn+'</div>' +
+      '<p class="flow-feedback '+(f.status)+'" data-flow-feedback>'+esc(f.msg||'')+'</p>';
+  }
+
+  app.innerHTML =
+    '<div class="flow-screen">' +
+      '<div class="flow-topbar">' +
+        '<button class="icon-btn" data-flow-exit>'+t(STR.backBtn)+'</button>' +
+        progress +
+        langToggle() +
+      '</div>' +
+      '<div class="flow-card" id="flowCard">' +
+        '<h2 tabindex="-1">'+title+'</h2>' +
+        body +
+      '</div>' +
+    '</div>';
+
+  if(step === 4 && !passed){
+    const inp = app.querySelector('[data-answer-input]');
+    if(inp){
+      inp.addEventListener('input', function(){
+        let v = inp.value.replace(/[^\d.]/g,'');
+        const dotsCount = (v.match(/\./g)||[]).length;
+        if(dotsCount > 1) v = v.replace(/\.+$/,'');
+        if(state.level!=='challenge') v = v.replace(/\./g,'');
+        if(v !== inp.value) inp.value = v;
+        f.answer = v;
+        f.status=''; f.msg='';
+        const fb = app.querySelector('[data-flow-feedback]');
+        if(fb){ fb.textContent=''; fb.className='flow-feedback'; }
+      });
+      inp.addEventListener('keydown', function(e){
+        if(e.key==='Enter'){ checkFlowAnswer(); }
+      });
+      setTimeout(function(){ try{ inp.focus(); }catch(e){} }, 60);
+    }
+  }
+}
+function exprPrettyHTML(str){
+  if(!str) return '';
+  let out='', i=0;
+  while(i<str.length){
+    const c=str[i];
+    if(/\d/.test(c)){ let j=i; while(j<str.length && /\d/.test(str[j])) j++; out+='<span class="num">'+esc(str.slice(i,j))+'</span>'; i=j; }
+    else if('+−-×÷*'.indexOf(c)!==-1){ out+='<span class="op">'+c+'</span>'; i++; }
+    else if(c==='('||c===')'){ out+='<span class="paren">'+c+'</span>'; i++; }
+    else i++;
+  }
+  return out;
+}
+
+/* 第三页：判断先计算哪一步 */
+function flowStep3Question(){
+  if(state.level === 'basic'){
+    state.flow._mcType = 'order';
+    return t(STR.mcQ2);
+  }
+  return t(STR.mcQ2b);
+}
+function flowStep3Options(){
+  const ent = entries();
+  const sp = spendOf(ent);
+  const c = state.customer;
+  const groups = groupPrices(ent);
+  const innerStr = isMulMode()
+    ? groups.map(g => g.totalQty>=2 ? (g.price+' × '+g.totalQty) : (''+g.price)).join(' + ')
+    : ent.map(e => e.qty>1 ? (e.qty+' × '+e.food.price) : (''+e.food.price)).join(' + ');
+
+  if(state.flow.mcOptions && state.flow.mcOptions.length === 3){
+    return renderMCOptions(state.flow.mcOptions);
+  }
+
+  if(state.level === 'basic'){
+    const a = ent[0], b = ent[1];
+    const pa = a.food.price, pb = b.food.price;
+    const optA = c.paid+' − '+pa;
+    const optB = pa+' + '+pb;
+    const optC = c.paid+' − '+pb;
+    const opts = [ {label:'A. '+optB, correct:true}, {label:'B. '+optA, correct:false}, {label:'C. '+optC, correct:false} ];
+    const idx = shuffleIndex();
+    const ordered = idx.map((origIdx, pos) => ({ label: ['A. ','B. ','C. '][pos] + opts[origIdx].label.slice(3), correct: opts[origIdx].correct }));
+    state.flow.mcOptions = ordered;
+    state.flow._mcCorrectIndex = ordered.findIndex(o=>o.correct);
+    return renderMCOptions(ordered);
+  }
+  if(state.level === 'advanced'){
+    const mulGrp = groups.find(g => g.totalQty >= 2);
+    const mulStr = mulGrp ? (mulGrp.price+' × '+mulGrp.totalQty) : (ent[0].qty+' × '+ent[0].food.price);
+    const otherGrp = mulGrp ? groups.find(g => g !== mulGrp) : groups[1];
+    const otherStr = (mulGrp && otherGrp) ? (otherGrp.price+' + '+mulGrp.price) : (c.paid+' − '+ent[0].food.price);
+    const optSub = c.paid+' − '+sp;
+    const opts = [ {label:'A. '+mulStr, correct:true}, {label:'B. '+otherStr, correct:false}, {label:'C. '+optSub, correct:false} ];
+    const idx = shuffleIndex();
+    const ordered = idx.map((origIdx, pos) => ({ label: ['A. ','B. ','C. '][pos] + opts[origIdx].label.slice(3), correct: opts[origIdx].correct }));
+    state.flow.mcOptions = ordered;
+    state.flow._mcCorrectIndex = ordered.findIndex(o=>o.correct);
+    return renderMCOptions(ordered);
+  }
+  const mulGrp = groups.find(g => g.totalQty >= 2);
+  let opt1, opt2, opt3;
+  if(mulGrp){
+    const otherGrp = groups.find(g => g !== mulGrp);
+    opt1 = mulGrp.price+' × '+mulGrp.totalQty;
+    opt2 = otherGrp ? (otherGrp.price+' + '+mulGrp.price) : innerStr;
+    opt3 = c.paid+' − '+(otherGrp ? otherGrp.price : mulGrp.price);
+  } else {
+    opt1 = innerStr;
+    opt2 = c.paid+' − '+sp;
+    opt3 = c.paid+' − '+ent[0].food.price;
+  }
+  const opts = [ {label:'A. '+opt1, correct:true}, {label:'B. '+opt2, correct:false}, {label:'C. '+opt3, correct:false} ];
+  const idx = shuffleIndex();
+  const ordered = idx.map((origIdx, pos) => ({ label: ['A. ','B. ','C. '][pos] + opts[origIdx].label.slice(3), correct: opts[origIdx].correct }));
+  state.flow.mcOptions = ordered;
+  state.flow._mcCorrectIndex = ordered.findIndex(o=>o.correct);
+  return renderMCOptions(ordered);
+}
+function shuffleIndex(){
+  const a = [0,1,2];
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function renderMCOptions(opts){
+  const f = state.flow;
+  return opts.map((o,i) => {
+    let cls = 'mc-btn';
+    if(f.mcAnswered){
+      if(o.correct) cls += ' correct';
+      else if(i === f.mcChosen) cls += ' wrong';
+    }
+    return '<button type="button" class="'+cls+'" data-mc="'+i+'"'+(f.mcAnswered?' disabled':'')+'>'+esc(o.label)+'</button>';
+  }).join('');
+}
+
+/* 核验算式（第一步、第二步）— 答对后不自动跳转，等待点击「下一步」 */
+function checkFlowExpression(){
+  const f = state.flow;
+  if(f.status === 'ok') return;
+  const ent = entries();
+  const c = state.customer;
+  const sp = spendOf(ent);
+  const s = f.expr || '';
+  const ast = parseExprAST(s);
+  const val = ast ? evalAST(ast) : null;
+  let ok=false, msg='';
+
+  function recordWrong(pattern){
+    state.shiftMistakeStep[f.step] = (state.shiftMistakeStep[f.step]||0)+1;
+    if(pattern){
+      state.shiftMistakeOp[pattern] = (state.shiftMistakeOp[pattern]||0)+1;
+      const prof = currentProfile();
+      if(prof){
+        prof.mistakes[pattern] = (prof.mistakes[pattern]||0)+1;
+        saveProfile(prof);
+      }
+    }
+    profileUpdateMistake(f.step);
+  }
+
+  if(!s){ msg = t(STR.exprEmpty); }
+  else if(!ast || val===null){ msg = t(STR.exprInvalid); }
+  else if(f.step===1){
+    const mulGroups = isMulMode() ? groupPrices(ent).filter(g => g.totalQty >= 2) : [];
+    const samePriceGrp = mulGroups.find(g => g.itemCount > 1);
+    const needMul = hasMulOf(ent);
+    const notEnoughMul = needMul && (!astHasOp(ast,'*') || (isMulMode() && astCountOp(ast,'*') < mulGroups.length));
+    if(notEnoughMul) msg = samePriceGrp ? tf(STR.exprSamePriceMul, {price:samePriceGrp.price, qty:samePriceGrp.totalQty}) : t(STR.exprNeedMul);
+    else if(astHasDiv(ast)) msg = t(STR.exprNoDiv);
+    else if(astHasOp(ast,'-')) msg = t(STR.exprShouldAdd);
+    else if(!sameMultiset(astNumbers(ast), expectedSpendNumbers(ent))) msg = t(STR.exprUseFoodNumbers);
+    else if(Math.abs(val-sp)>1e-9) msg = t(STR.exprAWrong);
+    else { ok=true; msg=t(STR.flowCorrectDetail1); f.orderAnswers[1] = s; }
+  }
+  else if(f.step===2){
+    const mulGroups = isMulMode() ? groupPrices(ent).filter(g => g.totalQty >= 2) : [];
+    const samePriceGrp = mulGroups.find(g => g.itemCount > 1);
+    const needMul = hasMulOf(ent);
+    if(astHasDiv(ast)) msg = t(STR.exprNoDiv);
+    else if(Math.abs(val-(sp-c.paid))<1e-9) msg = t(STR.exprReversed);
+    else if(Math.abs(val-(c.paid+sp))<1e-9) msg = t(STR.exprShouldAddCost);
+    else if(!ast || ast.type!=='bin' || ast.op!=='-') msg = t(STR.exprShouldSub);
+    else if(Math.abs(evalAST(ast.left)-c.paid)>1e-9) msg = t(STR.exprPaidFirst);
+    else if(ast.right && ast.right.type!=='paren' && Math.abs(evalAST(ast.right)-sp)<1e-9) msg = t(STR.exprReplaceTotal);
+    else if(!ast.right || ast.right.type!=='paren') msg = t(STR.exprNeedParen);
+    else if(needMul && (!astHasOp(ast.right,'*') || (isMulMode() && astCountOp(ast.right,'*') < mulGroups.length))) msg = samePriceGrp ? tf(STR.exprSamePriceMul, {price:samePriceGrp.price, qty:samePriceGrp.totalQty}) : t(STR.exprNeedMul);
+    else if(!sameMultiset(astNumbers(ast.right), expectedSpendNumbers(ent))) msg = t(STR.exprReplaceTotal);
+    else if(Math.abs(evalAST(ast.right)-sp)>1e-9) msg = t(STR.exprCWrong);
+    else { ok=true; msg=t(STR.flowCorrectDetail2); f.orderAnswers[2] = s; }
+  }
+
+  if(ok){
+    f.status = 'ok';
+    f.msg = msg;
+    state.shiftQuestions++;
+    state.shiftCorrect++;
+  } else {
+    f.status = 'bad';
+    f.msg = msg;
+    state.shiftQuestions++;
+    let pattern = null;
+    const mulGroups = isMulMode() ? groupPrices(ent).filter(g => g.totalQty >= 2) : [];
+    const samePriceGrp = mulGroups.find(g => g.itemCount > 1);
+    const samePriceMsg = samePriceGrp ? tf(STR.exprSamePriceMul, {price:samePriceGrp.price, qty:samePriceGrp.totalQty}) : '';
+    if(f.step===2){
+      if(msg === t(STR.exprReplaceTotal)) pattern = 'replacedExpressionWithTotal';
+      else if(msg === t(STR.exprReversed)) pattern = 'reversedSubtraction';
+      else if(msg === t(STR.exprNeedParen)) pattern = 'missingParentheses';
+      else if(msg === t(STR.exprNeedMul) || (samePriceMsg && msg === samePriceMsg)) pattern = 'missingMultiplication';
+    } else if(f.step===1){
+      if(msg === t(STR.exprNeedMul) || (samePriceMsg && msg === samePriceMsg)) pattern = 'missingMultiplication';
+      else if(msg === t(STR.exprUseFoodNumbers)) pattern = 'missingFood';
+    }
+    recordWrong(pattern);
+  }
+  renderFlowStepCard();
+}
+
+/* 核验第四步：只填最终答案 — 答对后不自动跳转，等待点击「下一步」 */
+function checkFlowAnswer(){
+  const f = state.flow;
+  if(f.status === 'ok') return;
+  const c = state.customer;
+  const ent = entries();
+  const sp = spendOf(ent);
+  const change = c.paid - sp;
+  const ans = (f.answer||'').trim();
+  const num = parseFloat(ans);
+  const ok = ans !== '' && !isNaN(num) && Math.abs(num - change) < 1e-9;
+
+  if(ok){
+    f.status = 'ok';
+    f.msg = t(STR.flowCorrectDetail4);
+    state.shiftQuestions++;
+    state.shiftCorrect++;
+    f.orderAnswers[4] = String(change);
+    renderFlowStepCard();
+  } else {
+    f.status = 'bad';
+    f.msg = ans === '' ? t(STR.exprEmpty) : t(STR.exprAWrong);
+    state.shiftQuestions++;
+    state.shiftMistakeStep[4] = (state.shiftMistakeStep[4]||0)+1;
+    profileUpdateMistake(4);
+    renderFlowStepCard();
+    const inp = app.querySelector('[data-answer-input]');
+    if(inp){ setTimeout(function(){ try{ inp.focus(); }catch(e){} }, 60); }
+  }
+}
+
+/* 处理选择题 — 答对后不自动跳转，等待点击「下一步」 */
+function answerMC(idx){
+  const f = state.flow;
+  if(f.mcAnswered) return;
+  const correct = idx === f._mcCorrectIndex;
+  f.mcChosen = idx;
+  f.mcAnswered = true;
+  if(correct){
+    f.status = 'ok';
+    f.msg = t(STR.flowCorrectDetail3);
+    state.shiftQuestions++;
+    state.shiftCorrect++;
+    f.orderAnswers[3] = idx;
+  } else {
+    f.status = 'bad';
+    f.msg = t(STR.exprOrderHint);
+    state.shiftQuestions++;
+    state.shiftMistakeStep[3] = (state.shiftMistakeStep[3]||0)+1;
+    profileUpdateMistake(3);
+  }
+  renderFlowStepCard();
+  if(!correct){
+    setTimeout(function(){
+      if(state.flow.status !== 'ok'){
+        f.mcAnswered=false; f.mcChosen=null; f.status=''; f.msg='';
+        renderFlowStepCard();
+      }
+    }, 900);
+  }
+}
+
+function advanceFlow(){
+  const f = state.flow;
+  if(f.step < 4){
+    f.step++;
+    f.expr=''; f.answer=''; f.status=''; f.msg=''; f.hint=false;
+    f.mcOptions=[]; f.mcAnswered=false; f.mcChosen=null;
+    renderFlowStepCard();
+    window.scrollTo({ top:0 });
+  } else {
+    completeOrder();
+  }
+}
+function completeOrder(){
+  const c = state.customer, L = LEVELS[state.level];
+  const ent = entries();
+  const sp = spendOf(ent), change = c.paid - sp;
+  const eco = ecoOf(ent), health = healthOf(ent);
+  const timeTaken = Math.round((Date.now()-state.orderStartTime)/1000);
+
+  let ecoEval = { ok: true, badItems: [] };
+  if(L.id === 'challenge' && c.request.isRecommend){
+    ecoEval = evaluateChallengeEco(ent, c.request);
+  }
+
+  if(!ecoEval.ok){
+    const badListStr = ecoEval.badItems.length ? ecoEval.badItems.join('、') : bi('部分包裝','some packaging');
+    openModal({
+      tone:'bad', hero:'🌿', title:t(STR.receiptEcoBad), sub:tf(STR.chkEcoLowButRight, {items: badListStr}),
+      actions:'<button class="btn btn-primary" data-back-to-tray>'+t(STR.backBtn)+'</button>'
+    });
+    profileUpdateMistake('ecoRequirement');
+    state.shiftMistakeStep['eco'] = (state.shiftMistakeStep['eco']||0)+1;
+    return;
+  }
+
+  state.ordersDone++;
+  state.revenue += sp;
+  state.shiftStreak++;
+  const orderAcc = state.shiftQuestions>0 ? Math.round(state.shiftCorrect/state.shiftQuestions*100) : 100;
+
+  const orderRec = {
+    no: state.orderNo, items: ent.map(e=>({id:e.food.id, qty:e.qty})),
+    cost: sp, paid: c.paid, change: change, expr: state.flow.orderAnswers[2],
+    accuracy: orderAcc, time: timeTaken, revenue: sp,
+    eco: eco, health: health, ecoMet: ecoEval.ok,
+    zeroPlastic: ent.every(e => e.food.eco >= 3)
+  };
+  state.shiftOrders.push(orderRec);
+  state.orderNo++;
+
+  if(state.account) profileUpdateOrder(orderRec);
+
+  showReceipt(orderRec);
+}
+function showReceipt(rec){
+  const L = LEVELS[state.level];
+  const isChallenge = L.id==='challenge';
+  const rows = rec.items.map(it => {
+    const f = FOOD_BY_ID[it.id];
+    const tier = ecoTierClass(f.eco);
+    const packInfo = isChallenge ? ' · <span class="pack-badge '+tier+'">'+t(f.packaging)+'</span>' : '';
+    return '<div class="receipt-row"><span>'+t(f.name)+'<small>'+it.qty+' × $'+f.price+packInfo+'</small></span><b>$'+(it.qty*f.price)+'</b></div>';
+  }).join('');
+  const body =
+    '<div class="flow-receipt">' +
+      '<div class="receipt-row"><span>'+t(STR.receiptOrderNo)+'</span><b>#'+String(rec.no).padStart(3,'0')+'</b></div>' +
+      rows +
+      '<div class="receipt-row"><span>'+t(STR.receiptCost)+'</span><b>$'+rec.cost+'</b></div>' +
+      '<div class="receipt-row"><span>'+t(STR.receiptPaid)+'</span><b>$'+rec.paid+'</b></div>' +
+      '<div class="receipt-row total"><span>'+t(STR.receiptChange)+'</span><b>$'+rec.change+'</b></div>' +
+      '<div class="receipt-row"><span>'+t(STR.receiptExpr)+'</span><b style="white-space:normal;text-align:right">'+esc(rec.expr || '')+'</b></div>' +
+      '<div class="receipt-row"><span>'+t(STR.receiptAcc)+'</span><b>'+rec.accuracy+'%</b></div>' +
+      '<div class="receipt-row"><span>'+t(STR.receiptTime)+'</span><b>'+rec.time+'s</b></div>' +
+      '<div class="receipt-row"><span>'+t(STR.receiptRevenue)+'</span><b>$'+rec.revenue+'</b></div>' +
+      (isChallenge ? '<div class="receipt-row"><span>'+t(STR.receiptPackaging)+'</span><b style="color:#1f7a4c">✅ '+t(STR.receiptEcoOk)+'</b></div>' : '') +
+    '</div>';
+  openModal({
+    tone:'ok', hero:'🎉', title:t(STR.orderDoneTitle), sub:t(STR.orderDoneSub), body:body,
+    actions:
+      '<button class="btn btn-primary" data-next-customer>'+t(STR.btnNextCustomer)+'</button>' +
+      '<button class="btn btn-green" data-view-record>'+t(STR.btnViewRecord)+'</button>' +
+      '<button class="btn btn-ghost" data-end-shift>'+t(STR.btnEndShift)+'</button>'
+  });
+  confetti();
+}
+
+/* ========================= 成就系统 ========================= */
+const ACHIEVEMENTS = [
+  { id:'carbBomb', name:STR.ach1name, desc:STR.ach1desc, icon:'🍞',
+    check:function(prof){ return prof.achievements.carbBomb && prof.achievements.carbBomb.unlocked; } },
+  { id:'excellent', name:STR.ach2name, desc:STR.ach2desc, icon:'🏆',
+    check:function(prof){ return prof.achievements.excellent && prof.achievements.excellent.unlocked; } },
+  { id:'firstOrder', name:STR.ach3name, desc:STR.ach3desc, icon:'🧾',
+    check:function(prof){ return prof.achievements.firstOrder && prof.achievements.firstOrder.unlocked; } },
+  { id:'firstShift', name:STR.ach4name, desc:STR.ach4desc, icon:'⏱',
+    check:function(prof){ return prof.achievements.firstShift && prof.achievements.firstShift.unlocked; } },
+  { id:'perfectRun', name:STR.ach5name, desc:STR.ach5desc, icon:'💯',
+    check:function(prof){ return prof.achievements.perfectRun && prof.achievements.perfectRun.unlocked; } },
+  { id:'fiveStreak', name:STR.ach6name, desc:STR.ach6desc, icon:'🔥',
+    check:function(prof){ return prof.achievements.fiveStreak && prof.achievements.fiveStreak.unlocked; } },
+  { id:'cashierPro', name:STR.ach7name, desc:STR.ach7desc, icon:'💵',
+    check:function(prof){ return prof.achievements.cashierPro && prof.achievements.cashierPro.unlocked; } },
+  { id:'bracketExpert', name:STR.ach8name, desc:STR.ach8desc, icon:'()',
+    check:function(prof){ return prof.achievements.bracketExpert && prof.achievements.bracketExpert.unlocked; } },
+  { id:'orderMaster', name:STR.ach9name, desc:STR.ach9desc, icon:'🔢',
+    check:function(prof){ return prof.achievements.orderMaster && prof.achievements.orderMaster.unlocked; } },
+  { id:'tenK', name:STR.ach10name, desc:STR.ach10desc, icon:'💰',
+    check:function(prof){ return prof.achievements.tenK && prof.achievements.tenK.unlocked; } },
+  { id:'greenManager', name:STR.ach11name, desc:STR.ach11desc, icon:'🌿',
+    check:function(prof){ return prof.achievements.greenManager && prof.achievements.greenManager.unlocked; } },
+  { id:'zeroPlastic', name:STR.ach12name, desc:STR.ach12desc, icon:'♻️',
+    check:function(prof){ return prof.achievements.zeroPlastic && prof.achievements.zeroPlastic.unlocked; } },
+  { id:'star', name:STR.ach13name, desc:STR.ach13desc, icon:'⭐',
+    check:function(prof){ return prof.achievements.star && prof.achievements.star.unlocked; } }
+];
+
+function unlockAchievement(id){
+  const prof = currentProfile();
+  if(!prof) return;
+  ensureAchievements(prof);
+  if(prof.achievements[id] && prof.achievements[id].unlocked) return;
+  prof.achievements[id] = { unlocked:true, unlockedAt:new Date().toISOString(), progress:0 };
+  saveProfile(prof);
+  const def = ACHIEVEMENTS.find(a=>a.id===id);
+  if(def) showAchievementPopup(def);
+}
+function showAchievementPopup(def){
+  const el = document.createElement('div');
+  el.className = 'ach-pop';
+  el.setAttribute('role','alert');
+  el.innerHTML =
+    '<div class="icon">'+def.icon+'</div>' +
+    '<div><div class="title">'+t(STR.achUnlockNow)+'</div>' +
+    '<div class="name">'+t(def.name)+'</div>' +
+    '<div class="desc">'+t(def.desc)+'</div></div>' +
+    '<button class="close" data-ach-close aria-label="'+esc(t(STR.achClose))+'">✕</button>';
+  document.body.appendChild(el);
+  setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); }, 6000);
+  const closeBtn = el.querySelector('[data-ach-close]');
+  if(closeBtn) closeBtn.addEventListener('click', function(){ el.remove(); });
+}
+
+function checkAchievements(ctx){
+  if(!state.account) return;
+  const prof = currentProfile();
+  if(!prof) return;
+  ensureAchievements(prof);
+  const t0 = prof.totals;
+
+  // 碳水炸弹：同一订单 叉烧包 + 油条
+  if(ctx.order && ctx.order.items){
+    const ids = ctx.order.items.map(it=>it.id);
+    if(ids.includes('bbqbun') && ids.includes('youtiao')) unlockAchievement('carbBomb');
+  }
+  if(t0.completedOrders >= 1) unlockAchievement('firstOrder');
+  if(t0.sessions >= 1) unlockAchievement('firstShift');
+  if(t0.sessions >= 10 && t0.totalQuestions > 0 && (t0.correctQuestions/t0.totalQuestions) >= 0.9) unlockAchievement('excellent');
+  if(prof.counters.changeCorrect >= 50) unlockAchievement('cashierPro');
+  if(t0.revenue >= 10000) unlockAchievement('tenK');
+  if(prof.counters.zeroPlastic >= 10) unlockAchievement('zeroPlastic');
+  const lv = prof.levels;
+  if(lv.basic.sessions>=10 && lv.advanced.sessions>=10 && lv.challenge.sessions>=10) unlockAchievement('star');
+}
+
+/* ========================= 账号数据更新 ========================= */
+function profileUpdateMistake(stepKey){
+  const prof = currentProfile();
+  if(!prof) return;
+  const map = { 1:'expenseExpression', 2:'changeExpression', 3:'operationOrder', 4:'finalAnswer', 'eco':'ecoRequirement', 'foodSelection':'foodSelection' };
+  const key = map[stepKey] || 'operationOrder';
+  prof.mistakes[key] = (prof.mistakes[key]||0)+1;
+  saveProfile(prof);
+}
+function profileUpdateOrder(rec){
+  const prof = currentProfile();
+  if(!prof) return;
+  ensureAchievements(prof);
+  const t0 = prof.totals;
+  const lv = prof.levels[state.level];
+
+  t0.completedOrders++;
+  t0.revenue += rec.revenue;
+  t0.totalQuestions += state.shiftQuestions;
+  t0.correctQuestions += state.shiftCorrect;
+  if(state.shiftStreak > t0.bestStreak) t0.bestStreak = state.shiftStreak;
+
+  lv.completedOrders++;
+  lv.revenue += rec.revenue;
+  lv.totalQuestions += state.shiftQuestions;
+  lv.correctQuestions += state.shiftCorrect;
+  lv.totalTime += rec.time;
+
+  if(rec.change >= 0){
+    prof.counters.changeCorrect = (prof.counters.changeCorrect||0)+1;
+    if(prof.counters.changeCorrect >= 50) unlockAchievement('cashierPro');
+  }
+  if(rec.zeroPlastic){
+    prof.counters.zeroPlastic = (prof.counters.zeroPlastic||0)+1;
+  }
+  if(state.level==='challenge'){
+    lv.totalEco = (lv.totalEco||0) + rec.eco;
+    if(rec.ecoMet) lv.ecoOrders = (lv.ecoOrders||0)+1;
+    if(rec.zeroPlastic) lv.zeroPlasticOrders = (lv.zeroPlasticOrders||0)+1;
+  }
+  saveProfile(prof);
+  checkAchievements({ order:rec });
+}
+function profileUpdateShiftEnd(){
+  const prof = currentProfile();
+  if(!prof) return;
+  ensureAchievements(prof);
+  const t0 = prof.totals;
+  const lv = prof.levels[state.level];
+  t0.sessions++;
+  lv.sessions++;
+  lv.lastPlay = new Date().toISOString();
+  if(state.revenue > lv.bestRevenue) lv.bestRevenue = state.revenue;
+  if(state.ordersDone > lv.bestOrders) lv.bestOrders = state.ordersDone;
+  if(state.shiftQuestions>0 && state.shiftCorrect===state.shiftQuestions) unlockAchievement('perfectRun');
+  if(state.level==='challenge' && state.shiftOrders.length>0 && state.shiftOrders.every(o=>o.ecoMet)) unlockAchievement('greenManager');
+  prof.lastLoginAt = new Date().toISOString();
+  saveProfile(prof);
+  checkAchievements({});
+}
+
+/* ========================= 营业计时器 ========================= */
+function startTimer(){
+  stopTimer();
+  state.timeLeft = state.timeTotal;
+  state.timerId = setInterval(function(){
+    state.timeLeft--;
+    if(state.timeLeft <= 0){
+      state.timeLeft = 0;
+      endShift();
+    }
+    const timerEl = document.querySelector('.biz-card.timer .value');
+    if(timerEl){
+      const mm = Math.floor(state.timeLeft/60), ss = state.timeLeft%60;
+      timerEl.textContent = mm+':'+String(ss).padStart(2,'0');
+      const card = timerEl.closest('.biz-card.timer');
+      if(card) card.classList.toggle('warn', state.timeLeft<=30);
+    }
+  }, 1000);
+}
+function stopTimer(){
+  if(state.timerId){ clearInterval(state.timerId); state.timerId = null; }
+}
+function endShift(){
+  stopTimer();
+  state.screen = 'report';
+  if(state.account){
+    profileUpdateShiftEnd();
+  } else if(state.level && state.ordersDone > 0){
+    const acc = state.shiftQuestions > 0 ? Math.round(state.shiftCorrect / state.shiftQuestions * 100) : 0;
+    saveGuestScore({
+      name: displayGuestName(),
+      level: state.level,
+      revenue: state.revenue,
+      orders: state.ordersDone,
+      accuracy: acc,
+      playedAt: new Date().toISOString()
+    });
+  }
+  renderReport();
+}
+
+/* ========================= 营业结算 ========================= */
+function ecoRating(){
+  if(state.level !== 'challenge') return null;
+  const orders = state.shiftOrders;
+  if(orders.length === 0) return { name:STR.rating1, rank:1 };
+  const ecoMetCount = orders.filter(o=>o.ecoMet).length;
+  const rate = ecoMetCount / orders.length;
+  const highRevenue = state.revenue >= 100;
+  if(highRevenue && rate === 1) return { name:STR.rating5, rank:5 };
+  if(rate >= 0.8) return { name:STR.rating4, rank:4 };
+  if(rate >= 0.6) return { name:STR.rating3, rank:3 };
+  return { name:STR.rating1, rank:1 };
+}
+function renderReport(){
+  const L = LEVELS[state.level];
+  const acc = state.shiftQuestions>0 ? Math.round(state.shiftCorrect/state.shiftQuestions*100)+'%' : '—';
+  const avgTime = state.shiftOrders.length>0 ? Math.round(state.shiftOrders.reduce((s,o)=>s+o.time,0)/state.shiftOrders.length)+'s' : '—';
+  const worstStep = topStep();
+  const worstOp = topOp();
+  const isChallenge = state.level==='challenge';
+  let ecoExtra = '';
+  if(isChallenge){
+    const orders = state.shiftOrders;
+    const ecoMet = orders.filter(o=>o.ecoMet).length;
+    const ecoRate = orders.length>0 ? Math.round(ecoMet/orders.length*100)+'%' : '—';
+    const zeroP = orders.filter(o=>o.zeroPlastic).length;
+    const rating = ecoRating();
+    ecoExtra =
+      '<div class="report-card"><span class="label">'+t(STR.reportEcoRate)+'</span><span class="value">'+ecoRate+'</span></div>' +
+      '<div class="report-card"><span class="label">'+t(STR.reportZeroPlastic)+'</span><span class="value">'+zeroP+'</span></div>' +
+      '<div class="report-card"><span class="label">'+t(STR.reportEcoRating)+'</span><span class="value">'+t(rating.name)+'</span></div>';
+  }
+  const lb = getLeaderboard(state.level);
+  const myIdx = lb.findIndex(r => r.isMe);
+  const rankStr = myIdx !== -1 ? ('#' + (myIdx + 1) + ' / ' + lb.length) : '—';
+  const newAch = ACHIEVEMENTS.filter(a => {
+    const prof = currentProfile();
+    if(!prof || !prof.achievements[a.id]) return false;
+    if(!prof.achievements[a.id].unlocked) return false;
+    const ua = prof.achievements[a.id].unlockedAt;
+    if(!ua) return false;
+    return (Date.now() - new Date(ua).getTime()) < 1000*60*5;
+  });
+  const achLine = newAch.length ? newAch.map(a=>'<span>'+a.icon+' '+t(a.name)+'</span>').join('') : (state.account ? '—' : t(STR.noAchievements));
+
+  app.innerHTML =
+    '<div class="page" style="max-width:860px">' +
+      '<div class="brand" style="margin-bottom:6px"><div class="brand-badge">🍵</div><div><h1>'+t(STR.appTitle)+'</h1></div></div>' +
+      '<div class="top-actions" style="margin-bottom:14px">'+langToggle()+'</div>' +
+      '<div class="panel"><div class="panel-head"><h2>🎉 '+t(STR.reportTitle)+'</h2></div>' +
+        '<p>'+t(STR.reportLevel)+'：<b>'+t(L.name)+'</b></p>' +
+        '<div class="report-grid">' +
+          '<div class="report-card"><span class="label">'+t(STR.reportOrders)+'</span><span class="value">'+state.ordersDone+'</span></div>' +
+          '<div class="report-card"><span class="label">'+t(STR.reportRevenue)+'</span><span class="value">$'+state.revenue+'</span></div>' +
+          '<div class="report-card"><span class="label">'+t(STR.reportQuestions)+'</span><span class="value">'+state.shiftQuestions+'</span></div>' +
+          '<div class="report-card"><span class="label">'+t(STR.reportCorrect)+'</span><span class="value">'+state.shiftCorrect+'</span></div>' +
+          '<div class="report-card"><span class="label">'+t(STR.reportAccuracy)+'</span><span class="value">'+acc+'</span></div>' +
+          '<div class="report-card"><span class="label">'+t(STR.reportAvgTime)+'</span><span class="value">'+avgTime+'</span></div>' +
+          '<div class="report-card"><span class="label">'+t(STR.reportRankNow)+'</span><span class="value" style="color:#1f7a4c">'+rankStr+'</span></div>' +
+          ecoExtra +
+        '</div>' +
+        '<div class="feedback-box"><h3>'+t(STR.reportWorstStep)+'</h3><p>'+worstStep+'</p></div>' +
+        '<div class="feedback-box"><h3>'+t(STR.reportWorstOp)+'</h3><p>'+worstOp+'</p></div>' +
+        '<div class="feedback-box"><h3>'+t(STR.reportNewAch)+'</h3><p>'+achLine+'</p></div>' +
+        '<div class="modal-actions" style="margin-top:16px">' +
+          '<button class="btn btn-primary" data-again>'+t(STR.btnAgain)+'</button>' +
+          '<button class="btn btn-green" data-lb-level="'+state.level+'">🏅 '+t(STR.btnViewLb)+'</button>' +
+          '<button class="btn btn-ghost" data-home>'+t(STR.btnHome)+'</button>' +
+          '<button class="btn btn-green" data-nav="profile">'+t(STR.btnViewProfile)+'</button>' +
+          '<button class="btn btn-green" data-nav="achievements">'+t(STR.btnViewAch)+'</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+}
+function topStep(){
+  const s = state.shiftMistakeStep;
+  const names = { 1:STR.stepExpense, 2:STR.stepChange, 3:STR.stepOrder, 4:STR.stepFinal, 'eco':STR.stepEco, 'foodSelection':STR.stepFoodSelection };
+  let best=null, bestN=-1;
+  Object.keys(s).forEach(k => { if(s[k]>bestN){ bestN=s[k]; best=k; } });
+  if(!best) return t(STR.notReady);
+  return t(names[best]||STR.stepExpense) + '（'+bestN+' 次）';
+}
+function topOp(){
+  const s = state.shiftMistakeOp;
+  const names = { missingFood:STR.patMissingFood, wrongQty:STR.patWrongQty, missingMul:STR.patMissingMul, missingMultiplication:STR.patMissingMul, signError:STR.patSignError, reversedSub:STR.patReversedSub, reversedSubtraction:STR.patReversedSub, parenPos:STR.patParenPos, forgotParen:STR.patForgotParen, missingParentheses:STR.patMissingParentheses, replacedExpressionWithTotal:STR.patReplacedTotal, mulFirst:STR.patMulFirst, carry:STR.patCarry, borrow:STR.patBorrow, ecoLow:STR.patEcoLow };
+  let best=null, bestN=-1;
+  Object.keys(s).forEach(k => { if(s[k]>bestN){ bestN=s[k]; best=k; } });
+  if(!best) return t(STR.notReady);
+  return t(names[best]||STR.patMissingFood) + '（'+bestN+' 次）';
+}
+
+/* ========================= 同难度排行榜 ========================= */
+function renderLeaderboard(){
+  const curLv = LEVELS[state.lbLevel] ? state.lbLevel : 'basic';
+  const tabs = Object.keys(LEVELS).map(id =>
+    '<button class="lb-tab'+(id===curLv?' active':'')+'" data-lb-tab="'+id+'">'+t(LEVELS[id].name)+'</button>'
+  ).join('');
+  const rows = getLeaderboard(curLv);
+  const tableRows = rows.map((r, idx) => {
+    const medal = idx===0 ? '🥇 1' : idx===1 ? '🥈 2' : idx===2 ? '🥉 3' : String(idx+1);
+    const roleLabel = r.role==='reg' ? t(STR.lbRoleReg) : r.role==='guest' ? t(STR.lbRoleGuest) : t(STR.lbRolePeer);
+    const meBadge = r.isMe ? '<span class="me-pill">'+t(STR.lbMeTag)+'</span>' : '';
+    return '<tr class="'+(r.isMe?'lb-row-me':'')+'">' +
+      '<td><b>'+medal+'</b></td>' +
+      '<td style="text-align:left">'+esc(r.avatar)+' '+esc(r.name)+meBadge+'</td>' +
+      '<td>'+roleLabel+'</td>' +
+      '<td><b>$'+r.revenue+'</b></td>' +
+      '<td>'+r.accuracy+'%</td>' +
+      '<td>'+r.orders+'</td>' +
+    '</tr>';
+  }).join('');
+  const prof = currentProfile();
+  const guestBar = !prof
+    ? '<div class="guest-bar" style="margin-bottom:12px"><label for="lbGuestName">✏️ '+t(STR.guestNameLabel)+'</label>' +
+      '<input id="lbGuestName" type="text" maxlength="20" value="'+esc(state.guestName)+'" placeholder="'+esc(t(STR.guestNamePlaceholder))+'"></div>'
+    : '';
+  app.innerHTML =
+    '<div class="page" style="max-width:880px">' +
+      '<div class="brand" style="margin-bottom:6px"><div class="brand-badge">🏅</div><div><h1>'+t(STR.lbTitle)+'</h1><p>'+t(STR.lbSub)+'</p></div></div>' +
+      '<div class="top-actions" style="margin-bottom:14px"><button class="icon-btn" data-nav="start">'+t(STR.backBtn)+'</button>'+langToggle()+'</div>' +
+      guestBar +
+      '<div class="lb-tabs">'+tabs+'</div>' +
+      '<div class="panel"><div class="table-wrap"><table class="data-table"><thead><tr>' +
+        '<th>'+t(STR.lbRank)+'</th><th>'+t(STR.lbManager)+'</th><th>'+t(STR.lbRole)+'</th>' +
+        '<th>'+t(STR.reportRevenue)+'</th><th>'+t(STR.reportAccuracy)+'</th><th>'+t(STR.reportOrders)+'</th>' +
+      '</tr></thead><tbody>'+tableRows+'</tbody></table></div></div>' +
+    '</div>';
+  const lbInp = document.getElementById('lbGuestName');
+  if(lbInp){
+    lbInp.addEventListener('input', function(){
+      setGuestName(lbInp.value);
+      renderLeaderboard();
+      const restored = document.getElementById('lbGuestName');
+      if(restored){ restored.focus(); restored.setSelectionRange(restored.value.length, restored.value.length); }
+    });
+  }
+}
+
+/* ========================= 店长数据页 ========================= */
+function renderProfile(){
+  const prof = currentProfile();
+  const L = LEVELS;
+  if(!prof){
+    app.innerHTML =
+      '<div class="page" style="max-width:760px">' +
+      '<div class="brand" style="margin-bottom:6px"><div class="brand-badge">📊</div><div><h1>'+t(STR.profileTitle)+'</h1></div></div>' +
+      '<div class="top-actions" style="margin-bottom:14px"><button class="icon-btn" data-nav="start">'+t(STR.backBtn)+'</button>'+langToggle()+'</div>' +
+      '<div class="warn-note">'+t(STR.guestModeNote)+'</div>' +
+      '<div class="modal-actions"><button class="btn btn-primary" data-nav="account">'+t(STR.btnAccount)+'</button></div>' +
+      '</div>';
+    return;
+  }
+  ensureAchievements(prof);
+  const t0 = prof.totals;
+  const acc = t0.totalQuestions>0 ? Math.round(t0.correctQuestions/t0.totalQuestions*100)+'%' : '—';
+  const achCount = ACHIEVEMENTS.filter(a=>prof.achievements[a.id] && prof.achievements[a.id].unlocked).length;
+  const lastLogin = prof.lastLoginAt ? new Date(prof.lastLoginAt).toLocaleString() : '—';
+
+  const levelRows = Object.keys(L).map(id => {
+    const lv = prof.levels[id];
+    const lacc = lv.totalQuestions>0 ? Math.round(lv.correctQuestions/lv.totalQuestions*100)+'%' : '—';
+    const avgTime = lv.completedOrders>0 ? Math.round(lv.totalTime/lv.completedOrders)+'s' : '—';
+    const lastPlay = lv.lastPlay ? new Date(lv.lastPlay).toLocaleDateString() : '—';
+    return '<tr><td><b>'+t(L[id].name)+'</b></td><td>'+lv.sessions+'</td><td>'+lv.completedOrders+'</td>' +
+      '<td>$'+lv.bestRevenue+'</td><td>$'+(lv.sessions>0?Math.round(lv.revenue/lv.sessions):0)+'</td>' +
+      '<td>'+lv.bestOrders+'</td><td>'+lv.totalQuestions+'</td><td>'+lv.correctQuestions+'</td>' +
+      '<td>'+lacc+'</td><td>'+avgTime+'</td><td>'+lastPlay+'</td></tr>';
+  }).join('');
+
+  const m = prof.mistakes;
+  const stepNames = [['foodSelection',STR.stepFoodSelection],['expenseExpression',STR.stepExpense],['changeExpression',STR.stepChange],['operationOrder',STR.stepOrder],['finalAnswer',STR.stepFinal],['ecoRequirement',STR.stepEco]];
+  const maxStep = Math.max(1, ...stepNames.map(p=>m[p[0]]||0));
+  const stepBars = stepNames.map(p => {
+    const v = m[p[0]]||0;
+    const pct = Math.round(v/maxStep*100);
+    return '<div class="mistake-row"><span class="mname">'+t(p[1])+'</span><span class="mbar"><i style="width:'+pct+'%"></i></span><span class="mcount">'+v+'</span></div>';
+  }).join('');
+
+  const patNames = [['missingFood',STR.patMissingFood],['wrongQuantity',STR.patWrongQty],['missingMultiplication',STR.patMissingMul],['signError',STR.patSignError],['reversedSubtraction',STR.patReversedSub],['missingParentheses',STR.patMissingParentheses],['replacedExpressionWithTotal',STR.patReplacedTotal],['mulFirst',STR.patMulFirst],['carry',STR.patCarry],['borrow',STR.patBorrow],['ecoLow',STR.patEcoLow]];
+  const maxPat = Math.max(1, ...patNames.map(p=>m[p[0]]||0));
+  const patBars = patNames.map(p => {
+    const v = m[p[0]]||0;
+    const pct = Math.round(v/maxPat*100);
+    return '<div class="mistake-row"><span class="mname">'+t(p[1])+'</span><span class="mbar"><i style="width:'+pct+'%"></i></span><span class="mcount">'+v+'</span></div>';
+  }).join('');
+
+  const feedback = generateFeedback(prof);
+
+  app.innerHTML =
+    '<div class="page" style="max-width:920px">' +
+      '<div class="brand" style="margin-bottom:6px"><div class="brand-badge">'+esc(prof.avatar||'👤')+'</div><div><h1>'+t(STR.profileTitle)+'</h1><p>'+esc(prof.name)+'</p></div></div>' +
+      '<div class="top-actions" style="margin-bottom:14px"><button class="icon-btn" data-nav="start">'+t(STR.backBtn)+'</button>'+langToggle()+'</div>' +
+      '<div class="section-title"><h2>'+t(STR.profileOverview)+'</h2></div>' +
+      '<div class="data-grid">' +
+        '<div class="data-card"><span class="label">'+t(STR.pSessions)+'</span><span class="value">'+t0.sessions+'</span></div>' +
+        '<div class="data-card"><span class="label">'+t(STR.pOrders)+'</span><span class="value">'+t0.completedOrders+'</span></div>' +
+        '<div class="data-card"><span class="label">'+t(STR.pRevenue)+'</span><span class="value">$'+t0.revenue+'</span></div>' +
+        '<div class="data-card"><span class="label">'+t(STR.pAccuracy)+'</span><span class="value">'+acc+'</span></div>' +
+        '<div class="data-card"><span class="label">'+t(STR.pBestStreak)+'</span><span class="value">'+t0.bestStreak+'</span></div>' +
+        '<div class="data-card"><span class="label">'+t(STR.pAchCount)+'</span><span class="value">'+achCount+'/'+ACHIEVEMENTS.length+'</span></div>' +
+        '<div class="data-card"><span class="label">'+t(STR.pLastLogin)+'</span><span class="value" style="font-size:15px">'+lastLogin+'</span></div>' +
+      '</div>' +
+      '<div class="section-title"><h2>'+t(STR.profileLevels)+'</h2></div>' +
+      '<div class="table-wrap"><table class="data-table"><thead><tr>' +
+        '<th>'+t(STR.reportLevel)+'</th><th>'+t(STR.pLevelSessions)+'</th><th>'+t(STR.pLevelOrders)+'</th>' +
+        '<th>'+t(STR.pLevelBestRevenue)+'</th><th>'+t(STR.pLevelAvgRevenue)+'</th><th>'+t(STR.pLevelBestOrders)+'</th>' +
+        '<th>'+t(STR.pLevelQuestions)+'</th><th>'+t(STR.pLevelCorrect)+'</th><th>'+t(STR.pLevelAccuracy)+'</th>' +
+        '<th>'+t(STR.pLevelAvgTime)+'</th><th>'+t(STR.pLevelLastPlay)+'</th>' +
+      '</tr></thead><tbody>'+levelRows+'</tbody></table></div>' +
+      '<div class="section-title"><h2>'+t(STR.mistakeTitle)+'</h2></div>' +
+      '<div class="panel"><h3 style="margin-top:0">'+t(STR.mistakeSteps)+'</h3><div class="mistake-list">'+stepBars+'</div>' +
+      '<h3>'+t(STR.mistakePatterns)+'</h3><div class="mistake-list">'+patBars+'</div></div>' +
+      '<div class="section-title"><h2>'+t(STR.feedbackTitle)+'</h2></div>' +
+      '<div class="feedback-box">'+(feedback.length?('<ul style="margin:0;padding-left:20px">'+feedback.map(x=>'<li>'+x+'</li>').join('')+'</ul>'):'<p>'+t(STR.feedbackNone)+'</p>')+'</div>' +
+    '</div>';
+}
+function generateFeedback(prof){
+  const m = prof.mistakes;
+  const out = [];
+  const stepTotal = ['foodSelection','expenseExpression','changeExpression','operationOrder','finalAnswer','ecoRequirement'].reduce((s,k)=>s+(m[k]||0),0);
+  if(stepTotal === 0){ return [t(STR.feedbackNone)]; }
+  const stepNames = [['changeExpression',T('你最近最常在「找錢」步驟出錯。記住：找錢＝客人付款−食物開銷。','You most often make mistakes in the "change" step. Remember: change = amount paid − food cost.')],
+    ['expenseExpression',T('你最近最常在「食物開銷」步驟出錯。記住：多份食物要用乘法。','You most often make mistakes in the "cost" step. Remember to use multiplication for multiple portions.')],
+    ['operationOrder',T('你最近最常在「運算次序」出錯。記住：先乘後加減，括號內先算。','You most often make mistakes in the order of operations. Remember: multiply before add/subtract, brackets first.')],
+    ['finalAnswer',T('你最近最常在「找錢答案」出錯。記住：按照運算次序逐步計算。','You most often make mistakes in the "change answer" step. Follow the order of operations step by step.')],
+    ['ecoRequirement',T('你在環保達人模式的數學正確率很高，但要多留意包裝的環保程度。','Your maths accuracy is high in Eco mode, but watch the packaging eco level.')],
+    ['foodSelection',T('你最近在「選擇食物」出錯，要細心核對客人的點單要求。','You often make mistakes choosing food — check the customer\'s order carefully.')]];
+  let worst='', worstN=-1;
+  stepNames.forEach(p => { const n = m[p[0]]||0; if(n>worstN){ worstN=n; worst=p; } });
+  if(worst) out.push(t(worst[1]));
+  if((m.missingMultiplication||0) > 0) out.push(t(T('你已掌握加減法，可以多練習有兩份相同食物的乘加算式。','You have mastered addition/subtraction — practise multiply-add expressions with two portions of the same food.')));
+  if((m.reversedSubtraction||0) > 0) out.push(t(T('注意被減數和減數的位置：應該用「付款金額 − 開銷」。','Watch the order of subtraction: use "amount paid − cost".')));
+  if((m.replacedExpressionWithTotal||0) > 0) out.push(t(T('你有時會在找錢算式中直接寫商品總額。下次請把商品的完整計算式放在圓括號內。','Sometimes you write the total directly in the change expression. Next time, put the full food-cost expression inside round brackets.')));
+  return out.slice(0,4);
+}
+
+/* ========================= 成就页 ========================= */
+function renderAchievements(){
+  const prof = currentProfile();
+  if(!prof){
+    app.innerHTML =
+      '<div class="page" style="max-width:760px">' +
+      '<div class="brand" style="margin-bottom:6px"><div class="brand-badge">🏆</div><div><h1>'+t(STR.achTitle)+'</h1></div></div>' +
+      '<div class="top-actions" style="margin-bottom:14px"><button class="icon-btn" data-nav="start">'+t(STR.backBtn)+'</button>'+langToggle()+'</div>' +
+      '<div class="warn-note">'+t(STR.guestModeNote)+'</div>' +
+      '</div>';
+    return;
+  }
+  ensureAchievements(prof);
+  const cards = ACHIEVEMENTS.map(a => {
+    const st = prof.achievements[a.id];
+    const unlocked = st && st.unlocked;
+    const date = unlocked && st.unlockedAt ? new Date(st.unlockedAt).toLocaleDateString() : '';
+    return '<div class="ach-card '+(unlocked?'unlocked':'locked')+'">' +
+      '<div class="ach-icon">'+a.icon+'</div>' +
+      '<div class="ach-name">'+t(a.name)+'</div>' +
+      '<div class="ach-desc">'+t(a.desc)+'</div>' +
+      (unlocked?'<div class="ach-date">'+t(STR.achUnlocked)+' · '+date+'</div>':'<div class="ach-date">'+t(STR.achLocked)+'</div>') +
+    '</div>';
+  }).join('');
+  app.innerHTML =
+    '<div class="page" style="max-width:920px">' +
+      '<div class="brand" style="margin-bottom:6px"><div class="brand-badge">🏆</div><div><h1>'+t(STR.achTitle)+'</h1><p>'+esc(prof.name)+'</p></div></div>' +
+      '<div class="top-actions" style="margin-bottom:14px"><button class="icon-btn" data-nav="start">'+t(STR.backBtn)+'</button>'+langToggle()+'</div>' +
+      '<div class="ach-grid">'+cards+'</div>' +
+    '</div>';
+}
+
+/* ========================= 账号页 ========================= */
+function renderAccount(){
+  const prof = currentProfile();
+  const name = prof ? prof.name : '';
+  const avatar = prof ? prof.avatar : '🧑';
+  const hasPin = prof ? !!prof.pinHash : false;
+
+  const avatarOpts = ['👦','👧','👨','👩','🧑','😎','🐱','🐶'];
+  const avatarRow = avatarOpts.map(a => '<button class="avatar-opt'+(a===avatar?' sel':'')+'" data-avatar="'+a+'">'+a+'</button>').join('');
+
+  app.innerHTML =
+    '<div class="page" style="max-width:640px">' +
+      '<div class="brand" style="margin-bottom:6px"><div class="brand-badge">👤</div><div><h1>'+t(STR.accTitle)+'</h1></div></div>' +
+      '<div class="top-actions" style="margin-bottom:14px"><button class="icon-btn" data-nav="start">'+t(STR.backBtn)+'</button>'+langToggle()+'</div>' +
+      '<div class="panel">' +
+      (prof
+        ? '<div style="text-align:center;margin-bottom:16px"><div style="font-size:52px;line-height:1">'+esc(avatar)+'</div><h2 style="margin:6px 0 2px">'+esc(name)+'</h2><p style="color:var(--ink-soft);font-size:14px">'+(hasPin?'PIN ✓':'')+'</p></div>'
+        : '<div class="warn-note">'+t(STR.accNoAccount)+'</div>' +
+          '<div class="field"><label>'+t(STR.guestNameLabel)+'</label><input id="accGuestName" maxlength="20" value="'+esc(state.guestName)+'" placeholder="'+esc(t(STR.guestNamePlaceholder))+'"></div>') +
+      '<div class="field"><label>'+t(STR.accName)+'</label><input id="accName" value="'+esc(name)+'" placeholder="'+t(STR.accName)+'"></div>' +
+      '<div class="field"><label>'+t(STR.accChooseAvatar)+'</label><div class="avatar-row">'+avatarRow+'</div></div>' +
+      '<div class="field"><label>'+t(STR.accPin)+' <small style="font-weight:400;color:#8a715c">('+t(STR.accPinHint)+')</small></label><input id="accPin" inputmode="numeric" maxlength="4" placeholder="0000"></div>' +
+      '<div class="modal-actions" style="margin-top:8px">' +
+        (prof
+          ? '<button class="btn btn-primary" data-acc-save>'+t(STR.accEditName)+'</button><button class="btn btn-ghost" data-acc-logout>'+t(STR.accLogout)+'</button><button class="btn btn-ghost" data-acc-delete style="color:#a93424">'+t(STR.accDelete)+'</button>'
+          : '<button class="btn btn-primary" data-acc-create>'+t(STR.accCreate)+'</button>') +
+      '</div>' +
+      '<div class="modal-actions" style="margin-top:10px;border-top:1px dashed var(--line);padding-top:14px">' +
+        '<button class="btn btn-green" data-acc-export>'+t(STR.accExport)+'</button>' +
+        '<button class="btn btn-green" data-acc-import>'+t(STR.accImport)+'</button>' +
+        (prof ? '<button class="btn btn-ghost" data-acc-switch>'+t(STR.accSwitch)+'</button>' : '') +
+      '</div>' +
+      '<div class="warn-note" style="margin-top:14px">'+t(STR.accLocalNote)+'</div>' +
+      '</div>' +
+    '</div>';
+
+  const accGuestInp = document.getElementById('accGuestName');
+  if(accGuestInp){
+    accGuestInp.addEventListener('input', function(){ setGuestName(accGuestInp.value); });
+  }
+  app.querySelectorAll('[data-avatar]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      app.querySelectorAll('[data-avatar]').forEach(b=>b.classList.remove('sel'));
+      btn.classList.add('sel');
+      state._avatar = btn.getAttribute('data-avatar');
+    });
+  });
+}
+function hashPin(pin){
+  if(!pin) return Promise.resolve('');
+  return crypto.subtle.digest('SHA-256', new TextEncoder().encode('cct_v5_'+pin))
+    .then(buf => Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join(''));
+}
+function createAccount(name, avatar, pinHash){
+  const id = 'acc_'+Date.now()+'_'+Math.floor(Math.random()*10000);
+  const acc = loadAccounts();
+  const prof = newProfile(id, name, avatar, pinHash);
+  acc[id] = prof;
+  saveAccounts(acc);
+  state.account = id;
+  setCurrentAccountId(id);
+  toast(t(STR.toastSaved));
+  render();
+}
+function switchAccountFlow(){
+  const acc = loadAccounts();
+  const ids = Object.keys(acc);
+  if(ids.length <= 1){
+    toast(t(STR.toastNoAccount));
+    return;
+  }
+  const others = ids.filter(id => id !== state.account);
+  const body = others.map(id => {
+    const p = acc[id];
+    return '<button class="mc-btn" data-switch-to="'+id+'" style="width:100%;text-align:left">'+esc(p.avatar)+' '+esc(p.name)+'</button>';
+  }).join('<div style="height:6px"></div>');
+  openModal({
+    hero:'👤', title:t(STR.accSwitch), body:body,
+    actions:'<button class="btn btn-ghost" data-close>'+t(STR.modalClose)+'</button>'
+  });
+}
+
+/* ========================= 流程导航与规则 ========================= */
+function openRules(){
+  const L = state.level && LEVELS[state.level];
+  const focusHTML = L
+    ? '<div class="rules-card-box"><div class="rc-focus">'+t(L.name)+'：'+t(L.focus)+'</div><div class="rc-time">'+t(STR.bizTimeLabel)+t(L.timeLabel)+'</div></div>'
+    : '<div class="rules-card-box"><div class="rc-focus">'+t(STR.appSubtitle)+'</div><div class="rules-flow-pills"><span>1. '+bi('接訂單配餐','Take Order')+'</span><span>2. '+bi('列式找錢','Calculate Change')+'</span><span>3. '+bi('15 分鐘限時挑戰','15-Min Shift')+'</span></div></div>';
+  openModal({
+    hero:'📋', title:t(STR.rulesTitle), sub:t(STR.rulesIntro),
+    body:focusHTML,
+    actions:'<button class="btn btn-primary" data-close>'+t(STR.rulesClose)+'</button>'
+  });
+}
+function startLevel(id, options){
+  if(!LEVELS[id]) return;
+  state.screen = 'game';
+  state.level = id;
+  state.cart = {};
+  state.filter = 'all';
+  state.customer = genOrder(id);
+  state.orderNo = 1;
+  state.orderStartTime = Date.now();
+  state.timeTotal = LEVELS[id].duration;
+  state.revenue = 0; state.ordersDone = 0;
+  state.shiftQuestions = 0; state.shiftCorrect = 0; state.shiftStreak = 0;
+  state.shiftMistakeStep = {}; state.shiftMistakeOp = {};
+  state.shiftOrders = [];
+  state.flow = { step:1, expr:'', answer:'', status:'', msg:'', hint:false, mcOptions:[], mcAnswered:false, mcChosen:null, _mcType:null, _mcCorrectIndex:0, orderAnswers:{1:null,2:null,3:null,4:null} };
+  startTimer();
+  render();
+  window.scrollTo({ top:0 });
+  if(options && options.showRules) setTimeout(()=>openRules(), 80);
+}
+function nextCustomer(){
+  closeModal();
+  state.screen = 'game';
+  state.cart = {};
+  state.customer = genOrder(state.level);
+  state.orderStartTime = Date.now();
+  state.flow = { step:1, expr:'', answer:'', status:'', msg:'', hint:false, mcOptions:[], mcAnswered:false, mcChosen:null, _mcType:null, _mcCorrectIndex:0, orderAnswers:{1:null,2:null,3:null,4:null} };
+  render();
+  window.scrollTo({ top:0 });
+}
+
+/* ========================= 事件代理 ========================= */
+document.addEventListener('click', function(e){
+  const t0 = e.target && e.target.nodeType === 1 ? e.target : null;
+  if(!t0) return;
+  const hit = sel => t0.closest(sel);
+
+  let el;
+  if((el = hit('[data-lang]'))){
+    state.lang = el.getAttribute('data-lang');
+    try{ localStorage.setItem(STORE_LANG, state.lang); }catch(err){}
+    if(state.screen === 'flow' && state.flow.step === 3){
+      state.flow.mcOptions = [];
+    }
+    toast(t(STR.toastLang));
+    render();
+    return;
+  }
+  if((el = hit('[data-nav]'))){ navigate(el.getAttribute('data-nav')); return; }
+  if((el = hit('[data-lb-tab]'))){ state.lbLevel = el.getAttribute('data-lb-tab'); renderLeaderboard(); return; }
+  if((el = hit('[data-lb-level]'))){ state.lbLevel = el.getAttribute('data-lb-level'); state.screen = 'leaderboard'; renderLeaderboard(); return; }
+  if((el = hit('[data-level]'))){ startLevel(el.getAttribute('data-level'), { showRules:true }); return; }
+  if((el = hit('[data-rules]'))){ openRules(); return; }
+  if((el = hit('[data-close]'))){ closeModal(); return; }
+  if(t0 === overlay){ closeModal(); return; }
+  if((el = hit('[data-home]'))){
+    if(state.screen === 'game' || state.screen === 'flow'){
+      openModal({
+        hero:'⏹', title:t(STR.endShiftConfirm),
+        actions:
+          '<button class="btn btn-primary" data-confirm-home>'+t(STR.endShiftYes)+'</button>' +
+          '<button class="btn btn-ghost" data-close>'+t(STR.endShiftNo)+'</button>'
+      });
+    } else {
+      stopTimer();
+      state.screen = 'start';
+      render();
+    }
+    return;
+  }
+  if((el = hit('[data-confirm-home]'))){ closeModal(); stopTimer(); state.screen='start'; render(); return; }
+  if((el = hit('[data-end-shift]'))){
+    if(state.screen === 'game' || state.screen === 'flow'){
+      openModal({
+        hero:'⏹', title:t(STR.endShiftConfirm),
+        actions:
+          '<button class="btn btn-primary" data-confirm-end>'+t(STR.endShiftYes)+'</button>' +
+          '<button class="btn btn-ghost" data-close>'+t(STR.endShiftNo)+'</button>'
+      });
+    } else {
+      endShift();
+    }
+    return;
+  }
+  if((el = hit('[data-confirm-end]'))){ closeModal(); endShift(); return; }
+
+  /* 餐牌操作 */
+  if((el = hit('[data-filter]'))){ state.filter = el.getAttribute('data-filter'); renderGame(); return; }
+  if((el = hit('[data-add]'))){
+    const id = el.getAttribute('data-add');
+    const c = canAdd(id);
+    if(!c.ok){ toast(c.msg); return; }
+    state.cart[id] = (state.cart[id]||0)+1;
+    toast(t(STR.toastAdded));
+    renderGame();
+    return;
+  }
+  if((el = hit('[data-inc]'))){
+    const id = el.getAttribute('data-inc');
+    const c = canAdd(id);
+    if(!c.ok){ toast(c.msg); return; }
+    state.cart[id] = (state.cart[id]||0)+1;
+    renderGame();
+    return;
+  }
+  if((el = hit('[data-dec]'))){
+    const id = el.getAttribute('data-dec');
+    if(!state.cart[id]) return;
+    if(state.cart[id]===1) delete state.cart[id]; else state.cart[id]--;
+    renderGame();
+    return;
+  }
+  if((el = hit('[data-remove]'))){
+    const id = el.getAttribute('data-remove');
+    if(state.cart[id]){ delete state.cart[id]; toast(t(STR.toastRemoved)); }
+    renderGame();
+    return;
+  }
+  if((el = hit('[data-jump-tray]'))){
+    const tray = document.querySelector('.side-panel');
+    if(tray) tray.scrollIntoView({ behavior:'smooth', block:'start' });
+    return;
+  }
+  if((el = hit('[data-checkout]'))){
+    if(entries().length === 0){ toast(t(STR.toastNeedFood)); return; }
+    const chk = preCheckoutCheck();
+    if(!chk.ok){
+      toast(chk.msg);
+      profileUpdateMistake('foodSelection');
+      state.shiftMistakeStep['foodSelection'] = (state.shiftMistakeStep['foodSelection']||0)+1;
+      return;
+    }
+    state.screen = 'flow';
+    state.flow = { step:1, expr:'', answer:'', status:'', msg:'', hint:false, mcOptions:[], mcAnswered:false, mcChosen:null, _mcType:null, _mcCorrectIndex:0, orderAnswers:{1:null,2:null,3:null,4:null} };
+    render();
+    window.scrollTo({ top:0 });
+    return;
+  }
+
+  /* 翻页流程操作 */
+  if((el = hit('[data-flow-exit]'))){
+    state.screen = 'game';
+    render();
+    window.scrollTo({ top:0 });
+    return;
+  }
+  if((el = hit('[data-back-to-tray]'))){
+    closeModal();
+    state.screen = 'game';
+    render();
+    window.scrollTo({ top:0 });
+    return;
+  }
+  if((el = hit('[data-flow-token]'))){
+    if(state.flow.status === 'ok') return;
+    const tok = el.getAttribute('data-flow-token');
+    const f = state.flow;
+    if(tok === 'back'){
+      if(f.expr){
+        if(/\d$/.test(f.expr)){ f.expr = f.expr.replace(/\d+$/, ''); }
+        else { f.expr = f.expr.slice(0, -1); }
+      }
+    } else if(tok === 'clear'){
+      f.expr = '';
+    } else {
+      f.expr = (f.expr||'') + tok;
+    }
+    f.status = ''; f.msg = '';
+    renderFlowStepCard();
+    return;
+  }
+  if((el = hit('[data-flow-check]'))){
+    if(state.flow.step === 1 || state.flow.step === 2) checkFlowExpression();
+    else if(state.flow.step === 4) checkFlowAnswer();
+    return;
+  }
+  if((el = hit('[data-flow-next]'))){
+    advanceFlow();
+    return;
+  }
+  if((el = hit('[data-flow-hint]'))){
+    state.flow.hint = !state.flow.hint;
+    renderFlowStepCard();
+    return;
+  }
+  if((el = hit('[data-mc]'))){
+    answerMC(Number(el.getAttribute('data-mc')));
+    return;
+  }
+  if((el = hit('[data-next-customer]'))){ nextCustomer(); return; }
+  if((el = hit('[data-view-record]'))){ closeModal(); endShift(); return; }
+  if((el = hit('[data-again]'))){ startLevel(state.level, { showRules:false }); return; }
+
+  /* 账号页面操作 */
+  if((el = hit('[data-acc-create]'))){ accCreate(); return; }
+  if((el = hit('[data-acc-save]'))){ accSave(); return; }
+  if((el = hit('[data-acc-logout]'))){ state.account = null; setCurrentAccountId(null); render(); return; }
+  if((el = hit('[data-acc-delete]'))){ accDelete(); return; }
+  if((el = hit('[data-acc-export]'))){ accExport(); return; }
+  if((el = hit('[data-acc-import]'))){ accImport(); return; }
+  if((el = hit('[data-acc-switch]'))){ switchAccountFlow(); return; }
+  if((el = hit('[data-switch-to]'))){
+    const id = el.getAttribute('data-switch-to');
+    const acc = loadAccounts();
+    const prof = acc[id];
+    if(!prof){ toast(t(STR.toastNoAccount)); return; }
+    if(prof.pinHash){
+      closeModal();
+      openModal({
+        hero:'🔑', title:t(STR.accLogin),
+        body:'<div class="field"><label>'+t(STR.accPin)+'</label><input id="loginPin" inputmode="numeric" maxlength="4" placeholder="0000"></div>',
+        actions:'<button class="btn btn-primary" data-verify-pin="'+id+'">'+t(STR.accLogin)+'</button><button class="btn btn-ghost" data-close>'+t(STR.modalClose)+'</button>'
+      });
+    } else {
+      closeModal();
+      state.account = id;
+      setCurrentAccountId(id);
+      prof.lastLoginAt = new Date().toISOString();
+      saveProfile(prof);
+      render();
+    }
+    return;
+  }
+  if((el = hit('[data-verify-pin]'))){
+    const id = el.getAttribute('data-verify-pin');
+    const pinEl = document.getElementById('loginPin');
+    const pin = pinEl ? pinEl.value : '';
+    hashPin(pin).then(function(hash){
+      const acc = loadAccounts();
+      const prof = acc[id];
+      if(!prof || prof.pinHash !== hash){ toast(t(STR.toastPinWrong)); return; }
+      closeModal();
+      state.account = id;
+      setCurrentAccountId(id);
+      prof.lastLoginAt = new Date().toISOString();
+      saveProfile(prof);
+      render();
+    });
+    return;
+  }
+});
+
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape' && !overlay.hidden){ closeModal(); return; }
+  if(state.screen === 'flow' && !overlay.hidden) return;
+  if(state.screen === 'flow'){
+    const f = state.flow;
+    if(f.step === 1 || f.step === 2){
+      if(e.key === 'Enter'){
+        if(f.status === 'ok') advanceFlow();
+        else checkFlowExpression();
+        return;
+      }
+      if(f.status === 'ok') return;
+      if(e.key === 'Backspace'){
+        if(f.expr){
+          if(/\d$/.test(f.expr)) f.expr = f.expr.replace(/\d+$/, '');
+          else f.expr = f.expr.slice(0,-1);
+          f.status=''; f.msg=''; renderFlowStepCard();
+        }
+        e.preventDefault();
+        return;
+      }
+      if(e.key === '+'){ f.expr=(f.expr||'')+'+'; f.status=''; f.msg=''; renderFlowStepCard(); return; }
+      if(e.key === '-'){ f.expr=(f.expr||'')+'−'; f.status=''; f.msg=''; renderFlowStepCard(); return; }
+      if(e.key === '*'){ f.expr=(f.expr||'')+'×'; f.status=''; f.msg=''; renderFlowStepCard(); return; }
+      if(e.key === '/'){ f.expr=(f.expr||'')+'÷'; f.status=''; f.msg=''; renderFlowStepCard(); return; }
+      if(e.key === '(' || e.key === ')'){ f.expr=(f.expr||'')+e.key; f.status=''; f.msg=''; renderFlowStepCard(); return; }
+    } else if(f.step === 3 && e.key === 'Enter' && f.status === 'ok'){
+      advanceFlow();
+    } else if(f.step === 4 && e.key === 'Enter' && f.status === 'ok'){
+      advanceFlow();
+    }
+  }
+});
+
+function navigate(target){
+  if(target === 'start'){ state.screen='start'; render(); return; }
+  if(target === 'leaderboard'){ stopTimer(); state.screen='leaderboard'; renderLeaderboard(); return; }
+  if(target === 'profile'){ stopTimer(); state.screen='profile'; renderProfile(); return; }
+  if(target === 'achievements'){ stopTimer(); state.screen='achievements'; renderAchievements(); return; }
+  if(target === 'account'){ stopTimer(); state.screen='account'; renderAccount(); return; }
+  if(target === 'rules'){ openRules(); return; }
+  if(target === 'game-select'){ state.screen='start'; render(); return; }
+}
+
+/* 账号辅助函数 */
+function accCreate(){
+  const nameEl = document.getElementById('accName');
+  const pinEl = document.getElementById('accPin');
+  const name = (nameEl?nameEl.value:'').trim();
+  const avatar = state._avatar || '🧑';
+  const pin = pinEl ? pinEl.value.trim() : '';
+  if(!name){ toast(t(STR.accName)); return; }
+  if(pin && !/^\d{4}$/.test(pin)){ toast(t(STR.accPin)); return; }
+  hashPin(pin).then(function(hash){
+    createAccount(name, avatar, hash);
+    state._avatar = null;
+  });
+}
+function accSave(){
+  const prof = currentProfile();
+  if(!prof) return;
+  const nameEl = document.getElementById('accName');
+  const pinEl = document.getElementById('accPin');
+  const name = (nameEl?nameEl.value:'').trim();
+  if(!name){ toast(t(STR.accName)); return; }
+  prof.name = name;
+  if(state._avatar) prof.avatar = state._avatar;
+  const pin = pinEl ? pinEl.value.trim() : '';
+  if(pin){
+    if(!/^\d{4}$/.test(pin)){ toast(t(STR.accPin)); return; }
+    hashPin(pin).then(function(hash){
+      prof.pinHash = hash;
+      saveProfile(prof);
+      state._avatar = null;
+      toast(t(STR.toastSaved));
+      render();
+    });
+  } else {
+    saveProfile(prof);
+    state._avatar = null;
+    toast(t(STR.toastSaved));
+    render();
+  }
+}
+function accDelete(){
+  openModal({
+    hero:'⚠️', title:t(STR.accDelete), sub:t(STR.accDeleteConfirm),
+    actions:
+      '<button class="btn btn-primary" data-confirm-del>'+t(STR.accDelete)+'</button>' +
+      '<button class="btn btn-ghost" data-close>'+t(STR.modalClose)+'</button>'
+  });
+  setTimeout(function(){
+    const btn = modalBox.querySelector('[data-confirm-del]');
+    if(btn) btn.addEventListener('click', function(){
+      const acc = loadAccounts();
+      delete acc[state.account];
+      saveAccounts(acc);
+      state.account = null;
+      setCurrentAccountId(null);
+      closeModal();
+      toast(t(STR.toastDeleted));
+      render();
+    });
+  }, 40);
+}
+function accExport(){
+  const prof = currentProfile();
+  if(!prof){ toast(t(STR.toastNoAccount)); return; }
+  const data = JSON.stringify(prof, null, 2);
+  const blob = new Blob([data], { type:'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'cha_chaan_teng_'+prof.name+'.json';
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+  toast(t(STR.toastExport));
+}
+function accImport(){
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = '.json';
+  inp.onchange = function(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev){
+      try{
+        const imported = JSON.parse(ev.target.result);
+        if(!imported || !imported.name || !imported.levels) throw new Error('Invalid');
+        openModal({
+          hero:'📥', title:t(STR.accImport), sub:t(STR.accImportConfirm),
+          actions:
+            '<button class="btn btn-primary" data-confirm-imp>'+t(STR.accImport)+'</button>' +
+            '<button class="btn btn-ghost" data-close>'+t(STR.modalClose)+'</button>'
+        });
+        setTimeout(function(){
+          const btn = modalBox.querySelector('[data-confirm-imp]');
+          if(btn) btn.addEventListener('click', function(){
+            const acc = loadAccounts();
+            const id = imported.id || ('acc_'+Date.now());
+            imported.id = id;
+            acc[id] = imported;
+            saveAccounts(acc);
+            state.account = id;
+            setCurrentAccountId(id);
+            closeModal();
+            toast(t(STR.toastImport));
+            render();
+          });
+        }, 40);
+      }catch(err){
+        toast('檔案格式無效 / Invalid file');
+      }
+    };
+    reader.readAsText(file);
+  };
+  inp.click();
+}
+
+function render(){
+  if(state.screen === 'game' && state.level) renderGame();
+  else if(state.screen === 'flow') renderFlowStepCard();
+  else if(state.screen === 'report') renderReport();
+  else if(state.screen === 'leaderboard') renderLeaderboard();
+  else if(state.screen === 'profile') renderProfile();
+  else if(state.screen === 'achievements') renderAchievements();
+  else if(state.screen === 'account') renderAccount();
+  else renderStart();
+}
+
+/* ========================= 自检模式（?test=1） ========================= */
+function runSelfTests(){
+  const log = [];
+  let pass = 0, fail = 0;
+  function ok(name, cond){
+    if(cond){ pass++; log.push('PASS: '+name); }
+    else { fail++; log.push('FAIL: '+name); }
+  }
+
+  /* --- 基础数学解析 --- */
+  ok('基础表达式求值', evalExpr('30 - (8 + 14)') === 8);
+  ok('含乘法混合运算', evalExpr('50 - (2 × 8 + 15)') === 19);
+  ok('含除法运算', evalExpr('60 - (30 ÷ 2 + 10)') === 35);
+  ok('圆括号校验 - 合法', parseExprAST('30 - (8 + 14)') !== null);
+  ok('圆括号校验 - 不匹配返回 null', parseExprAST('30 - (8 + 14') === null);
+  ok('除以零返回 null', evalExpr('10 ÷ 0') === null);
+
+  /* --- 订单生成与验证 --- */
+  state.level = 'basic';
+  const ob = genOrder('basic');
+  ok('basic 生成 2 款食物', ob.request.items.length === 2);
+  ok('basic 每款 1 份', ob.request.items.every(x=>x.qty===1));
+
+  state.level = 'advanced';
+  const oa = genOrder('advanced');
+  ok('advanced 有至少 1 款 >= 2 份', oa.request.items.some(x=>x.qty>=2));
+
+  state.level = 'challenge';
+  const oc = genOrder('challenge');
+  ok('challenge 为推荐 3 份模式', oc.request.isRecommend === true && oc.request.totalQty === 3);
+  const dineInSnacks = FOODS.filter(f => f.tags.includes('snack') && f.eco === 3 && f.packIcon === '🍽️');
+  const dineInDrinks = FOODS.filter(f => f.tags.includes('drink') && f.eco === 3 && f.packIcon === '🍽️');
+  ok('小食包含至少 3 款無包裝堂食食物', dineInSnacks.length >= 3);
+  ok('飲品包含至少 3 款無包裝堂食食物', dineInDrinks.length >= 3);
+  const ecoPassDineIn = evaluateChallengeEco([
+    { food:FOOD_BY_ID.macaroni, qty:1 },
+    { food:FOOD_BY_ID.buttertoast, qty:1 },
+    { food:FOOD_BY_ID.hotlemonwater, qty:1 }
+  ], { dineIn:true });
+  ok('堂食無包裝推薦組合判定通過', ecoPassDineIn.ok === true);
+  const ecoFailDineIn = evaluateChallengeEco([
+    { food:FOOD_BY_ID.macaroni, qty:1 },
+    { food:FOOD_BY_ID.eggtart, qty:1 },
+    { food:FOOD_BY_ID.hotlemonwater, qty:1 }
+  ], { dineIn:true });
+  ok('堂食誤選紙袋包裝食物判定不通過', ecoFailDineIn.ok === false);
+
+  /* --- 表达式结构检查 --- */
+  state.level = 'advanced';
+  state.cart = { pineapple:2, lemontea:1 };
+  state.customer = { type:'aunty', paid:50, request:{ items:[{id:'pineapple',qty:2},{id:'lemontea',qty:1}], totalQty:3 } };
+  const astOk = parseExprAST('50 − (2 × 8 + 15)');
+  ok('第二步正确算式求值=19', evalAST(astOk) === 19);
+  const astRev = parseExprAST('(2 × 8 + 15) − 50');
+  ok('被减数减数调转求值=-19', evalAST(astRev) === -19);
+
+  /* --- 进阶/挑战同价合并乘法检查 --- */
+  state.level = 'challenge';
+  state.cart = { eggtart:1, fishball:1, freshmilk:1 };
+  state.customer = { type:'uncle', paid:40, request:{ items:[{id:'eggtart',qty:1},{id:'fishball',qty:1},{id:'freshmilk',qty:1}], totalQty:3 } };
+  const entSamePrice = entries();
+  ok('同价订单预期数字为 [7, 10, 2]', sameMultiset(expectedSpendNumbers(entSamePrice), [7, 10, 2]));
+  ok('同价订单数字总数=4', numbersOf(entSamePrice) === 4);
+  state.flow = { step:1, expr:'7+10×2', status:'', msg:'', orderAnswers:{} };
+  checkFlowExpression();
+  ok('同价订单第一步 7+10×2 通过', state.flow.status === 'ok');
+  state.flow = { step:1, expr:'7+10+10', status:'', msg:'', orderAnswers:{} };
+  checkFlowExpression();
+  ok('同价订单第一步连加 7+10+10 被拦截', state.flow.status === 'bad');
+  state.flow = { step:2, expr:'40−(7+10×2)', status:'', msg:'', orderAnswers:{} };
+  checkFlowExpression();
+  ok('同价订单第二步 40−(7+10×2) 通过', state.flow.status === 'ok');
+  state.flow = { step:2, expr:'40−(7+10+10)', status:'', msg:'', orderAnswers:{} };
+  checkFlowExpression();
+  ok('同价订单第二步连加 40−(7+10+10) 被拦截', state.flow.status === 'bad');
+
+  /* --- 重置状态 --- */
+  state.level = null; state.cart = {}; state.customer = null; state.screen = 'start';
+
+  const summary = 'Self-test: ' + pass + ' passed, ' + fail + ' failed';
+  console.log(summary + '\n' + log.join('\n'));
+  const box = document.createElement('pre');
+  box.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:300;max-width:90vw;max-height:50vh;overflow:auto;background:#1e1e1e;color:#9ef2b8;padding:12px 16px;border-radius:12px;font-size:13px;line-height:1.5;box-shadow:0 8px 30px rgba(0,0,0,.4)';
+  box.textContent = summary + '\n\n' + log.join('\n');
+  document.body.appendChild(box);
+}
+
+/* ========================= 启动 ========================= */
+function loadPrefs(){
+  try{
+    const l = localStorage.getItem(STORE_LANG);
+    if(l==='zh'||l==='en') state.lang = l;
+    state.guestName = getGuestName();
+    state.account = getCurrentAccountId();
+    if(state.account){
+      const acc = loadAccounts();
+      if(!acc[state.account]) state.account = null;
+    }
+  }catch(e){}
+}
+loadPrefs();
+render();
+if(/[?&]test=1/.test(location.search)) runSelfTests();
+})();
+</script>
+</body>
+</html>
