@@ -290,8 +290,6 @@
   .rules-card-box{background:#fff9ef;border:2px solid #f0d59c;border-radius:16px;padding:14px 16px;text-align:center}
   .rules-card-box .rc-focus{font-size:17px;font-weight:900;color:#245c3d;margin-bottom:6px}
   .rules-card-box .rc-time{font-size:15px;font-weight:800;color:#9a5a0a}
-  .rules-flow-pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
-  .rules-flow-pills span{background:#fff;border:1.5px solid #e8d5b7;border-radius:999px;padding:4px 12px;font-size:14px;font-weight:800;color:#6d4d2f}
   .ach-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:14px 0}
   .ach-card{border:3px solid var(--line);border-radius:16px;padding:14px;text-align:center;background:var(--paper);display:flex;flex-direction:column;gap:6px;align-items:center}
   .ach-card.unlocked{border-color:#7ccf9e;background:#f5fcf8}
@@ -423,7 +421,7 @@
    ===================================================================== */
 const T = (zh, en) => ({zh, en});
 
-/* ========================= 食物資料（22種，刪除叉燒包（包子），只保留叉燒包） ========================= */
+/* ========================= 食物資料（28種，含堂食免包裝小食與飲品） ========================= */
 const FOODS = [
   {id:'pineapple', name:T('菠蘿包','Pineapple Bun'), emoji:'🍍', bg:'#fff0c9', desc:T('香港經典，外脆內軟','HK classic, crispy outside, soft inside'), price:8, unit:T('個','pc'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:3, tags:['filling']},
   {id:'eggtart', name:T('蛋撻','Egg Tart'), emoji:'🥚', bg:'#ffe6d5', desc:T('酥皮蛋香，下午茶之選','Flaky pastry with egg custard'), price:7, unit:T('個','pc'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:3, tags:['snack']},
@@ -455,10 +453,29 @@ const FOODS = [
   {id:'hotcocoa', name:T('熱朱古力','Hot Chocolate'), emoji:'🍫', bg:'#f0e1d2', desc:T('香濃熱朱古力，堂食陶瓷杯盛載','Rich hot chocolate in a reusable ceramic mug'), price:14, unit:T('杯','cup'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['drink']}
 ];
 
-/* 卡通 SVG（主要食物） */
+/* 卡通 SVG（全部 28 款食物） */
 const FOOD_ART = {
-// ... existing code ... -->
+  pineapple:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="52" rx="22" ry="5" fill="#e8d3b5" opacity=".6"/><path d="M12 44c0-14 9-24 20-24s20 10 20 24z" fill="#e9a955" stroke="#5a3a22" stroke-width="2.4" stroke-linejoin="round"/><path d="M14 42c1-12 9-20 18-20s17 8 18 20z" fill="#f7c76e"/><path d="M22 25l8 16M32 22v20M42 25l-8 16M18 33h28M21 28h22" stroke="#c87b28" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="32" cy="45" rx="20" ry="4" fill="#df9b45" stroke="#5a3a22" stroke-width="2"/></svg>`,
+  eggtart:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="53" rx="20" ry="4.5" fill="#e8d3b5" opacity=".6"/><path d="M14 30h36l-4 18c-.5 2.5-2.5 4-5 4H23c-2.5 0-4.5-1.5-5-4z" fill="#e5a95c" stroke="#5a3a22" stroke-width="2.4" stroke-linejoin="round"/><path d="M20 30l2 18M28 30l1 18M36 30l-1 18M44 30l-2 18" stroke="#c88435" stroke-width="1.5"/><ellipse cx="32" cy="30" rx="18" ry="6.5" fill="#f5c06b" stroke="#5a3a22" stroke-width="2.2"/><ellipse cx="32" cy="30" rx="13" ry="4.5" fill="#ffd94a"/><circle cx="28" cy="29" r="1.8" fill="#fff6b8"/></svg>`,
+  cocktail:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="52" rx="22" ry="5" fill="#e8d3b5" opacity=".6"/><ellipse cx="32" cy="37" rx="21" ry="13" fill="#f2b862" stroke="#5a3a22" stroke-width="2.4"/><path d="M16 34c5-5 27-5 32 0" fill="none" stroke="#fff7df" stroke-width="3" stroke-linecap="round"/><circle cx="26" cy="31" r="1.4" fill="#5a3a22"/><circle cx="32" cy="30" r="1.4" fill="#5a3a22"/><circle cx="38" cy="31" r="1.4" fill="#5a3a22"/></svg>`,
+  cheungfun:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="52" rx="24" ry="5.5" fill="#e7eef2" stroke="#5a3a22" stroke-width="2"/><rect x="14" y="28" width="36" height="8" rx="4" fill="#fffdf8" stroke="#5a3a22" stroke-width="2"/><rect x="14" y="37" width="36" height="8" rx="4" fill="#fff9ee" stroke="#5a3a22" stroke-width="2"/><path d="M18 32h28M18 41h28" stroke="#b56a2c" stroke-width="1.8" stroke-linecap="round"/><circle cx="25" cy="30" r="1.3" fill="#d9a13b"/><circle cx="35" cy="39" r="1.3" fill="#d9a13b"/></svg>`,
+  siumai:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="53" rx="21" ry="4.5" fill="#e8d3b5" opacity=".6"/><path d="M16 32h13l-2 16H18z" fill="#ffd859" stroke="#5a3a22" stroke-width="2.2" stroke-linejoin="round"/><path d="M35 32h13l-2 16h-9z" fill="#ffd859" stroke="#5a3a22" stroke-width="2.2" stroke-linejoin="round"/><circle cx="22.5" cy="31" r="2.3" fill="#e85a3c"/><circle cx="41.5" cy="31" r="2.3" fill="#e85a3c"/></svg>`,
+  fishball:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><line x1="14" y1="52" x2="50" y2="16" stroke="#b8844c" stroke-width="3" stroke-linecap="round"/><circle cx="25" cy="41" r="6.5" fill="#f7d58b" stroke="#5a3a22" stroke-width="2.2"/><circle cx="34" cy="32" r="6.5" fill="#f7d58b" stroke="#5a3a22" stroke-width="2.2"/><circle cx="43" cy="23" r="6.5" fill="#f7d58b" stroke="#5a3a22" stroke-width="2.2"/></svg>`,
+  congee:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M14 31h36c0 12-7 20-18 20s-18-8-18-20z" fill="#fffdf8" stroke="#5a3a22" stroke-width="2.4" stroke-linejoin="round"/><path d="M16 36h32" stroke="#3b6fb6" stroke-width="2"/><ellipse cx="32" cy="31" rx="18" ry="4.5" fill="#f7edd6" stroke="#5a3a22" stroke-width="2"/><circle cx="27" cy="31" r="2" fill="#6aa85a"/><circle cx="36" cy="31" r="2.2" fill="#d97b3b"/></svg>`,
+  soymilk:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M21 16h22l-3 36H24z" fill="#e8f3ff" stroke="#5a3a22" stroke-width="2.3" stroke-linejoin="round"/><path d="M22.5 24h19l-2.3 26H24.8z" fill="#fffdf6"/><ellipse cx="32" cy="16" rx="11" ry="2.8" fill="#fffdf8" stroke="#5a3a22" stroke-width="2"/></svg>`,
+  milktea:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="53" rx="22" ry="4.5" fill="#e7eef2" stroke="#5a3a22" stroke-width="2"/><path d="M44 29h4c3.5 0 6 2.5 6 6s-2.5 6-6 6h-4" fill="none" stroke="#5a3a22" stroke-width="2.4" stroke-linecap="round"/><path d="M18 24h28v15c0 8-6 14-14 14s-14-6-14-14z" fill="#fffdf8" stroke="#5a3a22" stroke-width="2.3"/><ellipse cx="32" cy="24" rx="14" ry="3.5" fill="#c98242" stroke="#5a3a22" stroke-width="2"/></svg>`,
+  lemontea:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><line x1="38" y1="10" x2="34" y2="24" stroke="#d94f3b" stroke-width="3" stroke-linecap="round"/><path d="M20 20h24l-2.5 32h-19z" fill="#ffe9b8" stroke="#5a3a22" stroke-width="2.3" stroke-linejoin="round"/><path d="M21.5 27h21l-2 23h-17z" fill="#e08a2e"/><circle cx="31" cy="36" r="6" fill="#ffe066" stroke="#c9872c" stroke-width="1.6"/></svg>`,
+  water:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect x="27" y="10" width="10" height="6" rx="2" fill="#3b6fb6" stroke="#5a3a22" stroke-width="2"/><rect x="22" y="18" width="20" height="36" rx="6" fill="#d9f0ff" stroke="#5a3a22" stroke-width="2.3"/><rect x="22" y="30" width="20" height="10" fill="#7fc3f5"/></svg>`,
+  freshmilk:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><polygon points="20,22 32,12 44,22" fill="#dce8ff" stroke="#5a3a22" stroke-width="2.2" stroke-linejoin="round"/><rect x="20" y="22" width="24" height="32" rx="2" fill="#fffdf8" stroke="#5a3a22" stroke-width="2.3"/><rect x="20" y="33" width="24" height="11" fill="#5c8ed6"/></svg>`,
   sandwich:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="54" rx="24" ry="4.5" fill="#e8d3b5" opacity=".6"/><path d="M10 24l44-4 6 10-50 4z" fill="#f0c27a" stroke="#5a3a22" stroke-width="2.4" stroke-linejoin="round"/><path d="M13 24l3 14h30l3-14" fill="#fffdf8" stroke="#5a3a22" stroke-width="2"/><path d="M16 30h30" stroke="#e8d3b5" stroke-width="2.2"/><circle cx="22" cy="26" r="2.5" fill="#6aa85a"/><circle cx="34" cy="27" r="2.5" fill="#c94f3b"/><circle cx="43" cy="25" r="2.5" fill="#ffd75e"/><path d="M10 30l44-4" stroke="#5a3a22" stroke-width="2.4" stroke-linejoin="round" fill="none"/></svg>`,
+  frenchtoast:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="53" rx="24" ry="5" fill="#e7eef2" stroke="#5a3a22" stroke-width="2"/><rect x="15" y="24" width="34" height="24" rx="5" fill="#e39d3b" stroke="#5a3a22" stroke-width="2.3"/><rect x="18" y="21" width="28" height="20" rx="4" fill="#f7c252" stroke="#5a3a22" stroke-width="2"/><rect x="26" y="26" width="12" height="9" rx="2" fill="#fff3a8" stroke="#c9872c" stroke-width="1.5"/></svg>`,
+  macaroni:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M13 30h38c0 13-8 21-19 21s-19-8-19-21z" fill="#fffdf8" stroke="#5a3a22" stroke-width="2.4"/><ellipse cx="32" cy="30" rx="19" ry="5" fill="#ffe6a3" stroke="#5a3a22" stroke-width="2"/><path d="M23 30c2-3 5-3 7 0M34 30c2-3 5-3 7 0" stroke="#e09a2b" stroke-width="2.4" fill="none" stroke-linecap="round"/><rect x="28" y="26" width="8" height="5" rx="1.5" fill="#f27c7c"/></svg>`,
+  sticky:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect x="14" y="22" width="36" height="26" rx="6" fill="#5c9e54" stroke="#2f5c2b" stroke-width="2.4"/><path d="M14 35h36M32 22v26" stroke="#d9c08c" stroke-width="2.2"/></svg>`,
+  bbqbun:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="52" rx="22" ry="5" fill="#e8d3b5" opacity=".6"/><path d="M13 45c0-13 8-23 19-23s19 10 19 23z" fill="#fffdf8" stroke="#5a3a22" stroke-width="2.4"/><path d="M27 23l5 5 5-5" fill="none" stroke="#c94f3b" stroke-width="2.2" stroke-linecap="round"/></svg>`,
+  waffle:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M15 24c0-5 7-9 17-9s17 4 17 9l-4 23c-1 4-6 6-13 6s-12-2-13-6z" fill="#f5be58" stroke="#5a3a22" stroke-width="2.3"/><circle cx="25" cy="26" r="3" fill="#e09a2b"/><circle cx="32" cy="25" r="3" fill="#e09a2b"/><circle cx="39" cy="26" r="3" fill="#e09a2b"/><circle cx="27" cy="35" r="3" fill="#e09a2b"/><circle cx="37" cy="35" r="3" fill="#e09a2b"/></svg>`,
+  salad:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M14 32h36c0 12-7 19-18 19s-18-7-18-19z" fill="#e8f6ee" stroke="#5a3a22" stroke-width="2.3"/><circle cx="24" cy="29" r="6" fill="#68b357"/><circle cx="34" cy="27" r="6.5" fill="#7ec96b"/><circle cx="41" cy="30" r="5.5" fill="#589e48"/><circle cx="31" cy="31" r="2.8" fill="#e04f3e"/></svg>`,
+  chickenleg:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M40 36l11 11" stroke="#fff7df" stroke-width="6" stroke-linecap="round"/><circle cx="52" cy="48" r="3.5" fill="#fff7df" stroke="#5a3a22" stroke-width="2"/><ellipse cx="28" cy="27" rx="14" ry="11" transform="rotate(-35 28 27)" fill="#d97b29" stroke="#5a3a22" stroke-width="2.4"/></svg>`,
+  noodles:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="52" rx="23" ry="5" fill="#e7eef2" stroke="#5a3a22" stroke-width="2"/><path d="M16 42c4-12 28-12 32 0z" fill="#c97b32" stroke="#5a3a22" stroke-width="2.2"/><path d="M20 38c6-4 18-4 24 0M22 33c5-3 15-3 20 0" stroke="#7a3e12" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>`,
   youtiao:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="53" rx="22" ry="4.5" fill="#e8d3b5" opacity=".6"/><g transform="rotate(-12 32 32)"><path d="M18 44c0-16 6-26 14-26s14 10 14 26z" fill="#f2c35e" stroke="#5a3a22" stroke-width="2.4" stroke-linejoin="round"/><path d="M22 42c0-12 4.5-20 10-20s10 8 10 20z" fill="#ffd98a"/></g><path d="M12 46c4 2 8 2 12 0M40 46c4 2 8 2 12 0" fill="none" stroke="#c9872c" stroke-width="1.8" stroke-linecap="round"/></svg>`,
   buttertoast:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="52" rx="25" ry="6" fill="#e7eef2" stroke="#5a3a22" stroke-width="2"/><path d="M15 24c0-4 3-7 7-7h20c4 0 7 3 7 7 0 2-1 3.5-2 4.5V45c0 2.5-2 4.5-4.5 4.5h-21C19 49.5 17 47.5 17 45V28.5c-1-1-2-2.5-2-4.5z" fill="#d99a52" stroke="#5a3a22" stroke-width="2.3" stroke-linejoin="round"/><rect x="20" y="21" width="24" height="25" rx="3" fill="#fbe3a6"/><rect x="25" y="26" width="14" height="10" rx="2.5" fill="#ffd75e" stroke="#c9872c" stroke-width="1.6"/></svg>`,
   samosa:`<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="32" cy="52" rx="25" ry="6" fill="#e7eef2" stroke="#5a3a22" stroke-width="2"/><polygon points="13,47 26,20 39,47" fill="#f2c35e" stroke="#5a3a22" stroke-width="2.3" stroke-linejoin="round"/><polygon points="27,49 40,22 52,49" fill="#ffd98a" stroke="#5a3a22" stroke-width="2.3" stroke-linejoin="round"/><circle cx="26" cy="36" r="1.4" fill="#c9872c"/><circle cx="40" cy="38" r="1.4" fill="#c9872c"/><circle cx="36" cy="43" r="1.3" fill="#c9872c"/></svg>`,
@@ -1278,7 +1295,6 @@ function evaluateChallengeEco(ent, req){
   ent.forEach(e => { for(let i=0;i<e.qty;i++) items.push(e.food); });
   const badItems = [];
   if(req.dineIn){
-    // 在這裡吃：不要有包裝（所有餐點皆須為沒有包裝的堂食餐碟／杯裝，排除紙袋、紙杯與塑膠包裝）
     items.forEach(f => {
       if(f.packIcon !== '🍽️' || f.eco < 3){
         if(badItems.indexOf(t(f.name)) === -1) badItems.push(t(f.name));
@@ -1286,7 +1302,6 @@ function evaluateChallengeEco(ent, req){
     });
     return { ok: badItems.length === 0, badItems };
   } else {
-    // 打包拎走：不要使用太多塑膠包裝（不可有發泡膠/膠樽 eco===0，且高環保+一般環保總分 >= 7）
     items.forEach(f => {
       if(f.eco <= 1){
         if(badItems.indexOf(t(f.name)) === -1) badItems.push(t(f.name));
@@ -1640,20 +1655,6 @@ function renderFlowStepCard(){
     } else {
       ent.forEach(e => { if(e.qty>1 && nums.indexOf(e.qty)===-1) nums.push(e.qty); });
     }
-    const actionBtn = passed
-      ? '<button type="button" class="flow-next-btn" data-flow-next>'+t(STR.flowNext)+'</button>'
-      : '<button type="button" class="flow-check-btn" data-flow-check>'+t(STR.flowCheck)+'</button>';
-    body = summary +
-      '<div class="flow-expr'+(f.expr?'':' empty')+'" data-flow-display>'+(f.expr?exprPrettyHTML(f.expr):esc(t(STR.flowExprPlaceholder)))+'</div>' +
-      hintButtonHTML() +
-      expressionBuilderHTML(nums, passed) +
-      '<div class="flow-actions">'+actionBtn+'</div>' +
-      '<p class="flow-feedback '+(f.status)+'" data-flow-feedback>'+esc(f.msg||'')+'</p>';
-  } else if(step === 2){
-    title = t(STR.flowStep2);
-    const nums = [c.paid];
-    ent.forEach(e => { if(nums.indexOf(e.food.price)===-1) nums.push(e.food.price); });
-    ent.forEach(e => { if(e.qty>1 && nums.indexOf(e.qty)===-1) nums.push(e.qty); });
     const actionBtn = passed
       ? '<button type="button" class="flow-next-btn" data-flow-next>'+t(STR.flowNext)+'</button>'
       : '<button type="button" class="flow-check-btn" data-flow-check>'+t(STR.flowCheck)+'</button>';
@@ -2580,10 +2581,10 @@ function switchAccountFlow(){
 
 /* ========================= 流程导航与规则 ========================= */
 function openRules(){
-  const L = state.level && LEVELS[state.level];
+  const L = state.screen !== 'start' && state.level && LEVELS[state.level];
   const focusHTML = L
     ? '<div class="rules-card-box"><div class="rc-focus">'+t(L.name)+'：'+t(L.focus)+'</div><div class="rc-time">'+t(STR.bizTimeLabel)+t(L.timeLabel)+'</div></div>'
-    : '<div class="rules-card-box"><div class="rc-focus">'+t(STR.appSubtitle)+'</div><div class="rules-flow-pills"><span>1. '+bi('接訂單配餐','Take Order')+'</span><span>2. '+bi('列式找錢','Calculate Change')+'</span><span>3. '+bi('15 分鐘限時挑戰','15-Min Shift')+'</span></div></div>';
+    : '';
   openModal({
     hero:'📋', title:t(STR.rulesTitle), sub:t(STR.rulesIntro),
     body:focusHTML,
@@ -3077,6 +3078,17 @@ function runSelfTests(){
   state.flow = { step:2, expr:'40−(7+10+10)', status:'', msg:'', orderAnswers:{} };
   checkFlowExpression();
   ok('同价订单第二步连加 40−(7+10+10) 被拦截', state.flow.status === 'bad');
+
+  /* --- 起始页与难度页规则弹窗检查 --- */
+  state.screen = 'start';
+  state.level = 'basic';
+  openRules();
+  ok('起始页規則彈窗不包含 .rules-card-box', !modalBox.querySelector('.rules-card-box'));
+  state.screen = 'game';
+  state.level = 'basic';
+  openRules();
+  ok('難度頁規則彈窗保留 .rules-card-box', !!modalBox.querySelector('.rules-card-box'));
+  closeModal();
 
   /* --- 重置状态 --- */
   state.level = null; state.cart = {}; state.customer = null; state.screen = 'start';
