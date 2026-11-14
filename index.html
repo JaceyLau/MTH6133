@@ -132,14 +132,18 @@
   .pack-badge.eco-high,.tray-pack.eco-high{background:#e8f6ee;border-color:#9fd6b7;color:#1f7a4c}
   .pack-badge.eco-mid,.tray-pack.eco-mid{background:#fff6d6;border-color:#ebd07a;color:#8a5a0a}
   .pack-badge.eco-low,.tray-pack.eco-low{background:#fff1ee;border-color:#f0b3a8;color:#b93a28}
-  .eco-legend{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:8px;font-size:12.5px;font-weight:800}
-  .eco-legend span{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:999px;border:1.5px solid transparent}
-  .eco-legend .leg-high{background:#e8f6ee;border-color:#9fd6b7;color:#1f7a4c}
-  .eco-legend .leg-mid{background:#fff6d6;border-color:#ebd07a;color:#8a5a0a}
-  .eco-legend .leg-low{background:#fff1ee;border-color:#f0b3a8;color:#b93a28}
+  .eco-legend{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:8px;font-size:13px;font-weight:800}
+  .eco-filter-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:999px;border:1.5px solid transparent;font-size:13px;font-weight:800;transition:transform .1s,box-shadow .12s,background .12s}
+  .eco-filter-btn:hover{transform:translateY(-1px);filter:brightness(.97)}
+  .eco-filter-btn.leg-high{background:#e8f6ee;border-color:#9fd6b7;color:#1f7a4c}
+  .eco-filter-btn.leg-mid{background:#fff6d6;border-color:#ebd07a;color:#8a5a0a}
+  .eco-filter-btn.leg-low{background:#fff1ee;border-color:#f0b3a8;color:#b93a28}
+  .eco-filter-btn.leg-high.active{background:#1f7a4c;border-color:#145232;color:#fff;box-shadow:0 2px 0 #145232}
+  .eco-filter-btn.leg-mid.active{background:#b87409;border-color:#7d4e05;color:#fff;box-shadow:0 2px 0 #7d4e05}
+  .eco-filter-btn.leg-low.active{background:#b93a28;border-color:#7d2216;color:#fff;box-shadow:0 2px 0 #7d2216}
+  .menu-empty{grid-column:1/-1;border:2px dashed #e6d3b8;border-radius:14px;background:#fffbf3;padding:24px 14px;text-align:center;color:#806347;font-size:15.5px;font-weight:800}
   .tag-row{display:flex;gap:3px;flex-wrap:nowrap;overflow:hidden;margin-top:2px}
   .tag{background:#f4ecdf;color:#6d4d2f;border-radius:999px;padding:1px 6px;font-size:11px;font-weight:700;line-height:1.3;white-space:nowrap}
-  .tag.healthy{background:#e8f6ee;color:#1f7a4c}
   .food-actions{display:flex;align-items:center;gap:5px;margin-top:auto}
   .add-btn{flex:1;border:1.5px solid var(--red-deep);background:linear-gradient(180deg,#f97b4c,#ef5d32);color:#fff;border-radius:9px;padding:4px 6px;font-weight:900;font-size:12.5px;box-shadow:0 2px 0 var(--red-deep);line-height:1.25}
   .add-btn:active{transform:translateY(1px);box-shadow:none}
@@ -188,8 +192,8 @@
   .flow-card .flow-sub{margin:0 0 14px;font-size:16px;color:var(--ink-soft)}
   .flow-q{margin:0 0 10px;font-size:18px;font-weight:800;color:#4a3322;line-height:1.5}
   .flow-hint{background:#fff9ef;border:1.5px dashed #e2cfb2;border-radius:12px;padding:9px 12px;font-size:15px;font-weight:800;color:#6d4d2f;margin-top:8px}
-  .flow-expr{min-height:58px;border:2px dashed #b9d6c4;border-radius:12px;background:#fff;padding:10px 14px;font-size:24px;font-weight:900;color:#245c3d;word-break:break-all;line-height:1.4;font-variant-numeric:tabular-nums;display:flex;align-items:center;min-width:0}
-  .flow-expr.empty{color:#9bb3a4;font-size:16px;font-weight:700}
+  .flow-expr{min-height:62px;border:2px dashed #b9d6c4;border-radius:12px;background:#fff;padding:10px 14px;font-size:26px;font-weight:900;color:#245c3d;word-break:break-all;line-height:1.4;font-variant-numeric:tabular-nums;display:flex;align-items:center;justify-content:center;text-align:center;min-width:0}
+  .flow-expr.empty{color:#9bb3a4;font-size:17px;font-weight:700}
   .flow-expr .num{color:#1f5e8a}
   .flow-expr .op{color:#b4481c}
   .flow-expr .paren{color:#d94f3b}
@@ -213,12 +217,17 @@
   .summary-row b{font-variant-numeric:tabular-nums}
   .summary-paid{color:#b4481c;font-size:17px;font-weight:800;padding-top:6px}
   .summary-paid b{font-size:20px;font-weight:900}
-  .summary-expr{margin-top:8px;padding-top:8px;border-top:2px dashed #e2cfb2;font-size:16px;font-weight:900;color:#245c3d;word-break:break-all}
-  .summary-expr small{display:block;font-size:13px;font-weight:800;color:#8a7059}
+  .summary-expr{margin-top:10px;padding-top:10px;border-top:2px dashed #e2cfb2;font-size:26px;font-weight:900;color:#245c3d;word-break:break-all;text-align:center;letter-spacing:.5px;line-height:1.35}
+  .summary-expr small{display:block;font-size:14px;font-weight:800;color:#8a7059;margin-bottom:3px;letter-spacing:0}
 
   /* 答案框（第四页） */
   .answer-input{width:100%;min-height:58px;border:2px dashed #b9d6c4;border-radius:12px;background:#fff;padding:10px 12px;font-size:26px;font-weight:900;color:#245c3d;text-align:center;font-variant-numeric:tabular-nums}
   .answer-input:focus{outline:3px solid #b9d6c4;border-color:#2f7d53}
+
+  /* 第三页中间结果作答区 */
+  .substep-calc-box{margin-top:14px;background:#f7fbf8;border:2px solid #9fd6b7;border-radius:16px;padding:14px 16px;animation:nextPop .22s ease-out}
+  .substep-calc-label{margin:0 0 10px;font-size:18px;font-weight:900;color:#245c3d;text-align:center}
+  .substep-calc-label .step-math{display:inline-block;background:#fff;border:1.5px solid #b9d6c4;border-radius:10px;padding:2px 12px;margin:0 4px;color:#1f5e8a;font-size:21px;font-variant-numeric:tabular-nums}
 
   /* 精简算式构建面板（无0-9计算器，只显示本题数字与运算符） */
   .builder-box{margin-top:10px;background:#f7fbf8;border:1.5px solid #cfe3d6;border-radius:14px;padding:12px 14px}
@@ -421,7 +430,7 @@
    ===================================================================== */
 const T = (zh, en) => ({zh, en});
 
-/* ========================= 食物資料（28種，含堂食免包裝小食與飲品） ========================= */
+/* ========================= 食物資料（28種，含堂食免包裝小食與飲品，已移除健康標籤） ========================= */
 const FOODS = [
   {id:'pineapple', name:T('菠蘿包','Pineapple Bun'), emoji:'🍍', bg:'#fff0c9', desc:T('香港經典，外脆內軟','HK classic, crispy outside, soft inside'), price:8, unit:T('個','pc'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:3, tags:['filling']},
   {id:'eggtart', name:T('蛋撻','Egg Tart'), emoji:'🥚', bg:'#ffe6d5', desc:T('酥皮蛋香，下午茶之選','Flaky pastry with egg custard'), price:7, unit:T('個','pc'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:3, tags:['snack']},
@@ -429,26 +438,26 @@ const FOODS = [
   {id:'cheungfun', name:T('腸粉','Rice Noodle Roll'), emoji:'🍥', bg:'#e3f5e8', desc:T('滑溜米漿，配甜醬油','Silky rice rolls with sweet soy sauce'), price:14, unit:T('份','portion'), packaging:T('沒有獨立膠盒','No separate plastic box'), packIcon:'🍽️', eco:3, tags:['filling']},
   {id:'siumai', name:T('燒賣','Siu Mai'), emoji:'🥟', bg:'#eee6ff', desc:T('魚肉燒賣，點心必吃','Fish siu mai, a dim sum favourite'), price:12, unit:T('份','portion'), packaging:T('膠盒包裝','Plastic box'), packIcon:'🥡', eco:1, tags:['snack']},
   {id:'fishball', name:T('魚蛋','Fish Balls'), emoji:'🍢', bg:'#e4f1ff', desc:T('彈牙魚蛋，街頭風味','Springy fish balls, street-food style'), price:10, unit:T('份','portion'), packaging:T('紙杯包裝','Paper cup'), packIcon:'🥤', eco:2, tags:['snack']},
-  {id:'congee', name:T('艇仔粥','Sampan Congee'), emoji:'🥣', bg:'#fff3db', desc:T('綿滑靚粥，材料豐富','Smooth congee with rich toppings'), price:18, unit:T('碗','bowl'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['filling','healthy']},
-  {id:'soymilk', name:T('豆漿','Soy Milk'), emoji:'🥛', bg:'#e4f1ff', desc:T('微甜豆香，健康飲品','Lightly sweet soy milk'), price:7, unit:T('杯','cup'), packaging:T('膠杯包裝','Plastic cup'), packIcon:'🥤', eco:1, tags:['drink','healthy']},
+  {id:'congee', name:T('艇仔粥','Sampan Congee'), emoji:'🥣', bg:'#fff3db', desc:T('綿滑靚粥，材料豐富','Smooth congee with rich toppings'), price:18, unit:T('碗','bowl'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['filling']},
+  {id:'soymilk', name:T('豆漿','Soy Milk'), emoji:'🥛', bg:'#e4f1ff', desc:T('微甜豆香，香濃飲品','Lightly sweet soy milk'), price:7, unit:T('杯','cup'), packaging:T('膠杯包裝','Plastic cup'), packIcon:'🥤', eco:1, tags:['drink']},
   {id:'milktea', name:T('奶茶','Milk Tea'), emoji:'☕', bg:'#f3e4d2', desc:T('港式絲襪奶茶，香濃滑','HK-style milk tea, rich and smooth'), price:14, unit:T('杯','cup'), packaging:T('膠杯包裝','Plastic cup'), packIcon:'🥤', eco:1, tags:['drink']},
   {id:'lemontea', name:T('檸檬茶','Lemon Tea'), emoji:'🍋', bg:'#fff6c9', desc:T('清新檸檬，醒神之選','Refreshing lemon tea'), price:15, unit:T('杯','cup'), packaging:T('膠杯包裝','Plastic cup'), packIcon:'🥤', eco:1, tags:['drink']},
-  {id:'water', name:T('樽裝水','Bottled Water'), emoji:'💧', bg:'#e4f1ff', desc:T('方便攜帶，但膠樽不環保','Convenient, but not eco-friendly'), price:5, unit:T('樽','bottle'), packaging:T('膠樽包裝','Plastic bottle'), packIcon:'🧴', eco:0, tags:['drink','healthy']},
-  {id:'freshmilk', name:T('鮮奶','Fresh Milk'), emoji:'🥛', bg:'#eef2ff', desc:T('紙包鮮奶，補充鈣質','Fresh milk in a paper carton'), price:10, unit:T('盒','carton'), packaging:T('紙包飲品','Paper carton'), packIcon:'🧃', eco:2, tags:['drink','healthy']},
-  {id:'sandwich', name:T('三文治','Sandwich'), emoji:'🥪', bg:'#e3f5e8', desc:T('新鮮蔬菜，健康飽肚','Fresh veggies, healthy and filling'), price:16, unit:T('份','portion'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:3, tags:['filling','healthy']},
+  {id:'water', name:T('樽裝水','Bottled Water'), emoji:'💧', bg:'#e4f1ff', desc:T('方便攜帶，但膠樽不環保','Convenient, but not eco-friendly'), price:5, unit:T('樽','bottle'), packaging:T('膠樽包裝','Plastic bottle'), packIcon:'🧴', eco:0, tags:['drink']},
+  {id:'freshmilk', name:T('鮮奶','Fresh Milk'), emoji:'🥛', bg:'#eef2ff', desc:T('紙包鮮奶，香滑可口','Fresh milk in a paper carton'), price:10, unit:T('盒','carton'), packaging:T('紙包飲品','Paper carton'), packIcon:'🧃', eco:2, tags:['drink']},
+  {id:'sandwich', name:T('三文治','Sandwich'), emoji:'🥪', bg:'#e3f5e8', desc:T('新鮮餡料，飽肚之選','Fresh fillings, tasty and filling'), price:16, unit:T('份','portion'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:3, tags:['filling']},
   {id:'frenchtoast', name:T('西多士','French Toast'), emoji:'🍞', bg:'#fff0cf', desc:T('金黃香脆，港式經典','Golden French toast, HK classic'), price:20, unit:T('份','portion'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['filling']},
-  {id:'macaroni', name:T('通粉','Macaroni Soup'), emoji:'🍜', bg:'#fff3db', desc:T('暖胃通粉，湯底清甜','Warm macaroni soup'), price:22, unit:T('碗','bowl'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['filling','healthy']},
+  {id:'macaroni', name:T('通粉','Macaroni Soup'), emoji:'🍜', bg:'#fff3db', desc:T('暖胃通粉，湯底清甜','Warm macaroni soup'), price:22, unit:T('碗','bowl'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['filling']},
   {id:'sticky', name:T('糯米雞','Sticky Rice Chicken'), emoji:'🍙', bg:'#e8f5df', desc:T('荷葉清香，糯米軟糯','Sticky rice in lotus leaf'), price:16, unit:T('隻','piece'), packaging:T('荷葉包裝','Lotus leaf wrap'), packIcon:'🍃', eco:2, tags:['filling']},
   {id:'bbqbun', name:T('叉燒包','BBQ Pork Bun'), emoji:'🥟', bg:'#ffe6d5', desc:T('蜜汁叉燒，鬆軟包身','BBQ pork in a soft bun'), price:10, unit:T('個','pc'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:3, tags:['filling']},
   {id:'waffle', name:T('雞蛋仔','Egg Waffle'), emoji:'🧇', bg:'#fff0c9', desc:T('外脆內軟，香港小食','Crispy egg waffle, HK snack'), price:15, unit:T('份','portion'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:3, tags:['snack']},
-  {id:'salad', name:T('沙律','Salad'), emoji:'🥗', bg:'#e3f5e8', desc:T('新鮮沙律，健康之選','Fresh salad, healthy choice'), price:18, unit:T('份','portion'), packaging:T('膠盒包裝','Plastic box'), packIcon:'🥡', eco:1, tags:['healthy','snack']},
+  {id:'salad', name:T('沙律','Salad'), emoji:'🥗', bg:'#e3f5e8', desc:T('新鮮沙律，清新小食','Fresh salad, refreshing snack'), price:18, unit:T('份','portion'), packaging:T('膠盒包裝','Plastic box'), packIcon:'🥡', eco:1, tags:['snack']},
   {id:'chickenleg', name:T('炸雞髀','Fried Chicken Leg'), emoji:'🍗', bg:'#ffe6d5', desc:T('香脆雞髀，惹味飽肚','Crispy chicken leg, filling'), price:22, unit:T('隻','piece'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:2, tags:['filling']},
-  {id:'noodles', name:T('豉油皇炒麵','Soy Sauce Fried Noodles'), emoji:'🍝', bg:'#fff0cf', desc:T('鑊氣炒麵，街坊最愛','Wok-fried noodles, neighbourhood favourite'), price:15, unit:T('份','portion'), packaging:T('發泡膠盒','Foam box'), packIcon:'📦', eco:0, tags:['filling']},
+  {id:'noodles', name:T('豉油炒麵','Soy Sauce Fried Noodles'), emoji:'🍝', bg:'#fff0cf', desc:T('鑊氣炒麵，街坊最愛','Wok-fried noodles, neighbourhood favourite'), price:15, unit:T('份','portion'), packaging:T('發泡膠盒','Foam box'), packIcon:'📦', eco:0, tags:['filling']},
   {id:'youtiao', name:T('油條','Fried Dough Stick'), emoji:'🥖', bg:'#fff0c9', desc:T('金黃香脆，早餐良伴','Golden crispy dough stick'), price:6, unit:T('條','stick'), packaging:T('紙袋包裝','Paper bag'), packIcon:'🛍️', eco:3, tags:['filling']},
   {id:'buttertoast', name:T('牛油多士','Butter Toast'), emoji:'🍞', bg:'#fff0c9', desc:T('香脆厚多士塗滿牛油，堂食碟裝','Crispy toast with butter, served on a plate'), price:9, unit:T('份','portion'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['snack']},
   {id:'samosa', name:T('咖喱角','Curry Samosa'), emoji:'🥟', bg:'#ffe6d5', desc:T('金黃香脆咖喱角，堂食免包裝','Golden crispy curry samosa, dine-in plate'), price:10, unit:T('份','portion'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['snack']},
   {id:'springroll', name:T('炸春卷','Fried Spring Rolls'), emoji:'🥢', bg:'#fff0cf', desc:T('香脆可口春卷，堂食餐碟盛載','Crispy spring rolls served on a dine-in plate'), price:12, unit:T('份','portion'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['snack']},
-  {id:'hotlemonwater', name:T('熱檸檬水','Hot Lemon Water'), emoji:'🍋', bg:'#fff6c9', desc:T('玻璃杯盛載新鮮檸檬水，零一次性包裝','Fresh lemon water in a reusable glass, zero packaging'), price:12, unit:T('杯','cup'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['drink','healthy']},
+  {id:'hotlemonwater', name:T('熱檸檬水','Hot Lemon Water'), emoji:'🍋', bg:'#fff6c9', desc:T('玻璃杯盛載新鮮檸檬水，零一次性包裝','Fresh lemon water in a reusable glass, zero packaging'), price:12, unit:T('杯','cup'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['drink']},
   {id:'hotmilktea', name:T('熱奶茶','Hot Milk Tea'), emoji:'☕', bg:'#f3e4d2', desc:T('經典黑白淡奶陶瓷杯熱奶茶，堂食無包裝','Classic HK milk tea in a ceramic cup, dine-in'), price:13, unit:T('杯','cup'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['drink']},
   {id:'hotcocoa', name:T('熱朱古力','Hot Chocolate'), emoji:'🍫', bg:'#f0e1d2', desc:T('香濃熱朱古力，堂食陶瓷杯盛載','Rich hot chocolate in a reusable ceramic mug'), price:14, unit:T('杯','cup'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['drink']}
 ];
@@ -544,12 +553,14 @@ const STR = {
   guestDefaultName:T('訪客店長','Guest Manager'),
 
   menuTitle:T('餐牌','Menu'), menuHint:T('按「加入餐盤」為客人配餐，可加減份數','Tap "Add to tray" to serve the customer; adjust portions or remove.'),
-  filterAll:T('全部','All'), filterFilling:T('飽肚','Filling'), filterSnack:T('小食','Snacks'), filterDrink:T('飲品','Drinks'), filterHealthy:T('健康','Healthy'),
+  filterAll:T('全部','All'), filterFilling:T('飽肚','Filling'), filterSnack:T('小食','Snacks'), filterDrink:T('飲品','Drinks'),
   ecoLegendHigh:T('高環保包裝','Eco-friendly'),
   ecoLegendMid:T('一般環保包裝','Moderate'),
   ecoLegendLow:T('多塑膠／不環保包裝','High plastic'),
+  ecoFilterAria:T('按環保程度篩選','Filter by eco-friendliness'),
+  menuEmptyCombo:T('此分類組合暫時沒有食物，請切換其他分類。','No foods match this filter combination. Please switch to another filter.'),
   addBtn:T('加入餐盤','Add to tray'), addedBtn:T('已加入','Added'), addAria:T('把 {name} 加入餐盤','Add {name} to the tray'),
-  tagFilling:T('飽肚','Filling'), tagSnack:T('小食','Snack'), tagDrink:T('飲品','Drink'), tagHealthy:T('健康','Healthy'),
+  tagFilling:T('飽肚','Filling'), tagSnack:T('小食','Snack'), tagDrink:T('飲品','Drink'),
 
   trayTitle:T('餐盤','Tray'), trayEmpty:T('餐盤還是空的','Your tray is empty'),
   trayEmptyHint:T('在餐牌選食物，為客人準備。','Choose food from the menu to serve the customer.'),
@@ -564,7 +575,6 @@ const STR = {
   customerAskTitle:T('客人點單','Customer order'),
   orderPaid:T('客人付款 $ {n}','Pays $ {n}'),
   orderBudget:T('預算 ≤ $ {n}','Budget ≤ $ {n}'),
-  orderHealthy:T('健康 ≥ {n}','Healthy ≥ {n}'),
   orderQty:T('食物 ≥ {n} 份','Food ≥ {n} portions'),
   orderDineIn:T('堂食','Dine-in'), orderTakeaway:T('外賣','Takeaway'),
 
@@ -611,10 +621,13 @@ const STR = {
   opsAndParens:T('運算符號與括號','Operators & brackets'),
   priceTag:T('價格','Price'), qtyTag:T('份數','Qty'), payTag:T('付款','Paid'), costTag:T('開銷','Cost'),
 
-  /* 第三页题型 */
+  /* 第三页题型与中间計算 */
   mcQ1:T('哪一條算式能表示「先把兩款食物的價格加起來，再由付款金額減去開銷」？','Which expression means "add the two food prices first, then subtract the cost from the amount paid"?'),
   mcQ2:T('應該先計算哪一步？','Which step should be calculated first?'),
   mcQ2b:T('括號內應該先計算哪一步？','Which step inside the brackets comes first?'),
+  mcQNext:T('接下來應該計算哪一步？','Next, which step should be calculated?'),
+  step3CalcPrompt:T('請計算這一步的結果：','Calculate this step: '),
+  step3CalcCorrect:T('計算正確！算式可簡化為 {expr}，請按「下一步」繼續。','Correct! The expression simplifies to {expr}. Click "Next" to continue.'),
   mcWhy:T('為甚麼要使用圓括號？','Why use round brackets?'),
   mcWhyA:T('因為圓括號表示整張訂單的食物開銷，所以要先計算括號內。','Because the brackets group the whole order cost, so it is calculated first.'),
   mcWhyB:T('因為括號內的數最大。','Because the numbers inside are the biggest.'),
@@ -859,6 +872,7 @@ const state = {
   lbLevel:'basic',
   cart:{},
   filter:'all',
+  ecoFilter:'all',      // 'all' | 'high' | 'mid' | 'low'（仅挑战模式生效）
   // 订单流程
   customer:null,
   orderNo:1,
@@ -870,16 +884,28 @@ const state = {
   shiftMistakeStep:{}, shiftMistakeOp:{},
   shiftOrders:[],
   // 四页流程
-  flow:{ step:1, expr:'', answer:'', status:'', msg:'', hint:false, mcOptions:[], mcAnswered:false, mcChosen:null, _mcType:null, _mcCorrectIndex:0, orderAnswers:{1:null,2:null,3:null,4:null} }
+  flow:{
+    step:1, expr:'', answer:'', status:'', msg:'', hint:false,
+    mcOptions:[], mcAnswered:false, mcChosen:null, _mcType:null, _mcCorrectIndex:0,
+    step3Stage:0, step3CurrentExpr:'', step3InnerAst:null, step3TargetOp:null,
+    subAnswer:'', subStatus:'', subMsg:'',
+    orderAnswers:{1:null,2:null,3:null,4:null}
+  }
 };
 
 function t(o){ return o ? (o[state.lang] || o.zh || '') : ''; }
 function bi(zh,en){ return state.lang === 'en' ? en : zh; }
 function tf(o,vars){ let s = t(o); if(vars){ Object.keys(vars).forEach(k => { s = s.split('{'+k+'}').join(String(vars[k])); }); } return s; }
 function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function money(n){ return '$' + n; }
 function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
 function ecoTierClass(eco){ return eco >= 3 ? 'eco-high' : (eco === 2 ? 'eco-mid' : 'eco-low'); }
+function matchEcoFilter(f, ecoFilter){
+  if(!ecoFilter || ecoFilter === 'all') return true;
+  if(ecoFilter === 'high') return f.eco >= 3;
+  if(ecoFilter === 'mid') return f.eco === 2;
+  if(ecoFilter === 'low') return f.eco <= 1;
+  return true;
+}
 
 /* ========================= 访客名字与排行榜数据 ========================= */
 function getGuestName(){
@@ -1020,7 +1046,7 @@ function ensureAchievements(profile){
   return changed;
 }
 
-/* ========================= 数学：表达式解析 ========================= */
+/* ========================= 数学：表达式解析与分步化简 ========================= */
 function normalizeExpr(str){
   return String(str == null ? '' : str)
     .replace(/×/g,'*').replace(/÷/g,'/')
@@ -1079,7 +1105,99 @@ function astCountOp(n, op){
   if(n.type==='bin') return (n.op===op?1:0) + astCountOp(n.left,op) + astCountOp(n.right,op);
   return 0;
 }
+function astCountAllBinOps(n){
+  if(!n) return 0;
+  if(n.type==='paren'||n.type==='unary') return astCountAllBinOps(n.expr);
+  if(n.type==='bin') return 1 + astCountAllBinOps(n.left) + astCountAllBinOps(n.right);
+  return 0;
+}
 function astHasDiv(n){ return astHasOp(n,'/'); }
+
+/* 格式化 AST 為易讀算式字串 */
+function opSymbol(op){ return op==='*' ? '×' : op==='/' ? '÷' : op==='-' ? '−' : '+'; }
+function astToDisplay(n){
+  if(!n) return '';
+  if(n.type==='num') return String(n.value);
+  if(n.type==='paren') return '(' + astToDisplay(n.expr) + ')';
+  if(n.type==='unary') return (n.op==='-'?'−':'+') + astToDisplay(n.expr);
+  if(n.type==='bin') return astToDisplay(n.left) + ' ' + opSymbol(n.op) + ' ' + astToDisplay(n.right);
+  return '';
+}
+
+/* 尋找括號內下一個應優先計算的二元運算節點（先括號、再乘除、後加減，同級由左至右） */
+function findNextBinOp(n){
+  if(!n || n.type==='num') return null;
+  if(n.type==='paren') return findNextBinOp(n.expr);
+  if(n.type==='unary') return findNextBinOp(n.expr);
+  if(n.type==='bin'){
+    const innerParen = findParenOp(n);
+    if(innerParen) return innerParen;
+    if(astHasOp(n,'*') || astHasOp(n,'/')){
+      return findLeftmostMulDiv(n);
+    }
+    return findLeftmostAddSub(n);
+  }
+  return null;
+}
+function findParenOp(n){
+  if(!n || n.type==='num') return null;
+  if(n.type==='paren') return findNextBinOp(n.expr);
+  if(n.type==='unary') return findParenOp(n.expr);
+  if(n.type==='bin') return findParenOp(n.left) || findParenOp(n.right);
+  return null;
+}
+function findLeftmostMulDiv(n){
+  if(!n || n.type==='num') return null;
+  if(n.type==='paren') return findLeftmostMulDiv(n.expr);
+  if(n.type==='bin'){
+    const l = findLeftmostMulDiv(n.left);
+    if(l) return l;
+    if((n.op==='*' || n.op==='/') && n.left.type==='num' && n.right.type==='num') return n;
+    return findLeftmostMulDiv(n.right);
+  }
+  return null;
+}
+function findLeftmostAddSub(n){
+  if(!n || n.type==='num') return null;
+  if(n.type==='paren') return findLeftmostAddSub(n.expr);
+  if(n.type==='bin'){
+    const l = findLeftmostAddSub(n.left);
+    if(l) return l;
+    if((n.op==='+' || n.op==='-') && n.left.type==='num' && n.right.type==='num') return n;
+    return findLeftmostAddSub(n.right);
+  }
+  return null;
+}
+function replaceBinNodeWithResult(root, targetNode){
+  if(!root) return root;
+  if(root === targetNode){
+    return { type:'num', value: evalAST(targetNode) };
+  }
+  if(root.type==='paren'){
+    const inner = replaceBinNodeWithResult(root.expr, targetNode);
+    return inner.type==='num' ? inner : { type:'paren', expr: inner };
+  }
+  if(root.type==='unary'){
+    return { type:'unary', op:root.op, expr: replaceBinNodeWithResult(root.expr, targetNode) };
+  }
+  if(root.type==='bin'){
+    return {
+      type:'bin',
+      op:root.op,
+      left: replaceBinNodeWithResult(root.left, targetNode),
+      right: replaceBinNodeWithResult(root.right, targetNode)
+    };
+  }
+  return root;
+}
+function formatOuterChangeExpr(paid, innerAst){
+  if(!innerAst) return String(paid);
+  if(innerAst.type === 'num'){
+    return paid + ' − ' + innerAst.value;
+  }
+  return paid + ' − (' + astToDisplay(innerAst) + ')';
+}
+
 function sameMultiset(a,b){
   if(a.length!==b.length) return false;
   const x=a.slice().sort((p,q)=>p-q), y=b.slice().sort((p,q)=>p-q);
@@ -1449,8 +1567,8 @@ function renderStart(){
 /* ========================= 营业主画面（横向餐单，一屏全部显示 + 右侧餐盘） ========================= */
 function foodCardHTML(f,L){
   const qty = state.cart[f.id] || 0;
-  const visibleTags = L.id==='basic' ? f.tags.filter(tag => tag !== 'healthy') : f.tags;
-  const tags = visibleTags.map(tag => '<span class="tag '+(tag==='healthy'?'healthy':'')+'">'+t(STR['tag'+cap(tag)])+'</span>').join('');
+  const visibleTags = (f.tags || []).filter(tag => tag !== 'healthy');
+  const tags = visibleTags.map(tag => '<span class="tag">'+t(STR['tag'+cap(tag)])+'</span>').join('');
   const isChallenge = L.id==='challenge';
   const tier = ecoTierClass(f.eco);
   const packRow = isChallenge
@@ -1518,19 +1636,32 @@ function bizBarHTML(){
 function renderGame(){
   const L = LEVELS[state.level];
   if(!L){ renderStart(); return; }
+  if(state.filter === 'healthy') state.filter = 'all';
+  const isChallenge = L.id === 'challenge';
+  if(!isChallenge) state.ecoFilter = 'all';
   const ent = entries();
-  const shown = FOODS.filter(f => state.filter==='all' || f.tags.includes(state.filter));
-  const filters = L.id==='basic'
-    ? [['all',STR.filterAll],['filling',STR.filterFilling],['snack',STR.filterSnack],['drink',STR.filterDrink]]
-    : [['all',STR.filterAll],['filling',STR.filterFilling],['snack',STR.filterSnack],['drink',STR.filterDrink],['healthy',STR.filterHealthy]];
+  const shown = FOODS.filter(f =>
+    (state.filter==='all' || f.tags.includes(state.filter)) &&
+    (!isChallenge || matchEcoFilter(f, state.ecoFilter))
+  );
+  const filters = [['all',STR.filterAll],['filling',STR.filterFilling],['snack',STR.filterSnack],['drink',STR.filterDrink]];
   const filterRow = filters.map(p => '<button class="filter-btn '+(state.filter===p[0]?'active':'')+'" data-filter="'+p[0]+'">'+t(p[1])+'</button>').join('');
-  const ecoLegend = L.id==='challenge'
-    ? '<div class="eco-legend" aria-label="Packaging eco level">' +
-        '<span class="leg-high">🟢 '+t(STR.ecoLegendHigh)+'</span>' +
-        '<span class="leg-mid">🟡 '+t(STR.ecoLegendMid)+'</span>' +
-        '<span class="leg-low">🔴 '+t(STR.ecoLegendLow)+'</span>' +
+  const ecoBtns = [
+    ['high', '🟢', STR.ecoLegendHigh, 'leg-high'],
+    ['mid',  '🟡', STR.ecoLegendMid,  'leg-mid'],
+    ['low',  '🔴', STR.ecoLegendLow,  'leg-low']
+  ];
+  const ecoLegend = isChallenge
+    ? '<div class="eco-legend" role="group" aria-label="'+esc(t(STR.ecoFilterAria))+'">' +
+        ecoBtns.map(b => {
+          const active = state.ecoFilter === b[0];
+          return '<button type="button" class="eco-filter-btn '+b[3]+(active?' active':'')+'" data-eco-filter="'+b[0]+'" aria-pressed="'+(active?'true':'false')+'">'+b[1]+' '+t(b[2])+'</button>';
+        }).join('') +
       '</div>'
     : '';
+  const gridContent = shown.length
+    ? shown.map(f=>foodCardHTML(f,L)).join('')
+    : '<div class="menu-empty">'+t(STR.menuEmptyCombo)+'</div>';
   app.innerHTML =
     '<div class="game-topbar">' +
       '<div class="brand"><div class="brand-badge">🍵</div><h1>'+t(STR.appTitle)+'</h1></div>' +
@@ -1549,7 +1680,7 @@ function renderGame(){
         '<div class="panel-head"><h2>'+t(STR.menuTitle)+'</h2><p>'+t(STR.menuHint)+'</p></div>' +
         '<div class="filter-row">'+filterRow+'</div>' +
         ecoLegend +
-        '<div class="menu-grid">'+shown.map(f=>foodCardHTML(f,L)).join('')+'</div>' +
+        '<div class="menu-grid">'+gridContent+'</div>' +
       '</section></div>' +
       '<aside class="side-panel">' +
         trayHTML(ent,L) +
@@ -1559,7 +1690,97 @@ function renderGame(){
     (ent.length ? '<button class="tray-fab" data-jump-tray aria-label="'+esc(t(STR.goTray))+'"><span class="tray-fab-num">'+portionsOf(ent)+'</span><span>'+t(STR.goTray)+' →</span></button>' : '');
 }
 
-/* ========================= 四步翻页流程 ========================= */
+/* ========================= 四步翻页流程与第三步分步計算 ========================= */
+function initStep3Stage(exprStr){
+  const f = state.flow;
+  const c = state.customer;
+  const ast = parseExprAST(exprStr);
+  let innerAst = null;
+  if(ast && ast.type === 'bin' && ast.op === '-' && ast.right){
+    innerAst = ast.right.type === 'paren' ? ast.right.expr : ast.right;
+  } else {
+    const ent = entries();
+    const groups = groupPrices(ent);
+    const fallbackInner = isMulMode()
+      ? groups.map(g => g.totalQty>=2 ? (g.price+'*'+g.totalQty) : String(g.price)).join('+')
+      : ent.map(e => e.qty>1 ? (e.qty+'*'+e.food.price) : String(e.food.price)).join('+');
+    innerAst = parseExprAST(fallbackInner);
+  }
+  f.step3Stage = 0;
+  f.step3InnerAst = innerAst;
+  f.step3CurrentExpr = exprStr || formatOuterChangeExpr(c.paid, innerAst);
+  prepareStep3Round();
+}
+
+function prepareStep3Round(){
+  const f = state.flow;
+  const c = state.customer;
+  const inner = f.step3InnerAst;
+  const targetNode = findNextBinOp(inner);
+  if(!targetNode){
+    f.step3TargetOp = null;
+    f.mcOptions = [];
+    return;
+  }
+  const correctLabel = astToDisplay(targetNode);
+  const resVal = evalAST(targetNode);
+  f.step3TargetOp = {
+    node: targetNode,
+    label: correctLabel,
+    result: resVal
+  };
+
+  const distractors = [];
+  const addDistractor = (lbl) => {
+    if(lbl && lbl !== correctLabel && distractors.indexOf(lbl) === -1){
+      distractors.push(lbl);
+    }
+  };
+
+  if(inner && inner.type === 'bin' && (inner.op === '+' || inner.op === '-')){
+    if(targetNode.op === '*' || targetNode.op === '/'){
+      if(inner.left === targetNode && inner.right.type === 'num'){
+        addDistractor(targetNode.right.value + ' ' + opSymbol(inner.op) + ' ' + inner.right.value);
+      } else if(inner.right === targetNode && inner.left.type === 'num'){
+        addDistractor(inner.left.value + ' ' + opSymbol(inner.op) + ' ' + targetNode.left.value);
+      }
+    }
+  }
+
+  const nums = astNumbers(inner);
+  nums.forEach(num => {
+    if(distractors.length < 2){
+      addDistractor(c.paid + ' − ' + num);
+    }
+  });
+  if(distractors.length < 2){
+    addDistractor(c.paid + ' + ' + targetNode.left.value);
+  }
+  if(distractors.length < 2){
+    addDistractor(c.paid + ' − ' + (targetNode.right.value + 1));
+  }
+
+  const rawOpts = [
+    { label: correctLabel, correct: true },
+    { label: distractors[0], correct: false },
+    { label: distractors[1], correct: false }
+  ];
+  const idx = shuffleIndex();
+  const ordered = idx.map((origIdx, pos) => ({
+    label: ['A. ','B. ','C. '][pos] + rawOpts[origIdx].label,
+    correct: rawOpts[origIdx].correct
+  }));
+  f.mcOptions = ordered;
+  f._mcCorrectIndex = ordered.findIndex(o => o.correct);
+  f.mcAnswered = false;
+  f.mcChosen = null;
+  f.status = '';
+  f.msg = '';
+  f.subAnswer = '';
+  f.subStatus = '';
+  f.subMsg = '';
+}
+
 function orderSummaryHTML(){
   const c = state.customer;
   const ent = entries();
@@ -1569,7 +1790,8 @@ function orderSummaryHTML(){
   }).join('');
   let exprLine = '';
   if(state.flow.step >= 3 && state.flow.orderAnswers[2]){
-    exprLine = '<div class="summary-expr"><small>'+t(STR.summaryYourExpr)+'</small>'+esc(state.flow.orderAnswers[2])+'</div>';
+    const cur = state.flow.step3CurrentExpr || state.flow.orderAnswers[2];
+    exprLine = '<div class="summary-expr"><small>'+t(STR.summaryYourExpr)+'</small>'+esc(cur)+'</div>';
   }
   return '<div class="order-summary">' +
     '<h3>'+t(STR.orderSummaryTitle)+'</h3>' +
@@ -1666,15 +1888,33 @@ function renderFlowStepCard(){
       '<p class="flow-feedback '+(f.status)+'" data-flow-feedback>'+esc(f.msg||'')+'</p>';
   } else if(step === 3){
     title = t(STR.flowStep3);
-    const nextAction = passed
-      ? '<div class="flow-actions"><button type="button" class="flow-next-btn" data-flow-next>'+t(STR.flowNext)+'</button></div>'
-      : '';
+    if(!f.mcOptions || f.mcOptions.length !== 3){
+      initStep3Stage(f.orderAnswers[2]);
+    }
+    const mcSelectedRight = f.mcAnswered && f.status === 'ok';
+    const subPassed = f.subStatus === 'ok';
+    let subCalcHTML = '';
+    let feedbackHTML = '<p class="flow-feedback '+(f.status)+'" data-flow-feedback>'+esc(f.msg||'')+'</p>';
+
+    if(mcSelectedRight && f.step3TargetOp){
+      const subActionBtn = subPassed
+        ? '<button type="button" class="flow-next-btn" data-flow-next>'+t(STR.flowNext)+'</button>'
+        : '<button type="button" class="flow-check-btn" data-step3-sub-check>'+t(STR.flowCheck)+'</button>';
+      subCalcHTML =
+        '<div class="substep-calc-box">' +
+          '<p class="substep-calc-label">'+t(STR.step3CalcPrompt)+'<span class="step-math">'+esc(f.step3TargetOp.label)+' = ？</span></p>' +
+          '<input class="answer-input" type="text" inputmode="numeric" data-sub-answer-input value="'+esc(f.subAnswer||'')+'" placeholder="'+esc(t(STR.flowAnswerPlaceholder))+'" aria-label="'+esc(f.step3TargetOp.label)+'"'+(subPassed?' disabled':'')+'>' +
+          '<div class="flow-actions">'+subActionBtn+'</div>' +
+        '</div>';
+      feedbackHTML = '<p class="flow-feedback '+(f.subStatus)+'" data-sub-feedback>'+esc(f.subMsg||'')+'</p>';
+    }
+
     body = summary +
       '<p class="flow-q">'+flowStep3Question()+'</p>' +
       hintButtonHTML() +
-      '<div class="mc-list">'+flowStep3Options()+'</div>' +
-      nextAction +
-      '<p class="flow-feedback '+(f.status)+'" data-flow-feedback>'+esc(f.msg||'')+'</p>';
+      '<div class="mc-list">'+renderMCOptions(f.mcOptions)+'</div>' +
+      subCalcHTML +
+      feedbackHTML;
   } else if(step === 4){
     title = t(STR.flowStep4);
     const actionBtn = passed
@@ -1700,6 +1940,27 @@ function renderFlowStepCard(){
         body +
       '</div>' +
     '</div>';
+
+  if(step === 3 && f.mcAnswered && f.status === 'ok' && f.subStatus !== 'ok'){
+    const subInp = app.querySelector('[data-sub-answer-input]');
+    if(subInp){
+      subInp.addEventListener('input', function(){
+        const v = subInp.value.replace(/[^\d]/g,'');
+        if(v !== subInp.value) subInp.value = v;
+        f.subAnswer = v;
+        f.subStatus = ''; f.subMsg = '';
+        const fb = app.querySelector('[data-sub-feedback]');
+        if(fb){ fb.textContent=''; fb.className='flow-feedback'; }
+      });
+      subInp.addEventListener('keydown', function(e){
+        if(e.key === 'Enter'){
+          e.preventDefault();
+          checkStep3SubAnswer();
+        }
+      });
+      setTimeout(function(){ try{ subInp.focus(); }catch(e){} }, 60);
+    }
+  }
 
   if(step === 4 && !passed){
     const inp = app.querySelector('[data-answer-input]');
@@ -1737,69 +1998,14 @@ function exprPrettyHTML(str){
 
 /* 第三页：判断先计算哪一步 */
 function flowStep3Question(){
+  if(state.flow.step3Stage >= 1){
+    return t(STR.mcQNext);
+  }
   if(state.level === 'basic'){
     state.flow._mcType = 'order';
     return t(STR.mcQ2);
   }
   return t(STR.mcQ2b);
-}
-function flowStep3Options(){
-  const ent = entries();
-  const sp = spendOf(ent);
-  const c = state.customer;
-  const groups = groupPrices(ent);
-  const innerStr = isMulMode()
-    ? groups.map(g => g.totalQty>=2 ? (g.price+' × '+g.totalQty) : (''+g.price)).join(' + ')
-    : ent.map(e => e.qty>1 ? (e.qty+' × '+e.food.price) : (''+e.food.price)).join(' + ');
-
-  if(state.flow.mcOptions && state.flow.mcOptions.length === 3){
-    return renderMCOptions(state.flow.mcOptions);
-  }
-
-  if(state.level === 'basic'){
-    const a = ent[0], b = ent[1];
-    const pa = a.food.price, pb = b.food.price;
-    const optA = c.paid+' − '+pa;
-    const optB = pa+' + '+pb;
-    const optC = c.paid+' − '+pb;
-    const opts = [ {label:'A. '+optB, correct:true}, {label:'B. '+optA, correct:false}, {label:'C. '+optC, correct:false} ];
-    const idx = shuffleIndex();
-    const ordered = idx.map((origIdx, pos) => ({ label: ['A. ','B. ','C. '][pos] + opts[origIdx].label.slice(3), correct: opts[origIdx].correct }));
-    state.flow.mcOptions = ordered;
-    state.flow._mcCorrectIndex = ordered.findIndex(o=>o.correct);
-    return renderMCOptions(ordered);
-  }
-  if(state.level === 'advanced'){
-    const mulGrp = groups.find(g => g.totalQty >= 2);
-    const mulStr = mulGrp ? (mulGrp.price+' × '+mulGrp.totalQty) : (ent[0].qty+' × '+ent[0].food.price);
-    const otherGrp = mulGrp ? groups.find(g => g !== mulGrp) : groups[1];
-    const otherStr = (mulGrp && otherGrp) ? (otherGrp.price+' + '+mulGrp.price) : (c.paid+' − '+ent[0].food.price);
-    const optSub = c.paid+' − '+sp;
-    const opts = [ {label:'A. '+mulStr, correct:true}, {label:'B. '+otherStr, correct:false}, {label:'C. '+optSub, correct:false} ];
-    const idx = shuffleIndex();
-    const ordered = idx.map((origIdx, pos) => ({ label: ['A. ','B. ','C. '][pos] + opts[origIdx].label.slice(3), correct: opts[origIdx].correct }));
-    state.flow.mcOptions = ordered;
-    state.flow._mcCorrectIndex = ordered.findIndex(o=>o.correct);
-    return renderMCOptions(ordered);
-  }
-  const mulGrp = groups.find(g => g.totalQty >= 2);
-  let opt1, opt2, opt3;
-  if(mulGrp){
-    const otherGrp = groups.find(g => g !== mulGrp);
-    opt1 = mulGrp.price+' × '+mulGrp.totalQty;
-    opt2 = otherGrp ? (otherGrp.price+' + '+mulGrp.price) : innerStr;
-    opt3 = c.paid+' − '+(otherGrp ? otherGrp.price : mulGrp.price);
-  } else {
-    opt1 = innerStr;
-    opt2 = c.paid+' − '+sp;
-    opt3 = c.paid+' − '+ent[0].food.price;
-  }
-  const opts = [ {label:'A. '+opt1, correct:true}, {label:'B. '+opt2, correct:false}, {label:'C. '+opt3, correct:false} ];
-  const idx = shuffleIndex();
-  const ordered = idx.map((origIdx, pos) => ({ label: ['A. ','B. ','C. '][pos] + opts[origIdx].label.slice(3), correct: opts[origIdx].correct }));
-  state.flow.mcOptions = ordered;
-  state.flow._mcCorrectIndex = ordered.findIndex(o=>o.correct);
-  return renderMCOptions(ordered);
 }
 function shuffleIndex(){
   const a = [0,1,2];
@@ -1932,7 +2138,7 @@ function checkFlowAnswer(){
   }
 }
 
-/* 处理选择题 — 答对后不自动跳转，等待点击「下一步」 */
+/* 处理第三步选择题 — 选对后立即展开计算该步结果的输入框 */
 function answerMC(idx){
   const f = state.flow;
   if(f.mcAnswered) return;
@@ -1941,7 +2147,10 @@ function answerMC(idx){
   f.mcAnswered = true;
   if(correct){
     f.status = 'ok';
-    f.msg = t(STR.flowCorrectDetail3);
+    f.msg = '';
+    f.subAnswer = '';
+    f.subStatus = '';
+    f.subMsg = '';
     state.shiftQuestions++;
     state.shiftCorrect++;
     f.orderAnswers[3] = idx;
@@ -1963,8 +2172,62 @@ function answerMC(idx){
   }
 }
 
+/* 核验第三步当前小步的计算结果 */
+function checkStep3SubAnswer(){
+  const f = state.flow;
+  if(f.step !== 3 || f.status !== 'ok' || !f.step3TargetOp || f.subStatus === 'ok') return;
+  const ans = (f.subAnswer||'').trim();
+  const num = parseInt(ans, 10);
+  const expected = f.step3TargetOp.result;
+  const ok = ans !== '' && !isNaN(num) && num === expected;
+
+  if(ok){
+    f.subStatus = 'ok';
+    state.shiftQuestions++;
+    state.shiftCorrect++;
+    f.step3InnerAst = replaceBinNodeWithResult(f.step3InnerAst, f.step3TargetOp.node);
+    f.step3CurrentExpr = formatOuterChangeExpr(state.customer.paid, f.step3InnerAst);
+    f.subMsg = tf(STR.step3CalcCorrect, { expr: f.step3CurrentExpr });
+    renderFlowStepCard();
+  } else {
+    f.subStatus = 'bad';
+    f.subMsg = ans === '' ? t(STR.exprEmpty) : t(STR.exprAWrong);
+    state.shiftQuestions++;
+    state.shiftMistakeStep[3] = (state.shiftMistakeStep[3]||0)+1;
+    profileUpdateMistake(3);
+    renderFlowStepCard();
+    const subInp = app.querySelector('[data-sub-answer-input]');
+    if(subInp){ setTimeout(function(){ try{ subInp.focus(); }catch(e){} }, 60); }
+  }
+}
+
 function advanceFlow(){
   const f = state.flow;
+  if(f.step === 2){
+    f.step = 3;
+    f.expr=''; f.answer=''; f.status=''; f.msg=''; f.hint=false;
+    initStep3Stage(f.orderAnswers[2]);
+    renderFlowStepCard();
+    window.scrollTo({ top:0 });
+    return;
+  }
+  if(f.step === 3){
+    if(f.step3InnerAst && astCountAllBinOps(f.step3InnerAst) >= 1){
+      f.step3Stage++;
+      f.hint = false;
+      prepareStep3Round();
+      renderFlowStepCard();
+      window.scrollTo({ top:0 });
+      return;
+    }
+    f.step = 4;
+    f.expr=''; f.answer=''; f.status=''; f.msg=''; f.hint=false;
+    f.mcOptions=[]; f.mcAnswered=false; f.mcChosen=null;
+    f.subAnswer=''; f.subStatus=''; f.subMsg='';
+    renderFlowStepCard();
+    window.scrollTo({ top:0 });
+    return;
+  }
   if(f.step < 4){
     f.step++;
     f.expr=''; f.answer=''; f.status=''; f.msg=''; f.hint=false;
@@ -2112,7 +2375,6 @@ function checkAchievements(ctx){
   ensureAchievements(prof);
   const t0 = prof.totals;
 
-  // 碳水炸弹：同一订单 叉烧包 + 油条
   if(ctx.order && ctx.order.items){
     const ids = ctx.order.items.map(it=>it.id);
     if(ids.includes('bbqbun') && ids.includes('youtiao')) unlockAchievement('carbBomb');
@@ -2591,12 +2853,22 @@ function openRules(){
     actions:'<button class="btn btn-primary" data-close>'+t(STR.rulesClose)+'</button>'
   });
 }
+function resetFlowState(){
+  state.flow = {
+    step:1, expr:'', answer:'', status:'', msg:'', hint:false,
+    mcOptions:[], mcAnswered:false, mcChosen:null, _mcType:null, _mcCorrectIndex:0,
+    step3Stage:0, step3CurrentExpr:'', step3InnerAst:null, step3TargetOp:null,
+    subAnswer:'', subStatus:'', subMsg:'',
+    orderAnswers:{1:null,2:null,3:null,4:null}
+  };
+}
 function startLevel(id, options){
   if(!LEVELS[id]) return;
   state.screen = 'game';
   state.level = id;
   state.cart = {};
   state.filter = 'all';
+  state.ecoFilter = 'all';
   state.customer = genOrder(id);
   state.orderNo = 1;
   state.orderStartTime = Date.now();
@@ -2605,7 +2877,7 @@ function startLevel(id, options){
   state.shiftQuestions = 0; state.shiftCorrect = 0; state.shiftStreak = 0;
   state.shiftMistakeStep = {}; state.shiftMistakeOp = {};
   state.shiftOrders = [];
-  state.flow = { step:1, expr:'', answer:'', status:'', msg:'', hint:false, mcOptions:[], mcAnswered:false, mcChosen:null, _mcType:null, _mcCorrectIndex:0, orderAnswers:{1:null,2:null,3:null,4:null} };
+  resetFlowState();
   startTimer();
   render();
   window.scrollTo({ top:0 });
@@ -2615,9 +2887,11 @@ function nextCustomer(){
   closeModal();
   state.screen = 'game';
   state.cart = {};
+  state.filter = 'all';
+  state.ecoFilter = 'all';
   state.customer = genOrder(state.level);
   state.orderStartTime = Date.now();
-  state.flow = { step:1, expr:'', answer:'', status:'', msg:'', hint:false, mcOptions:[], mcAnswered:false, mcChosen:null, _mcType:null, _mcCorrectIndex:0, orderAnswers:{1:null,2:null,3:null,4:null} };
+  resetFlowState();
   render();
   window.scrollTo({ top:0 });
 }
@@ -2632,8 +2906,8 @@ document.addEventListener('click', function(e){
   if((el = hit('[data-lang]'))){
     state.lang = el.getAttribute('data-lang');
     try{ localStorage.setItem(STORE_LANG, state.lang); }catch(err){}
-    if(state.screen === 'flow' && state.flow.step === 3){
-      state.flow.mcOptions = [];
+    if(state.screen === 'flow' && state.flow.step === 3 && state.flow.subStatus === 'ok' && state.flow.step3CurrentExpr){
+      state.flow.subMsg = tf(STR.step3CalcCorrect, { expr: state.flow.step3CurrentExpr });
     }
     toast(t(STR.toastLang));
     render();
@@ -2678,7 +2952,19 @@ document.addEventListener('click', function(e){
   if((el = hit('[data-confirm-end]'))){ closeModal(); endShift(); return; }
 
   /* 餐牌操作 */
-  if((el = hit('[data-filter]'))){ state.filter = el.getAttribute('data-filter'); renderGame(); return; }
+  if((el = hit('[data-filter]'))){
+    const nextF = el.getAttribute('data-filter');
+    state.filter = nextF;
+    if(nextF === 'all') state.ecoFilter = 'all';
+    renderGame();
+    return;
+  }
+  if((el = hit('[data-eco-filter]'))){
+    const nextEco = el.getAttribute('data-eco-filter');
+    state.ecoFilter = (state.ecoFilter === nextEco) ? 'all' : nextEco;
+    renderGame();
+    return;
+  }
   if((el = hit('[data-add]'))){
     const id = el.getAttribute('data-add');
     const c = canAdd(id);
@@ -2724,7 +3010,7 @@ document.addEventListener('click', function(e){
       return;
     }
     state.screen = 'flow';
-    state.flow = { step:1, expr:'', answer:'', status:'', msg:'', hint:false, mcOptions:[], mcAnswered:false, mcChosen:null, _mcType:null, _mcCorrectIndex:0, orderAnswers:{1:null,2:null,3:null,4:null} };
+    resetFlowState();
     render();
     window.scrollTo({ top:0 });
     return;
@@ -2765,6 +3051,10 @@ document.addEventListener('click', function(e){
   if((el = hit('[data-flow-check]'))){
     if(state.flow.step === 1 || state.flow.step === 2) checkFlowExpression();
     else if(state.flow.step === 4) checkFlowAnswer();
+    return;
+  }
+  if((el = hit('[data-step3-sub-check]'))){
+    checkStep3SubAnswer();
     return;
   }
   if((el = hit('[data-flow-next]'))){
@@ -2859,7 +3149,7 @@ document.addEventListener('keydown', function(e){
       if(e.key === '*'){ f.expr=(f.expr||'')+'×'; f.status=''; f.msg=''; renderFlowStepCard(); return; }
       if(e.key === '/'){ f.expr=(f.expr||'')+'÷'; f.status=''; f.msg=''; renderFlowStepCard(); return; }
       if(e.key === '(' || e.key === ')'){ f.expr=(f.expr||'')+e.key; f.status=''; f.msg=''; renderFlowStepCard(); return; }
-    } else if(f.step === 3 && e.key === 'Enter' && f.status === 'ok'){
+    } else if(f.step === 3 && e.key === 'Enter' && f.subStatus === 'ok'){
       advanceFlow();
     } else if(f.step === 4 && e.key === 'Enter' && f.status === 'ok'){
       advanceFlow();
@@ -3020,6 +3310,11 @@ function runSelfTests(){
   ok('圆括号校验 - 不匹配返回 null', parseExprAST('30 - (8 + 14') === null);
   ok('除以零返回 null', evalExpr('10 ÷ 0') === null);
 
+  /* --- 食物標籤與菜名檢查 --- */
+  ok('所有食物均無 healthy 標籤', FOODS.every(f => !f.tags.includes('healthy')));
+  ok('沙律保留 snack 標籤', FOOD_BY_ID.salad.tags.includes('snack'));
+  ok('豉油炒麵名稱已更新', FOOD_BY_ID.noodles.name.zh === '豉油炒麵');
+
   /* --- 订单生成与验证 --- */
   state.level = 'basic';
   const ob = genOrder('basic');
@@ -3050,6 +3345,41 @@ function runSelfTests(){
   ], { dineIn:true });
   ok('堂食誤選紙袋包裝食物判定不通過', ecoFailDineIn.ok === false);
 
+  /* --- 挑戰模式環保程度分類篩選測試 --- */
+  state.screen = 'game';
+  state.level = 'basic';
+  state.customer = ob;
+  renderGame();
+  ok('基礎模式不顯示環保篩選按鈕', app.querySelectorAll('[data-eco-filter]').length === 0);
+
+  state.level = 'challenge';
+  state.customer = oc;
+  state.filter = 'all';
+  state.ecoFilter = 'all';
+  renderGame();
+  ok('挑戰模式顯示 3 個環保篩選按鈕', app.querySelectorAll('[data-eco-filter]').length === 3);
+  ok('挑戰模式預設顯示全部 28 款食物', app.querySelectorAll('.food-card').length === 28);
+
+  app.querySelector('[data-eco-filter="high"]').click();
+  ok('篩選高環保包裝顯示 17 款食物', state.ecoFilter === 'high' && app.querySelectorAll('.food-card').length === 17);
+
+  app.querySelector('[data-eco-filter="mid"]').click();
+  ok('篩選一般環保包裝顯示 4 款食物', state.ecoFilter === 'mid' && app.querySelectorAll('.food-card').length === 4);
+
+  app.querySelector('[data-eco-filter="low"]').click();
+  ok('篩選多塑膠包裝顯示 7 款食物', state.ecoFilter === 'low' && app.querySelectorAll('.food-card').length === 7);
+
+  app.querySelector('[data-filter="drink"]').click();
+  app.querySelector('[data-eco-filter="high"]').click();
+  ok('飲品 + 高環保包裝組合篩選顯示 3 款飲品', state.filter === 'drink' && state.ecoFilter === 'high' && app.querySelectorAll('.food-card').length === 3);
+
+  app.querySelector('[data-eco-filter="high"]').click();
+  ok('再次點擊已選中環保按鈕取消環保篩選', state.ecoFilter === 'all' && app.querySelectorAll('.food-card').length === 8);
+
+  app.querySelector('[data-eco-filter="low"]').click();
+  app.querySelector('[data-filter="all"]').click();
+  ok('點擊全部按鈕同步重置食物與環保篩選', state.filter === 'all' && state.ecoFilter === 'all' && app.querySelectorAll('.food-card').length === 28);
+
   /* --- 表达式结构检查 --- */
   state.level = 'advanced';
   state.cart = { pineapple:2, lemontea:1 };
@@ -3066,18 +3396,60 @@ function runSelfTests(){
   const entSamePrice = entries();
   ok('同价订单预期数字为 [7, 10, 2]', sameMultiset(expectedSpendNumbers(entSamePrice), [7, 10, 2]));
   ok('同价订单数字总数=4', numbersOf(entSamePrice) === 4);
-  state.flow = { step:1, expr:'7+10×2', status:'', msg:'', orderAnswers:{} };
+  resetFlowState(); state.flow.step = 1; state.flow.expr = '7+10×2';
   checkFlowExpression();
   ok('同价订单第一步 7+10×2 通过', state.flow.status === 'ok');
-  state.flow = { step:1, expr:'7+10+10', status:'', msg:'', orderAnswers:{} };
+  resetFlowState(); state.flow.step = 1; state.flow.expr = '7+10+10';
   checkFlowExpression();
   ok('同价订单第一步连加 7+10+10 被拦截', state.flow.status === 'bad');
-  state.flow = { step:2, expr:'40−(7+10×2)', status:'', msg:'', orderAnswers:{} };
+  resetFlowState(); state.flow.step = 2; state.flow.expr = '40−(7+10×2)';
   checkFlowExpression();
   ok('同价订单第二步 40−(7+10×2) 通过', state.flow.status === 'ok');
-  state.flow = { step:2, expr:'40−(7+10+10)', status:'', msg:'', orderAnswers:{} };
+  resetFlowState(); state.flow.step = 2; state.flow.expr = '40−(7+10+10)';
   checkFlowExpression();
   ok('同价订单第二步连加 40−(7+10+10) 被拦截', state.flow.status === 'bad');
+
+  /* --- 第三步分步計算與動態跳轉驗證：情況 A（2 步算式：30 - (14 + 7)） --- */
+  state.level = 'basic';
+  state.cart = { cheungfun:1, eggtart:1 };
+  state.customer = { type:'student', paid:30, request:{ items:[{id:'cheungfun',qty:1},{id:'eggtart',qty:1}], totalQty:2 } };
+  resetFlowState();
+  state.flow.step = 2;
+  state.flow.orderAnswers[2] = '30−(14+7)';
+  advanceFlow();
+  ok('2步算式進入第3步目標運算為 14 + 7', state.flow.step === 3 && state.flow.step3TargetOp.label === '14 + 7');
+  answerMC(state.flow._mcCorrectIndex);
+  ok('2步算式選對順序後展開計算輸入框', state.flow.mcAnswered === true && state.flow.status === 'ok');
+  state.flow.subAnswer = '21';
+  checkStep3SubAnswer();
+  ok('2步算式算對 14 + 7 = 21 後化簡為 30 − 21', state.flow.subStatus === 'ok' && state.flow.step3CurrentExpr === '30 − 21');
+  advanceFlow();
+  ok('2步算式點擊下一步直接跳轉至第4頁找錢答案頁', state.flow.step === 4);
+  ok('第4頁算式直接代入結果且不顯示原算式', !app.querySelector('.orig-expr') && app.querySelector('.summary-expr').textContent.includes('30 − 21') && !app.querySelector('.summary-expr').textContent.includes('30−(14+7)'));
+
+  /* --- 第三步分步計算與動態跳轉驗證：情況 B（3 步算式：50 - (2 × 8 + 15)） --- */
+  state.level = 'advanced';
+  state.cart = { pineapple:2, lemontea:1 };
+  state.customer = { type:'grandma', paid:50, request:{ items:[{id:'pineapple',qty:2},{id:'lemontea',qty:1}], totalQty:3 } };
+  resetFlowState();
+  state.flow.step = 2;
+  state.flow.orderAnswers[2] = '50−(2×8+15)';
+  advanceFlow();
+  ok('3步算式第1輪目標運算為 2 × 8', state.flow.step === 3 && state.flow.step3TargetOp.label === '2 × 8');
+  answerMC(state.flow._mcCorrectIndex);
+  state.flow.subAnswer = '16';
+  checkStep3SubAnswer();
+  ok('3步算式算對 2 × 8 = 16 後化簡為 50 − (16 + 15)', state.flow.subStatus === 'ok' && state.flow.step3CurrentExpr === '50 − (16 + 15)');
+  advanceFlow();
+  ok('3步算式第1輪完成後繼續留在第3步追問 16 + 15', state.flow.step === 3 && state.flow.step3TargetOp.label === '16 + 15');
+  ok('第3.2步算式直接代入結果且不顯示原算式', !app.querySelector('.orig-expr') && app.querySelector('.summary-expr').textContent.includes('50 − (16 + 15)') && !app.querySelector('.summary-expr').textContent.includes('50−(2×8+15)'));
+  answerMC(state.flow._mcCorrectIndex);
+  state.flow.subAnswer = '31';
+  checkStep3SubAnswer();
+  ok('3步算式算對 16 + 15 = 31 後化簡為 50 − 31', state.flow.subStatus === 'ok' && state.flow.step3CurrentExpr === '50 − 31');
+  advanceFlow();
+  ok('3步算式第2輪完成後跳轉至第4頁找錢答案頁', state.flow.step === 4);
+  ok('3步算式第4頁只顯示 50 − 31 且無 .orig-expr', !app.querySelector('.orig-expr') && app.querySelector('.summary-expr').textContent.includes('50 − 31') && !app.querySelector('.summary-expr').textContent.includes('50−(2×8+15)'));
 
   /* --- 起始页与难度页规则弹窗检查 --- */
   state.screen = 'start';
@@ -3091,7 +3463,8 @@ function runSelfTests(){
   closeModal();
 
   /* --- 重置状态 --- */
-  state.level = null; state.cart = {}; state.customer = null; state.screen = 'start';
+  state.level = null; state.cart = {}; state.customer = null; state.filter = 'all'; state.ecoFilter = 'all'; state.screen = 'start';
+  render();
 
   const summary = 'Self-test: ' + pass + ' passed, ' + fail + ' failed';
   console.log(summary + '\n' + log.join('\n'));
