@@ -180,7 +180,9 @@
   /* ===== 翻页计算流程 ===== */
   .flow-screen{min-height:calc(100vh - 22px);display:flex;flex-direction:column;align-items:center;padding:16px 0}
   .flow-topbar{width:100%;max-width:860px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
-  .flow-progress{flex:1;min-width:200px;text-align:center;font-size:17px;font-weight:900;color:#6d4d2f}
+  .flow-lives{display:inline-flex;align-items:center;gap:6px;background:#fffaf0;border:2px solid #f0b3a8;border-radius:14px;padding:6px 12px;font-size:15px;font-weight:900;color:#b93a28;box-shadow:0 3px 0 #f0b3a8}
+  .flow-lives .hearts{font-size:18px;letter-spacing:2px;line-height:1}
+  .flow-progress{flex:1;min-width:180px;text-align:center;font-size:17px;font-weight:900;color:#6d4d2f}
   .flow-progress .dots{display:flex;gap:6px;justify-content:center;margin-top:6px}
   .flow-progress .dot{width:14px;height:14px;border-radius:50%;background:#e8d5b7;border:2px solid #d7c4a6}
   .flow-progress .dot.done{background:#7ccf9e;border-color:#2f7d53}
@@ -190,14 +192,14 @@
   .flow-card.entering{transform:translateX(40px);opacity:0}
   .flow-card h2{margin:0 0 12px;font-size:25px;font-weight:900;color:#245c3d;text-align:center}
   .flow-card .flow-sub{margin:0 0 14px;font-size:16px;color:var(--ink-soft)}
-  .flow-q{margin:0 0 10px;font-size:18px;font-weight:800;color:#4a3322;line-height:1.5}
+  .flow-q{margin:0 0 10px;font-size:18.5px;font-weight:800;color:#4a3322;line-height:1.5;text-align:center}
   .flow-hint{background:#fff9ef;border:1.5px dashed #e2cfb2;border-radius:12px;padding:9px 12px;font-size:15px;font-weight:800;color:#6d4d2f;margin-top:8px}
   .flow-expr{min-height:62px;border:2px dashed #b9d6c4;border-radius:12px;background:#fff;padding:10px 14px;font-size:26px;font-weight:900;color:#245c3d;word-break:break-all;line-height:1.4;font-variant-numeric:tabular-nums;display:flex;align-items:center;justify-content:center;text-align:center;min-width:0}
   .flow-expr.empty{color:#9bb3a4;font-size:17px;font-weight:700}
   .flow-expr .num{color:#1f5e8a}
   .flow-expr .op{color:#b4481c}
   .flow-expr .paren{color:#d94f3b}
-  .flow-feedback{font-size:16.5px;font-weight:800;margin:12px 0 4px;min-height:24px;text-align:center}
+  .flow-feedback{font-size:17px;font-weight:900;margin:12px 0 4px;min-height:26px;text-align:center}
   .flow-feedback.ok{color:#237a4c}
   .flow-feedback.bad{color:#a93424}
 
@@ -219,6 +221,18 @@
   .summary-paid b{font-size:20px;font-weight:900}
   .summary-expr{margin-top:10px;padding-top:10px;border-top:2px dashed #e2cfb2;font-size:26px;font-weight:900;color:#245c3d;word-break:break-all;text-align:center;letter-spacing:.5px;line-height:1.35}
   .summary-expr small{display:block;font-size:14px;font-weight:800;color:#8a7059;margin-bottom:3px;letter-spacing:0}
+
+  /* 第三页可点击算式符号区 */
+  .expr-click-box{min-height:76px;border:2.5px solid #9fd6b7;border-radius:16px;background:#fff;padding:16px 14px;font-size:30px;font-weight:900;color:#245c3d;font-variant-numeric:tabular-nums;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin-top:8px;box-shadow:inset 0 2px 6px rgba(31,122,76,.06)}
+  .expr-tok-num{color:#1f5e8a;padding:0 2px}
+  .expr-tok-paren{color:#d94f3b;font-weight:900;padding:0 1px}
+  .expr-sub-highlight{display:inline-flex;align-items:center;gap:6px;background:#e8f6ee;border:2px solid #7ccf9e;border-radius:12px;padding:3px 9px;color:#1f6b46}
+  .expr-op-btn{min-width:46px;height:46px;border-radius:12px;border:2.5px solid #e8b53f;background:#fff6d9;color:#b4481c;font-size:24px;font-weight:900;display:inline-grid;place-items:center;padding:0 10px;box-shadow:0 3px 0 #d9a520;transition:transform .12s,background .12s,border-color .12s}
+  .expr-op-btn:hover:not(:disabled){background:#ffe9a8;transform:translateY(-2px)}
+  .expr-op-btn:active:not(:disabled){transform:translateY(1px);box-shadow:none}
+  .expr-op-btn.correct{background:#2f7d53;border-color:#1f5c3d;color:#fff;box-shadow:0 3px 0 #1f5c3d}
+  .expr-op-btn.wrong{background:#d94f3b;border-color:#a93424;color:#fff;box-shadow:0 3px 0 #a93424}
+  .expr-op-btn:disabled{cursor:default}
 
   /* 答案框（第四页） */
   .answer-input{width:100%;min-height:58px;border:2px dashed #b9d6c4;border-radius:12px;background:#fff;padding:10px 12px;font-size:26px;font-weight:900;color:#245c3d;text-align:center;font-variant-numeric:tabular-nums}
@@ -246,38 +260,61 @@
   .op-chip:disabled{opacity:.45;cursor:not-allowed;transform:none}
 
   .flow-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
-  .flow-check-btn{border:2px solid #2f7d53;background:linear-gradient(180deg,#3f9c6c,#2f7d53);color:#fff;border-radius:13px;padding:12px 26px;font-size:18px;font-weight:900;box-shadow:0 3px 0 #1f5c3d}
+  .flow-check-btn{border:2px solid #2f7d53;background:linear-gradient(180deg,#3f9c6c,#2f7d53);color:#fff;border-radius:13px;padding:12px 28px;font-size:18px;font-weight:900;box-shadow:0 3px 0 #1f5c3d}
   .flow-check-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #1f5c3d}
   .flow-check-btn:disabled{opacity:.55;cursor:not-allowed}
-  .flow-next-btn{border:2px solid var(--red-deep);background:linear-gradient(180deg,#f97b4c,#ef5d32);color:#fff;border-radius:13px;padding:12px 28px;font-size:19px;font-weight:900;box-shadow:0 4px 0 var(--red-deep);animation:nextPop .22s ease-out}
-  .flow-next-btn:hover{background:linear-gradient(180deg,#fa8459,#f26a41)}
-  .flow-next-btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--red-deep)}
   @keyframes nextPop{from{transform:scale(.94);opacity:.7}to{transform:scale(1);opacity:1}}
 
   .hint-wrap{margin:10px 0 8px}
   .hint-btn{border:1.5px dashed #b9d6c4;background:#fff;color:#527a63;border-radius:10px;padding:7px 14px;font-size:14px;font-weight:800}
   .hint-btn:hover{background:#f3faf5}
 
-  /* 选择题（第三页） */
-  .mc-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
-  .mc-btn{text-align:left;border:2px solid #d7c4a6;background:#fffaf0;border-radius:14px;padding:12px 14px;font-size:18px;font-weight:800;color:#4a3322;box-shadow:0 2px 0 #d7c4a6;line-height:1.45}
-  .mc-btn:hover{background:#fff1d6}
-  .mc-btn.correct{border-color:#7ccf9e;background:#eef8f1;color:#1f6b46}
-  .mc-btn.wrong{border-color:#e9a296;background:#fff3f0;color:#a93424}
-
   .flow-receipt{background:#fffaf0;border:2px dashed #d9b98c;border-radius:14px;padding:12px 13px;font-size:16px;margin-top:12px}
   .receipt-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:6px 0;border-bottom:1px dotted rgba(190,154,106,.3)}
-  .receipt-row:last-child{border-bottom:0}
   .receipt-row span{min-width:0;padding-right:6px}
   .receipt-row small{display:block;font-size:13px;color:#a08467;margin-top:2px}
   .receipt-row b{white-space:nowrap;font-variant-numeric:tabular-nums}
   .receipt-row.total{border-top:2px dashed #c99f65;margin-top:4px;padding-top:9px;font-size:20px;font-weight:900;color:#b4481c}
+  .eco-bonus-banner{background:#e8f6ee;border:1.5px solid #9fd6b7;color:#1f6b46;border-radius:10px;padding:7px 10px;margin-top:6px;font-size:14px;font-weight:800;text-align:center}
+  .eco-tip-banner{background:#fff9ef;border:1.5px dashed #e2cfb2;color:#7a5a36;border-radius:10px;padding:7px 10px;margin-top:6px;font-size:13.5px;font-weight:800;text-align:center}
 
-  /* ===== 营业结算 ===== */
+  /* ===== 营业结算与金钱进账动画 ===== */
   .report-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
-  .report-card{background:#fff9ef;border:2px solid #f0e1cc;border-radius:14px;padding:12px;text-align:center}
+  .report-card{position:relative;background:#fff9ef;border:2px solid #f0e1cc;border-radius:14px;padding:12px;text-align:center}
   .report-card .label{display:block;font-size:13px;font-weight:800;color:var(--ink-soft)}
   .report-card .value{display:block;font-size:24px;font-weight:900;font-variant-numeric:tabular-nums}
+  .report-card.earned{background:#f3fbf6;border-color:#b8e3c9}
+  .report-card.earned .value{color:#1f7a4c}
+  .report-card.deducted{background:#fff4f2;border-color:#f0b3a8}
+  .report-card.deducted .value{color:#b93a28}
+  .report-card.total-rev{background:linear-gradient(145deg,#fff8e2,#fffdf7);border-color:#f0c25b}
+  .report-card.total-rev .value{color:#b4690e}
+  .report-card.money-pop{animation:cashInPop .75s cubic-bezier(.22,1.25,.36,1) both}
+  .report-card.earned.money-pop{animation-delay:.06s}
+  .report-card.deducted.money-pop{animation-delay:.14s}
+  .report-card.total-rev.money-pop{animation-delay:.22s}
+  @keyframes cashInPop{
+    0%{transform:scale(.94);box-shadow:0 0 0 0 rgba(255,201,77,0)}
+    45%{transform:scale(1.06);box-shadow:0 0 0 7px rgba(255,201,77,.35)}
+    75%{transform:scale(.99);box-shadow:0 0 0 11px rgba(255,201,77,.12)}
+    100%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,201,77,0)}
+  }
+  .cash-badge-float{position:absolute;top:-12px;right:10px;background:linear-gradient(180deg,#ffd859,#f4b41a);color:#5a3808;border:1.5px solid #d4940c;border-radius:999px;padding:1px 9px;font-size:13px;font-weight:900;box-shadow:0 3px 8px rgba(180,105,14,.25);pointer-events:none;animation:cashFloatUp 1.5s ease-out forwards}
+  @keyframes cashFloatUp{
+    0%{opacity:0;transform:translateY(8px) scale(.85)}
+    20%{opacity:1;transform:translateY(0) scale(1.05)}
+    80%{opacity:1;transform:translateY(-8px) scale(1)}
+    100%{opacity:0;transform:translateY(-16px) scale(.95)}
+  }
+  .money-fx-layer{position:fixed;inset:0;z-index:125;pointer-events:none;overflow:hidden}
+  .money-particle{position:absolute;top:-42px;user-select:none;line-height:1;filter:drop-shadow(0 4px 6px rgba(101,67,31,.22));animation:moneyRain linear forwards}
+  @keyframes moneyRain{
+    0%{transform:translateY(0) translateX(0) rotate(0deg) scale(.85);opacity:0}
+    12%{opacity:1}
+    50%{transform:translateY(52vh) translateX(var(--sway,18px)) rotate(180deg) scale(1.05)}
+    88%{opacity:.95}
+    100%{transform:translateY(108vh) translateX(calc(var(--sway,18px) * -0.7)) rotate(360deg) scale(.92);opacity:0}
+  }
 
   /* ===== 数据/成就/账号/排行榜页面 ===== */
   .data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0}
@@ -297,7 +334,7 @@
   .lb-row-me td{background:#eef8f1 !important;font-weight:900;color:#1f6b46}
   .me-pill{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:#2f7d53;color:#fff;font-size:11.5px;font-weight:900}
   .rules-card-box{background:#fff9ef;border:2px solid #f0d59c;border-radius:16px;padding:14px 16px;text-align:center}
-  .rules-card-box .rc-focus{font-size:17px;font-weight:900;color:#245c3d;margin-bottom:6px}
+  .rules-card-box .rc-focus{font-size:17px;font-weight:900;color:#245c3d;margin-bottom:6px;line-height:1.5}
   .rules-card-box .rc-time{font-size:15px;font-weight:800;color:#9a5a0a}
   .ach-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:14px 0}
   .ach-card{border:3px solid var(--line);border-radius:16px;padding:14px;text-align:center;background:var(--paper);display:flex;flex-direction:column;gap:6px;align-items:center}
@@ -409,6 +446,7 @@
     *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
     .flow-card.leaving{transform:none;opacity:1}
     .flow-card.entering{transform:none;opacity:1}
+    .money-fx-layer,.cash-badge-float{display:none !important}
   }
 </style>
 </head>
@@ -503,7 +541,7 @@ const LEVEL_ART = {
 
 /* 客人卡通造型 */
 const CUSTOMER_ART = {
-  uncle:`<svg viewBox="0 0 80 80" aria-hidden="true" focusable="false"><circle cx="40" cy="34" r="22" fill="#ffd9b0" stroke="#5a3a22" stroke-width="2.4"/><path d="M18 30c-2 12 4 20 22 20s24-8 22-20" fill="#4a3322"/><path d="M18 28c6-6 14-9 22-9" fill="none" stroke="#4a3322" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="36" r="2.4" fill="#5a3a22"/><circle cx="48" cy="36" r="2.4" fill="#5a3a22"/><path d="M34 46c4 3 8 3 12 0" stroke="#5a3a22" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M10 60c4 16 14 22 30 22s26-6 30-22" fill="#d94f3b"/><path d="M40 52v30" stroke="#5a3a22" stroke-width="2"/></svg>`,
+  uncle:`<svg viewBox="0 0 80 80" aria-hidden="true" focusable="false"><circle cx="40" cy="34" r="22" fill="#ffd9b0" stroke="#5a3a22" stroke-width="2.4"/><path d="M18 30c-2 12 4 20 22 20s24-8 22-20" fill="#4a3322"/><path d="M18 28c6-6 14-9 22-9" fill="none" stroke="#4a3a22" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="36" r="2.4" fill="#5a3a22"/><circle cx="48" cy="36" r="2.4" fill="#5a3a22"/><path d="M34 46c4 3 8 3 12 0" stroke="#5a3a22" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M10 60c4 16 14 22 30 22s26-6 30-22" fill="#d94f3b"/><path d="M40 52v30" stroke="#5a3a22" stroke-width="2"/></svg>`,
   aunty:`<svg viewBox="0 0 80 80" aria-hidden="true" focusable="false"><circle cx="40" cy="34" r="22" fill="#ffd9b0" stroke="#5a3a22" stroke-width="2.4"/><path d="M16 24c4-8 14-12 24-12s20 4 24 12c-2 8-10 13-24 13S18 32 16 24z" fill="#4a3322"/><path d="M16 24c-2 10 2 20 12 26M64 24c2 10-2 20-12 26" fill="none" stroke="#4a3322" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="38" r="2.4" fill="#5a3a22"/><circle cx="48" cy="38" r="2.4" fill="#5a3a22"/><path d="M34 48c4 3 8 3 12 0" stroke="#5a3a22" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 60c4 16 14 22 28 22s24-6 28-22" fill="#3b6fb6"/></svg>`,
   student:`<svg viewBox="0 0 80 80" aria-hidden="true" focusable="false"><circle cx="40" cy="36" r="22" fill="#ffd9b0" stroke="#5a3a22" stroke-width="2.4"/><path d="M18 28c2-8 8-12 14-12 4 0 8 2 8 2s4-2 8-2c6 0 12 4 14 12" fill="#2f241c"/><path d="M24 26h32" stroke="#5a3a22" stroke-width="2.4"/><circle cx="32" cy="38" r="2.4" fill="#5a3a22"/><circle cx="48" cy="38" r="2.4" fill="#5a3a22"/><path d="M34 48c4 3 8 3 12 0" stroke="#5a3a22" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M14 62c4 14 14 20 26 20s22-6 26-20" fill="#1f7a4c"/><path d="M40 54v26" stroke="#5a3a22" stroke-width="2"/></svg>`,
   grandma:`<svg viewBox="0 0 80 80" aria-hidden="true" focusable="false"><circle cx="40" cy="36" r="22" fill="#ffd9b0" stroke="#5a3a22" stroke-width="2.4"/><path d="M16 26c4-10 14-15 24-15s20 5 24 15c-2 9-10 14-24 14S18 35 16 26z" fill="#c9c2b8"/><path d="M18 24c-1 8 3 15 12 20M62 24c1 8-3 15-12 20" fill="none" stroke="#c9c2b8" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="40" r="2.2" fill="#5a3a22"/><circle cx="48" cy="40" r="2.2" fill="#5a3a22"/><path d="M34 49c4 2 8 2 12 0" stroke="#5a3a22" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M12 62c4 15 14 21 28 21s24-6 28-21" fill="#7a5c8a"/></svg>`
@@ -521,14 +559,17 @@ const LEVELS = {
   basic:{ id:'basic', duration:900, maxTypes:2, minTypes:2, maxQty:1, maxNumbers:3,
     name:T('基礎：實習店長','Basic: Trainee Manager'), tag:T('基礎','Basic'),
     focus:T('圓括號 · 三個數加減混合運算','Brackets · three-number add/subtract'),
+    ruleTip:T('基礎：嘗試使用圓括號和三個數加減混合運算吧，實習店長！','Basic: Try using round brackets and three-number mixed addition and subtraction, Trainee Manager!'),
     icon:T('實習名牌','trainee badge'), timeLabel:T('15 分鐘','15 min')},
   advanced:{ id:'advanced', duration:900, maxTypes:3, minTypes:2, maxQty:3, maxNumbers:4,
     name:T('進階：正式店長','Advanced: Formal Manager'), tag:T('進階','Advanced'),
     focus:T('乘加乘減混合運算','Multiply-add and multiply-subtract'),
+    ruleTip:T('進階：使用乘加乘減混合運算，成為正式店長！','Advanced: Use mixed multiplication-addition and multiplication-subtraction to become a Formal Manager!'),
     icon:T('收銀機','cash register'), timeLabel:T('15 分鐘','15 min')},
   challenge:{ id:'challenge', duration:900, maxTypes:3, minTypes:1, maxQty:3, maxNumbers:4,
     name:T('挑戰：環保達人','Challenge: Eco Champion'), tag:T('挑戰','Challenge'),
     focus:T('四則運算 · 環保','Four operations · Eco'),
+    ruleTip:T('挑戰：努力完成高環保和高營業額的要求，成為環保達人吧！','Challenge: Strive to achieve high eco-friendliness and high revenue to become an Eco Champion!'),
     icon:T('綠葉','green leaf'), timeLabel:T('15 分鐘','15 min')}
 };
 
@@ -597,21 +638,20 @@ const STR = {
   flowStep2:T('請列出找錢算式','Please write the change expression'),
   flowStep2Hint:T('找錢要由客人的付款金額開始，並把整張訂單的商品算式放在圓括號內。','Start from the amount paid, and put the whole order cost expression inside round brackets.'),
   flowStep3:T('先計算哪一步？','Which step first?'),
-  flowStep3Hint:T('先觀察圓括號內的部分。','Look inside the round brackets first.'),
-  flowStep3HintAdv:T('在同一個括號內，乘法通常在加減法之前計算。','Inside the same brackets, multiplication is usually done before addition and subtraction.'),
-  flowStep3HintCh:T('先處理括號，再按照先乘除、後加減的次序計算。','Handle brackets first, then multiply/divide before add/subtract.'),
+  flowStep3Hint:T('先點擊圓括號內的運算符號（+、−、×、÷）。','Click the operator symbol (+, −, ×, ÷) inside the round brackets first.'),
+  flowStep3HintAdv:T('在同一個括號內，請先點擊乘法或除法符號（×、÷），再點擊加減符號。','Inside the same brackets, click multiply or divide (×, ÷) before add or subtract.'),
+  flowStep3HintCh:T('先點擊括號內的符號，並按照先乘除、後加減的次序計算。','Click the symbol inside brackets first, following multiply/divide before add/subtract.'),
   flowStep4:T('計算找錢答案','Find the change amount'),
   flowStep4Question:T('客人應找回多少元？','How much change should the customer get?'),
   flowStep4Hint:T('按照上一頁判斷的運算次序，逐步計算，最後只填寫找錢金額。','Follow the order of operations from the previous page, then fill in just the change amount.'),
   flowPageOf:T('第 {n} 頁／共 4 頁','Page {n} of 4'),
-  flowCheck:T('核對','Check'),
-  flowNext:T('下一步 →','Next →'),
+  flowCheck:T('確認','Confirm'),
   flowBack:T('← 上一頁','← Back'),
   flowCorrect:T('計算正確！','Correct!'),
-  flowCorrectDetail1:T('你正確計算了整張訂單的開銷，請按「下一步」繼續。','You correctly calculated the order cost. Click "Next" to continue.'),
-  flowCorrectDetail2:T('找錢算式正確，請按「下一步」繼續。','The change expression is correct. Click "Next" to continue.'),
-  flowCorrectDetail3:T('運算次序正確，請按「下一步」繼續。','The order of operations is correct. Click "Next" to continue.'),
-  flowCorrectDetail4:T('找錢答案正確，請按「下一步」完成訂單！','The change is correct. Click "Next" to complete the order!'),
+  flowCorrectDetail1:T('計算正確！正在進入下一步…','Correct! Moving to the next step...'),
+  flowCorrectDetail2:T('找錢算式正確！正在進入下一步…','Change expression correct! Moving to the next step...'),
+  flowCorrectDetail3:T('順序正確！請計算這一步的結果：','Order correct! Calculate this step: '),
+  flowCorrectDetail4:T('找錢答案正確！正在完成訂單…','Change correct! Completing order...'),
   flowExprPlaceholder:T('點擊下方數字與符號按鈕列式…','Tap the number and symbol buttons below to build your expression...'),
   flowAnswerPlaceholder:T('輸入答案…','Enter the answer...'),
   flowHintShow:T('顯示提示','Show hint'),
@@ -621,17 +661,23 @@ const STR = {
   opsAndParens:T('運算符號與括號','Operators & brackets'),
   priceTag:T('價格','Price'), qtyTag:T('份數','Qty'), payTag:T('付款','Paid'), costTag:T('開銷','Cost'),
 
-  /* 第三页题型与中间計算 */
-  mcQ1:T('哪一條算式能表示「先把兩款食物的價格加起來，再由付款金額減去開銷」？','Which expression means "add the two food prices first, then subtract the cost from the amount paid"?'),
-  mcQ2:T('應該先計算哪一步？','Which step should be calculated first?'),
-  mcQ2b:T('括號內應該先計算哪一步？','Which step inside the brackets comes first?'),
-  mcQNext:T('接下來應該計算哪一步？','Next, which step should be calculated?'),
+  /* 第三页点击算式符号提示 */
+  opClickPrompt:T('請直接點擊算式中應該「最先計算」的數學符號（+、−、×、÷）：','Tap the mathematical operator (+, −, ×, ÷) that should be calculated FIRST:'),
+  opClickNextPrompt:T('接下來應該計算哪一步？請點擊下一個數學符號：','Next, tap the mathematical operator that should be calculated next:'),
+  opWrongOuter:T('應該先計算圓括號裡面的算式，請重新選擇符號！','Calculate inside the round brackets first! Please pick another operator.'),
+  opWrongMulFirst:T('在括號內應遵循「先乘除、後加減」，請重新選擇符號！','Multiply/divide before add/subtract inside brackets! Please pick another operator.'),
+  opWrongLeftToRight:T('同級運算應由左至右計算，請重新選擇符號！','For same-level operations, calculate from left to right! Please pick another operator.'),
   step3CalcPrompt:T('請計算這一步的結果：','Calculate this step: '),
-  step3CalcCorrect:T('計算正確！算式可簡化為 {expr}，請按「下一步」繼續。','Correct! The expression simplifies to {expr}. Click "Next" to continue.'),
-  mcWhy:T('為甚麼要使用圓括號？','Why use round brackets?'),
-  mcWhyA:T('因為圓括號表示整張訂單的食物開銷，所以要先計算括號內。','Because the brackets group the whole order cost, so it is calculated first.'),
-  mcWhyB:T('因為括號內的數最大。','Because the numbers inside are the biggest.'),
-  mcWhyC:T('因為括號讓算式更長。','Because brackets make the expression longer.'),
+  step3CalcCorrect:T('計算正確！算式簡化為 {expr}，正在進入下一環節…','Correct! Expression simplified to {expr}. Moving to next step...'),
+
+  /* 生命值与扣款提示 */
+  livesLabel:T('生命值','Lives'),
+  penaltyTitle:T('計算錯誤！','Calculation Mistake!'),
+  penaltySub:T('扣除營業額 ${penalty}，剩餘生命值：{hearts}','Deducted $${penalty} revenue. Remaining lives: {hearts}'),
+  penaltyFixHint:T('請根據提示修改作答：','Please modify your answer based on the hint:'),
+  penaltyRetryBtn:T('返回修改作答','Modify Answer'),
+  outOfLivesTitle:T('生命值耗盡！','Out of Lives!'),
+  outOfLivesSub:T('計算錯誤次數過多（扣除營業額 ${penalty}），客人等太久離開了！我們繼續接待下一位客人吧。','Too many mistakes (deducted $${penalty} revenue). The customer left! Let\'s serve the next customer.'),
 
   /* 订单摘要 */
   orderSummaryTitle:T('客人訂單','Customer order'),
@@ -679,6 +725,8 @@ const STR = {
   receiptRevenue:T('本次營業額','Revenue added'),
   receiptPackaging:T('包裝方式','Packaging'),
   receiptEcoOk:T('符合顧客環保要求','Eco request met'),
+  receiptEcoHiddenOk:T('🌟 隱藏環保達標（主動選用高環保包裝）','🌟 Hidden Eco Bonus (proactively chose high-eco packaging)'),
+  receiptEcoHiddenTip:T('💡 環保小提示：客人雖無要求，選用高環保包裝可提升綠色評級！','💡 Eco Tip: Even without a request, choosing high-eco packaging boosts your green rating!'),
   receiptEcoBad:T('未達顧客環保要求','Eco request not met'),
   receiptEcoComment:T('環保評語','Eco comment'),
   btnNextCustomer:T('服務下一位客人','Serve next customer'),
@@ -689,6 +737,8 @@ const STR = {
   reportTitle:T('營業報告','Shift report'),
   reportLevel:T('關卡','Level'),
   reportOrders:T('完成訂單數','Orders completed'),
+  reportEarnedRevenue:T('賺取金額','Earned revenue'),
+  reportDeductedRevenue:T('扣除金額','Deducted revenue'),
   reportRevenue:T('總營業額','Total revenue'),
   reportQuestions:T('總答題數','Questions answered'),
   reportCorrect:T('正確題數','Correct'),
@@ -863,6 +913,9 @@ const STORE_LANG = 'cct_v5_lang';
 const STORE_GUEST_NAME = 'cct_v5_guest_name';
 const STORE_GUEST_SCORES = 'cct_v5_guest_scores';
 
+const MAX_LIVES = 3;
+const PENALTY_POOL = [2, 3, 5];
+
 const state = {
   lang:'zh',
   screen:'start',       // start | game | flow | report | profile | achievements | account | leaderboard
@@ -877,21 +930,39 @@ const state = {
   customer:null,
   orderNo:1,
   orderStartTime:0,
+  lives:MAX_LIVES,
   // 营业
   timeLeft:0, timeTotal:0, timerId:null,
-  revenue:0, ordersDone:0,
+  earnedRevenue:0, deductedRevenue:0, revenue:0, ordersDone:0,
   shiftQuestions:0, shiftCorrect:0, shiftStreak:0,
   shiftMistakeStep:{}, shiftMistakeOp:{},
   shiftOrders:[],
   // 四页流程
   flow:{
     step:1, expr:'', answer:'', status:'', msg:'', hint:false,
-    mcOptions:[], mcAnswered:false, mcChosen:null, _mcType:null, _mcCorrectIndex:0,
     step3Stage:0, step3CurrentExpr:'', step3InnerAst:null, step3TargetOp:null,
+    opSelectedRight:false, wrongOpIdx:null, step3OpNodes:[],
     subAnswer:'', subStatus:'', subMsg:'',
     orderAnswers:{1:null,2:null,3:null,4:null}
   }
 };
+
+let flowAutoTimer = null;
+function clearFlowAutoTimer(){
+  if(flowAutoTimer){
+    clearTimeout(flowAutoTimer);
+    flowAutoTimer = null;
+  }
+}
+function scheduleFlowAdvance(delayMs){
+  clearFlowAutoTimer();
+  flowAutoTimer = setTimeout(function(){
+    flowAutoTimer = null;
+    if(state.screen === 'flow'){
+      advanceFlow();
+    }
+  }, delayMs || 1050);
+}
 
 function t(o){ return o ? (o[state.lang] || o.zh || '') : ''; }
 function bi(zh,en){ return state.lang === 'en' ? en : zh; }
@@ -905,6 +976,10 @@ function matchEcoFilter(f, ecoFilter){
   if(ecoFilter === 'mid') return f.eco === 2;
   if(ecoFilter === 'low') return f.eco <= 1;
   return true;
+}
+function livesHeartsHTML(lives){
+  const n = Math.max(0, Math.min(MAX_LIVES, lives));
+  return '❤️'.repeat(n) + '🤍'.repeat(MAX_LIVES - n);
 }
 
 /* ========================= 访客名字与排行榜数据 ========================= */
@@ -1293,7 +1368,7 @@ function genOrder(levelId){
     const request = { items: chosen.map((f,i) => ({ id:f.id, qty: i===mulIdx ? qty : 1 })), totalQty: qty+1 };
     return { type: randomCustomerType(), request, paid: customerPaidFor(request.items.map(x=>({food:FOOD_BY_ID[x.id],qty:x.qty}))) };
   }
-  // challenge（環保模式）：顧客要求店長推薦三個食物（可重複），並符合高環保包裝條件
+  // challenge（環保模式）：隨機分為「有明確環保要求」或「無明確環保要求（隱藏高環保條件）」
   const templates = [
     { cats:{ filling:2, drink:1 }, dineIn:false, paid:40 },
     { cats:{ filling:1, snack:1, drink:1 }, dineIn:true, paid:50 },
@@ -1302,6 +1377,7 @@ function genOrder(levelId){
     { cats:{ snack:2, drink:1 }, dineIn:false, paid:40 }
   ];
   const tpl = templates[Math.floor(Math.random()*templates.length)];
+  const hasEcoReq = Math.random() < 0.5;
   return {
     type: randomCustomerType(),
     request: {
@@ -1309,6 +1385,7 @@ function genOrder(levelId){
       cats: Object.assign({}, tpl.cats),
       totalQty: 3,
       dineIn: tpl.dineIn,
+      hasEcoReq: hasEcoReq,
       budget: tpl.paid
     },
     paid: tpl.paid
@@ -1346,9 +1423,19 @@ function customerSpeech(customer){
   if(state.level === 'challenge' && customer.request.isRecommend){
     const catStr = formatCatList(customer.request.cats, false);
     if(customer.request.dineIn){
+      if(customer.request.hasEcoReq === false){
+        return state.lang==='en'
+          ? 'Please recommend ' + catStr + ', to eat here. I will pay $' + pay + '.'
+          : '請推薦' + catStr + '，在這裡吃，我會付$' + pay + '。';
+      }
       return state.lang==='en'
         ? 'Please recommend ' + catStr + ', to eat here. I will pay $' + pay + '. Remember, no packaging!'
         : '請推薦' + catStr + '，在這裡吃，我會付$' + pay + '，記得不要有包裝！';
+    }
+    if(customer.request.hasEcoReq === false){
+      return state.lang==='en'
+        ? 'Please recommend ' + catStr + ', for takeaway. I will pay $' + pay + '.'
+        : '請推薦' + catStr + '，打包拎走，我會付$' + pay + '。';
     }
     return state.lang==='en'
       ? 'Please recommend ' + catStr + ', for takeaway. I will pay $' + pay + '. Remember not to use too much plastic packaging!'
@@ -1373,9 +1460,19 @@ function customerSpeechHTML(customer){
   if(state.level === 'challenge' && customer.request.isRecommend){
     const catHTML = formatCatList(customer.request.cats, true);
     if(customer.request.dineIn){
+      if(customer.request.hasEcoReq === false){
+        return state.lang==='en'
+          ? 'Please recommend ' + catHTML + ', <strong>to eat here</strong>. I will pay ' + payHTML + '.'
+          : '請推薦' + catHTML + '，<strong>在這裡吃</strong>，我會付' + payHTML + '。';
+      }
       return state.lang==='en'
         ? 'Please recommend ' + catHTML + ', <strong>to eat here</strong>. I will pay ' + payHTML + '. Remember, <strong>no packaging</strong>!'
         : '請推薦' + catHTML + '，<strong>在這裡吃</strong>，我會付' + payHTML + '，記得<strong>不要有包裝</strong>！';
+    }
+    if(customer.request.hasEcoReq === false){
+      return state.lang==='en'
+        ? 'Please recommend ' + catHTML + ', <strong>for takeaway</strong>. I will pay ' + payHTML + '.'
+        : '請推薦' + catHTML + '，<strong>打包拎走</strong>，我會付' + payHTML + '。';
     }
     return state.lang==='en'
       ? 'Please recommend ' + catHTML + ', <strong>for takeaway</strong>. I will pay ' + payHTML + '. Remember <strong>not to use too much plastic packaging</strong>!'
@@ -1407,7 +1504,7 @@ function matchCategories(ent, reqCats){
   return perms.some(p => p.every((fi, si) => foods[fi] && foods[fi].tags.includes(slots[si])));
 }
 
-/* 計算完成後自動判斷是否符合顧客的環保包裝要求 */
+/* 計算完成後自動判斷是否符合高環保包裝標準 */
 function evaluateChallengeEco(ent, req){
   const items = [];
   ent.forEach(e => { for(let i=0;i<e.qty;i++) items.push(e.food); });
@@ -1468,7 +1565,7 @@ function preCheckoutCheck(){
   return { ok:true };
 }
 
-/* ========================= 反馈 UI ========================= */
+/* ========================= 反馈 UI 与金钱进账动画 ========================= */
 let toastTimer = null;
 function toast(msg){ toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(()=>toastEl.classList.remove('show'), 2800); }
 function confetti(){
@@ -1481,6 +1578,68 @@ function confetti(){
   }
   setTimeout(()=>{ confettiEl.innerHTML=''; }, 4800);
 }
+
+let moneyFxCleanupTimer = null;
+function clearMoneyFx(){
+  if(moneyFxCleanupTimer){
+    clearTimeout(moneyFxCleanupTimer);
+    moneyFxCleanupTimer = null;
+  }
+  document.querySelectorAll('.money-fx-layer').forEach(el => el.remove());
+}
+function playMoneyInAnimation(){
+  clearMoneyFx();
+  const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasCash = (state.earnedRevenue > 0 || state.revenue > 0);
+  if(reducedMotion || !hasCash) return;
+
+  const layer = document.createElement('div');
+  layer.className = 'money-fx-layer';
+  layer.setAttribute('aria-hidden', 'true');
+  const icons = ['🪙','💵','🪙','💰','✨','🪙','💵'];
+  for(let i = 0; i < 34; i++){
+    const item = document.createElement('span');
+    item.className = 'money-particle';
+    item.textContent = icons[i % icons.length];
+    const leftPct = 4 + Math.random() * 92;
+    const sizePx = 20 + Math.round(Math.random() * 14);
+    const durSec = (1.9 + Math.random() * 1.15).toFixed(2);
+    const delaySec = (Math.random() * 0.55).toFixed(2);
+    const swayPx = ((Math.random() < 0.5 ? -1 : 1) * (14 + Math.round(Math.random() * 26))) + 'px';
+    item.style.left = leftPct + '%';
+    item.style.fontSize = sizePx + 'px';
+    item.style.animationDuration = durSec + 's';
+    item.style.animationDelay = delaySec + 's';
+    item.style.setProperty('--sway', swayPx);
+    layer.appendChild(item);
+  }
+  document.body.appendChild(layer);
+  moneyFxCleanupTimer = setTimeout(clearMoneyFx, 3600);
+
+  const counters = Array.from(app.querySelectorAll('[data-count-target]'));
+  counters.forEach(el => {
+    const prefix = el.getAttribute('data-count-prefix') || '';
+    el.textContent = prefix + '0';
+  });
+  const startTime = performance.now();
+  const duration = 950;
+  function stepCount(now){
+    const elapsed = now - startTime;
+    const progress = Math.min(1, elapsed / duration);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    counters.forEach(el => {
+      const target = Number(el.getAttribute('data-count-target')) || 0;
+      const prefix = el.getAttribute('data-count-prefix') || '';
+      const curVal = Math.round(target * eased);
+      el.textContent = prefix + curVal;
+    });
+    if(progress < 1){
+      requestAnimationFrame(stepCount);
+    }
+  }
+  requestAnimationFrame(stepCount);
+}
+
 let modalTimer = null;
 function openModal(opts){
   opts = opts || {};
@@ -1690,7 +1849,7 @@ function renderGame(){
     (ent.length ? '<button class="tray-fab" data-jump-tray aria-label="'+esc(t(STR.goTray))+'"><span class="tray-fab-num">'+portionsOf(ent)+'</span><span>'+t(STR.goTray)+' →</span></button>' : '');
 }
 
-/* ========================= 四步翻页流程与第三步分步計算 ========================= */
+/* ========================= 四步翻页流程与第三步点击算式符号 ========================= */
 function initStep3Stage(exprStr){
   const f = state.flow;
   const c = state.customer;
@@ -1714,12 +1873,13 @@ function initStep3Stage(exprStr){
 
 function prepareStep3Round(){
   const f = state.flow;
-  const c = state.customer;
   const inner = f.step3InnerAst;
   const targetNode = findNextBinOp(inner);
   if(!targetNode){
     f.step3TargetOp = null;
-    f.mcOptions = [];
+    f.opSelectedRight = false;
+    f.wrongOpIdx = null;
+    f.step3OpNodes = [];
     return;
   }
   const correctLabel = astToDisplay(targetNode);
@@ -1729,56 +1889,66 @@ function prepareStep3Round(){
     label: correctLabel,
     result: resVal
   };
-
-  const distractors = [];
-  const addDistractor = (lbl) => {
-    if(lbl && lbl !== correctLabel && distractors.indexOf(lbl) === -1){
-      distractors.push(lbl);
-    }
-  };
-
-  if(inner && inner.type === 'bin' && (inner.op === '+' || inner.op === '-')){
-    if(targetNode.op === '*' || targetNode.op === '/'){
-      if(inner.left === targetNode && inner.right.type === 'num'){
-        addDistractor(targetNode.right.value + ' ' + opSymbol(inner.op) + ' ' + inner.right.value);
-      } else if(inner.right === targetNode && inner.left.type === 'num'){
-        addDistractor(inner.left.value + ' ' + opSymbol(inner.op) + ' ' + targetNode.left.value);
-      }
-    }
-  }
-
-  const nums = astNumbers(inner);
-  nums.forEach(num => {
-    if(distractors.length < 2){
-      addDistractor(c.paid + ' − ' + num);
-    }
-  });
-  if(distractors.length < 2){
-    addDistractor(c.paid + ' + ' + targetNode.left.value);
-  }
-  if(distractors.length < 2){
-    addDistractor(c.paid + ' − ' + (targetNode.right.value + 1));
-  }
-
-  const rawOpts = [
-    { label: correctLabel, correct: true },
-    { label: distractors[0], correct: false },
-    { label: distractors[1], correct: false }
-  ];
-  const idx = shuffleIndex();
-  const ordered = idx.map((origIdx, pos) => ({
-    label: ['A. ','B. ','C. '][pos] + rawOpts[origIdx].label,
-    correct: rawOpts[origIdx].correct
-  }));
-  f.mcOptions = ordered;
-  f._mcCorrectIndex = ordered.findIndex(o => o.correct);
-  f.mcAnswered = false;
-  f.mcChosen = null;
+  f.opSelectedRight = false;
+  f.wrongOpIdx = null;
+  f.step3OpNodes = [];
   f.status = '';
   f.msg = '';
   f.subAnswer = '';
   f.subStatus = '';
   f.subMsg = '';
+}
+
+function renderClickableExprHTML(){
+  const f = state.flow;
+  const c = state.customer;
+  const inner = f.step3InnerAst;
+  const targetNode = f.step3TargetOp ? f.step3TargetOp.node : null;
+  const fullAst = {
+    type: 'bin',
+    op: '-',
+    left: { type: 'num', value: c.paid },
+    right: (!inner || inner.type === 'num') ? (inner || { type:'num', value:0 }) : { type: 'paren', expr: inner }
+  };
+  const opNodes = [];
+  function renderNode(node, insideParen){
+    if(!node) return '';
+    if(node.type === 'num'){
+      return '<span class="expr-tok-num">' + node.value + '</span>';
+    }
+    if(node.type === 'paren'){
+      return '<span class="expr-tok-paren">(</span>' + renderNode(node.expr, true) + '<span class="expr-tok-paren">)</span>';
+    }
+    if(node.type === 'unary'){
+      return '<span class="expr-tok-num">' + opSymbol(node.op) + '</span>' + renderNode(node.expr, insideParen);
+    }
+    if(node.type === 'bin'){
+      const leftHTML = renderNode(node.left, insideParen);
+      const idx = opNodes.length;
+      const isTarget = (node === targetNode);
+      opNodes.push({
+        idx: idx,
+        node: node,
+        insideParen: insideParen,
+        isTarget: isTarget
+      });
+      let cls = 'expr-op-btn';
+      if(f.opSelectedRight && isTarget) cls += ' correct';
+      else if(f.wrongOpIdx === idx) cls += ' wrong';
+      const dis = f.opSelectedRight ? ' disabled' : '';
+      const btnHTML = '<button type="button" class="' + cls + '" data-op-idx="' + idx + '"' + dis + '>' + opSymbol(node.op) + '</button>';
+      const rightHTML = renderNode(node.right, insideParen);
+      const combined = leftHTML + btnHTML + rightHTML;
+      if(f.opSelectedRight && isTarget){
+        return '<span class="expr-sub-highlight">' + combined + '</span>';
+      }
+      return combined;
+    }
+    return '';
+  }
+  const html = renderNode(fullAst, false);
+  f.step3OpNodes = opNodes;
+  return '<div class="expr-click-box" role="group" aria-label="' + esc(t(STR.opClickPrompt)) + '">' + html + '</div>';
 }
 
 function orderSummaryHTML(){
@@ -1789,7 +1959,7 @@ function orderSummaryHTML(){
     return '<div class="summary-row"><span class="summary-food-name">'+t(f.name)+'</span><span class="summary-qty-price">'+e.qty+' × $'+f.price+'</span></div>';
   }).join('');
   let exprLine = '';
-  if(state.flow.step >= 3 && state.flow.orderAnswers[2]){
+  if(state.flow.step === 4 && state.flow.orderAnswers[2]){
     const cur = state.flow.step3CurrentExpr || state.flow.orderAnswers[2];
     exprLine = '<div class="summary-expr"><small>'+t(STR.summaryYourExpr)+'</small>'+esc(cur)+'</div>';
   }
@@ -1848,6 +2018,7 @@ function renderFlowStepCard(){
   let title='', body='';
   const dots = [1,2,3,4].map(n => '<span class="dot'+(n<step?' done':n===step?' now':'')+'"></span>').join('');
   const progress = '<div class="flow-progress">'+tf(STR.flowPageOf,{n:step})+'<div class="dots">'+dots+'</div></div>';
+  const livesBadge = '<div class="flow-lives" aria-label="'+esc(t(STR.livesLabel))+' '+state.lives+'/'+MAX_LIVES+'"><span>'+t(STR.livesLabel)+'</span><span class="hearts">'+livesHeartsHTML(state.lives)+'</span></div>';
   const summary = orderSummaryHTML();
 
   if(step === 1){
@@ -1859,9 +2030,7 @@ function renderFlowStepCard(){
     } else {
       ent.forEach(e => { if(e.qty>1 && nums.indexOf(e.qty)===-1) nums.push(e.qty); });
     }
-    const actionBtn = passed
-      ? '<button type="button" class="flow-next-btn" data-flow-next>'+t(STR.flowNext)+'</button>'
-      : '<button type="button" class="flow-check-btn" data-flow-check>'+t(STR.flowCheck)+'</button>';
+    const actionBtn = '<button type="button" class="flow-check-btn" data-flow-check'+(passed?' disabled':'')+'>'+t(STR.flowCheck)+'</button>';
     body = summary +
       '<div class="flow-expr'+(f.expr?'':' empty')+'" data-flow-display>'+(f.expr?exprPrettyHTML(f.expr):esc(t(STR.flowExprPlaceholder)))+'</div>' +
       hintButtonHTML() +
@@ -1877,9 +2046,7 @@ function renderFlowStepCard(){
     } else {
       ent.forEach(e => { if(e.qty>1 && nums.indexOf(e.qty)===-1) nums.push(e.qty); });
     }
-    const actionBtn = passed
-      ? '<button type="button" class="flow-next-btn" data-flow-next>'+t(STR.flowNext)+'</button>'
-      : '<button type="button" class="flow-check-btn" data-flow-check>'+t(STR.flowCheck)+'</button>';
+    const actionBtn = '<button type="button" class="flow-check-btn" data-flow-check'+(passed?' disabled':'')+'>'+t(STR.flowCheck)+'</button>';
     body = summary +
       '<div class="flow-expr'+(f.expr?'':' empty')+'" data-flow-display>'+(f.expr?exprPrettyHTML(f.expr):esc(t(STR.flowExprPlaceholder)))+'</div>' +
       hintButtonHTML() +
@@ -1888,18 +2055,16 @@ function renderFlowStepCard(){
       '<p class="flow-feedback '+(f.status)+'" data-flow-feedback>'+esc(f.msg||'')+'</p>';
   } else if(step === 3){
     title = t(STR.flowStep3);
-    if(!f.mcOptions || f.mcOptions.length !== 3){
+    if(!f.step3TargetOp){
       initStep3Stage(f.orderAnswers[2]);
     }
-    const mcSelectedRight = f.mcAnswered && f.status === 'ok';
+    const opSelectedRight = f.opSelectedRight && f.status === 'ok';
     const subPassed = f.subStatus === 'ok';
     let subCalcHTML = '';
     let feedbackHTML = '<p class="flow-feedback '+(f.status)+'" data-flow-feedback>'+esc(f.msg||'')+'</p>';
 
-    if(mcSelectedRight && f.step3TargetOp){
-      const subActionBtn = subPassed
-        ? '<button type="button" class="flow-next-btn" data-flow-next>'+t(STR.flowNext)+'</button>'
-        : '<button type="button" class="flow-check-btn" data-step3-sub-check>'+t(STR.flowCheck)+'</button>';
+    if(opSelectedRight && f.step3TargetOp){
+      const subActionBtn = '<button type="button" class="flow-check-btn" data-step3-sub-check'+(subPassed?' disabled':'')+'>'+t(STR.flowCheck)+'</button>';
       subCalcHTML =
         '<div class="substep-calc-box">' +
           '<p class="substep-calc-label">'+t(STR.step3CalcPrompt)+'<span class="step-math">'+esc(f.step3TargetOp.label)+' = ？</span></p>' +
@@ -1909,17 +2074,16 @@ function renderFlowStepCard(){
       feedbackHTML = '<p class="flow-feedback '+(f.subStatus)+'" data-sub-feedback>'+esc(f.subMsg||'')+'</p>';
     }
 
+    const promptTxt = f.step3Stage >= 1 ? t(STR.opClickNextPrompt) : t(STR.opClickPrompt);
     body = summary +
-      '<p class="flow-q">'+flowStep3Question()+'</p>' +
+      '<p class="flow-q">'+promptTxt+'</p>' +
+      renderClickableExprHTML() +
       hintButtonHTML() +
-      '<div class="mc-list">'+renderMCOptions(f.mcOptions)+'</div>' +
       subCalcHTML +
       feedbackHTML;
   } else if(step === 4){
     title = t(STR.flowStep4);
-    const actionBtn = passed
-      ? '<button type="button" class="flow-next-btn" data-flow-next>'+t(STR.flowNext)+'</button>'
-      : '<button type="button" class="flow-check-btn" data-flow-check>'+t(STR.flowCheck)+'</button>';
+    const actionBtn = '<button type="button" class="flow-check-btn" data-flow-check'+(passed?' disabled':'')+'>'+t(STR.flowCheck)+'</button>';
     body = summary +
       '<p class="flow-q">'+t(STR.flowStep4Question)+'</p>' +
       hintButtonHTML() +
@@ -1932,6 +2096,7 @@ function renderFlowStepCard(){
     '<div class="flow-screen">' +
       '<div class="flow-topbar">' +
         '<button class="icon-btn" data-flow-exit>'+t(STR.backBtn)+'</button>' +
+        livesBadge +
         progress +
         langToggle() +
       '</div>' +
@@ -1941,7 +2106,7 @@ function renderFlowStepCard(){
       '</div>' +
     '</div>';
 
-  if(step === 3 && f.mcAnswered && f.status === 'ok' && f.subStatus !== 'ok'){
+  if(step === 3 && f.opSelectedRight && f.status === 'ok' && f.subStatus !== 'ok'){
     const subInp = app.querySelector('[data-sub-answer-input]');
     if(subInp){
       subInp.addEventListener('input', function(){
@@ -1996,35 +2161,38 @@ function exprPrettyHTML(str){
   return out;
 }
 
-/* 第三页：判断先计算哪一步 */
-function flowStep3Question(){
-  if(state.flow.step3Stage >= 1){
-    return t(STR.mcQNext);
+/* 生命值扣减与不定量营业额惩罚处理 */
+function handleCalcMistake(detailHint){
+  state.lives = Math.max(0, state.lives - 1);
+  state.shiftStreak = 0;
+  const penalty = PENALTY_POOL[Math.floor(Math.random() * PENALTY_POOL.length)];
+  state.deductedRevenue += penalty;
+  state.revenue = Math.max(0, state.earnedRevenue - state.deductedRevenue);
+
+  renderFlowStepCard();
+
+  if(state.lives <= 0){
+    clearFlowAutoTimer();
+    openModal({
+      tone:'bad',
+      hero:'💔',
+      title:t(STR.outOfLivesTitle),
+      sub:tf(STR.outOfLivesSub, { penalty: penalty }),
+      actions:'<button class="btn btn-primary" data-next-customer>'+t(STR.btnNextCustomer)+'</button>'
+    });
+  } else {
+    openModal({
+      tone:'bad',
+      hero:'💸',
+      title:t(STR.penaltyTitle),
+      sub:tf(STR.penaltySub, { penalty: penalty, hearts: livesHeartsHTML(state.lives) }),
+      body:'<div class="warn-note" style="text-align:center;margin:0">'+esc(t(STR.penaltyFixHint))+'<br><b>'+esc(detailHint)+'</b></div>',
+      actions:'<button class="btn btn-primary" data-close>'+t(STR.penaltyRetryBtn)+'</button>'
+    });
   }
-  if(state.level === 'basic'){
-    state.flow._mcType = 'order';
-    return t(STR.mcQ2);
-  }
-  return t(STR.mcQ2b);
-}
-function shuffleIndex(){
-  const a = [0,1,2];
-  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
-  return a;
-}
-function renderMCOptions(opts){
-  const f = state.flow;
-  return opts.map((o,i) => {
-    let cls = 'mc-btn';
-    if(f.mcAnswered){
-      if(o.correct) cls += ' correct';
-      else if(i === f.mcChosen) cls += ' wrong';
-    }
-    return '<button type="button" class="'+cls+'" data-mc="'+i+'"'+(f.mcAnswered?' disabled':'')+'>'+esc(o.label)+'</button>';
-  }).join('');
 }
 
-/* 核验算式（第一步、第二步）— 答对后不自动跳转，等待点击「下一步」 */
+/* 核验算式（第一步、第二步）— 答对后提示并自动切换至下一环节 */
 function checkFlowExpression(){
   const f = state.flow;
   if(f.status === 'ok') return;
@@ -2085,6 +2253,8 @@ function checkFlowExpression(){
     f.msg = msg;
     state.shiftQuestions++;
     state.shiftCorrect++;
+    renderFlowStepCard();
+    scheduleFlowAdvance(1000);
   } else {
     f.status = 'bad';
     f.msg = msg;
@@ -2103,11 +2273,11 @@ function checkFlowExpression(){
       else if(msg === t(STR.exprUseFoodNumbers)) pattern = 'missingFood';
     }
     recordWrong(pattern);
+    handleCalcMistake(msg);
   }
-  renderFlowStepCard();
 }
 
-/* 核验第四步：只填最终答案 — 答对后不自动跳转，等待点击「下一步」 */
+/* 核验第四步：只填最终答案 — 答对后提示并自动完成订单 */
 function checkFlowAnswer(){
   const f = state.flow;
   if(f.status === 'ok') return;
@@ -2126,26 +2296,28 @@ function checkFlowAnswer(){
     state.shiftCorrect++;
     f.orderAnswers[4] = String(change);
     renderFlowStepCard();
+    scheduleFlowAdvance(1000);
   } else {
+    const errMsg = ans === '' ? t(STR.exprEmpty) : t(STR.exprAWrong);
     f.status = 'bad';
-    f.msg = ans === '' ? t(STR.exprEmpty) : t(STR.exprAWrong);
+    f.msg = errMsg;
     state.shiftQuestions++;
     state.shiftMistakeStep[4] = (state.shiftMistakeStep[4]||0)+1;
     profileUpdateMistake(4);
-    renderFlowStepCard();
-    const inp = app.querySelector('[data-answer-input]');
-    if(inp){ setTimeout(function(){ try{ inp.focus(); }catch(e){} }, 60); }
+    handleCalcMistake(errMsg);
   }
 }
 
-/* 处理第三步选择题 — 选对后立即展开计算该步结果的输入框 */
-function answerMC(idx){
+/* 处理第三步点击算式中的数学符号 */
+function clickStep3Operator(idx){
   const f = state.flow;
-  if(f.mcAnswered) return;
-  const correct = idx === f._mcCorrectIndex;
-  f.mcChosen = idx;
-  f.mcAnswered = true;
-  if(correct){
+  if(f.step !== 3 || f.opSelectedRight) return;
+  const info = (f.step3OpNodes || [])[idx];
+  if(!info) return;
+
+  if(info.isTarget){
+    f.opSelectedRight = true;
+    f.wrongOpIdx = null;
     f.status = 'ok';
     f.msg = '';
     f.subAnswer = '';
@@ -2154,25 +2326,33 @@ function answerMC(idx){
     state.shiftQuestions++;
     state.shiftCorrect++;
     f.orderAnswers[3] = idx;
+    renderFlowStepCard();
   } else {
+    f.wrongOpIdx = idx;
     f.status = 'bad';
-    f.msg = t(STR.exprOrderHint);
+    let hintMsg = t(STR.exprOrderHint);
+    if(!info.insideParen){
+      hintMsg = t(STR.opWrongOuter);
+    } else if(f.step3TargetOp && (f.step3TargetOp.node.op === '*' || f.step3TargetOp.node.op === '/') && (info.node.op === '+' || info.node.op === '-')){
+      hintMsg = t(STR.opWrongMulFirst);
+    } else {
+      hintMsg = t(STR.opWrongLeftToRight);
+    }
+    f.msg = hintMsg;
     state.shiftQuestions++;
     state.shiftMistakeStep[3] = (state.shiftMistakeStep[3]||0)+1;
     profileUpdateMistake(3);
-  }
-  renderFlowStepCard();
-  if(!correct){
+    handleCalcMistake(hintMsg);
     setTimeout(function(){
-      if(state.flow.status !== 'ok'){
-        f.mcAnswered=false; f.mcChosen=null; f.status=''; f.msg='';
+      if(state.screen === 'flow' && state.flow.step === 3 && !state.flow.opSelectedRight){
+        state.flow.wrongOpIdx = null;
         renderFlowStepCard();
       }
-    }, 900);
+    }, 850);
   }
 }
 
-/* 核验第三步当前小步的计算结果 */
+/* 核验第三步当前小步的计算结果 — 答对后自动进入下一环节 */
 function checkStep3SubAnswer(){
   const f = state.flow;
   if(f.step !== 3 || f.status !== 'ok' || !f.step3TargetOp || f.subStatus === 'ok') return;
@@ -2189,19 +2369,20 @@ function checkStep3SubAnswer(){
     f.step3CurrentExpr = formatOuterChangeExpr(state.customer.paid, f.step3InnerAst);
     f.subMsg = tf(STR.step3CalcCorrect, { expr: f.step3CurrentExpr });
     renderFlowStepCard();
+    scheduleFlowAdvance(1050);
   } else {
+    const errMsg = ans === '' ? t(STR.exprEmpty) : t(STR.exprAWrong);
     f.subStatus = 'bad';
-    f.subMsg = ans === '' ? t(STR.exprEmpty) : t(STR.exprAWrong);
+    f.subMsg = errMsg;
     state.shiftQuestions++;
     state.shiftMistakeStep[3] = (state.shiftMistakeStep[3]||0)+1;
     profileUpdateMistake(3);
-    renderFlowStepCard();
-    const subInp = app.querySelector('[data-sub-answer-input]');
-    if(subInp){ setTimeout(function(){ try{ subInp.focus(); }catch(e){} }, 60); }
+    handleCalcMistake(errMsg);
   }
 }
 
 function advanceFlow(){
+  clearFlowAutoTimer();
   const f = state.flow;
   if(f.step === 2){
     f.step = 3;
@@ -2222,7 +2403,7 @@ function advanceFlow(){
     }
     f.step = 4;
     f.expr=''; f.answer=''; f.status=''; f.msg=''; f.hint=false;
-    f.mcOptions=[]; f.mcAnswered=false; f.mcChosen=null;
+    f.opSelectedRight=false; f.wrongOpIdx=null; f.step3OpNodes=[];
     f.subAnswer=''; f.subStatus=''; f.subMsg='';
     renderFlowStepCard();
     window.scrollTo({ top:0 });
@@ -2231,7 +2412,7 @@ function advanceFlow(){
   if(f.step < 4){
     f.step++;
     f.expr=''; f.answer=''; f.status=''; f.msg=''; f.hint=false;
-    f.mcOptions=[]; f.mcAnswered=false; f.mcChosen=null;
+    f.opSelectedRight=false; f.wrongOpIdx=null; f.step3OpNodes=[];
     renderFlowStepCard();
     window.scrollTo({ top:0 });
   } else {
@@ -2246,11 +2427,13 @@ function completeOrder(){
   const timeTaken = Math.round((Date.now()-state.orderStartTime)/1000);
 
   let ecoEval = { ok: true, badItems: [] };
+  let hasExplicitEcoReq = false;
   if(L.id === 'challenge' && c.request.isRecommend){
     ecoEval = evaluateChallengeEco(ent, c.request);
+    hasExplicitEcoReq = c.request.hasEcoReq !== false;
   }
 
-  if(!ecoEval.ok){
+  if(L.id === 'challenge' && c.request.isRecommend && hasExplicitEcoReq && !ecoEval.ok){
     const badListStr = ecoEval.badItems.length ? ecoEval.badItems.join('、') : bi('部分包裝','some packaging');
     openModal({
       tone:'bad', hero:'🌿', title:t(STR.receiptEcoBad), sub:tf(STR.chkEcoLowButRight, {items: badListStr}),
@@ -2262,7 +2445,8 @@ function completeOrder(){
   }
 
   state.ordersDone++;
-  state.revenue += sp;
+  state.earnedRevenue += sp;
+  state.revenue = Math.max(0, state.earnedRevenue - state.deductedRevenue);
   state.shiftStreak++;
   const orderAcc = state.shiftQuestions>0 ? Math.round(state.shiftCorrect/state.shiftQuestions*100) : 100;
 
@@ -2270,7 +2454,9 @@ function completeOrder(){
     no: state.orderNo, items: ent.map(e=>({id:e.food.id, qty:e.qty})),
     cost: sp, paid: c.paid, change: change, expr: state.flow.orderAnswers[2],
     accuracy: orderAcc, time: timeTaken, revenue: sp,
-    eco: eco, health: health, ecoMet: ecoEval.ok,
+    eco: eco, health: health,
+    ecoMet: ecoEval.ok,
+    hasEcoReq: hasExplicitEcoReq,
     zeroPlastic: ent.every(e => e.food.eco >= 3)
   };
   state.shiftOrders.push(orderRec);
@@ -2282,25 +2468,35 @@ function completeOrder(){
 }
 function showReceipt(rec){
   const L = LEVELS[state.level];
-  const isChallenge = L.id==='challenge';
+  const isChallenge = L && L.id==='challenge';
   const rows = rec.items.map(it => {
     const f = FOOD_BY_ID[it.id];
     const tier = ecoTierClass(f.eco);
     const packInfo = isChallenge ? ' · <span class="pack-badge '+tier+'">'+t(f.packaging)+'</span>' : '';
     return '<div class="receipt-row"><span>'+t(f.name)+'<small>'+it.qty+' × $'+f.price+packInfo+'</small></span><b>$'+(it.qty*f.price)+'</b></div>';
   }).join('');
+  let ecoSection = '';
+  if(isChallenge){
+    if(rec.hasEcoReq){
+      ecoSection = '<div class="receipt-row"><span>'+t(STR.receiptPackaging)+'</span><b style="color:#1f7a4c">✅ '+t(STR.receiptEcoOk)+'</b></div>';
+    } else if(rec.ecoMet){
+      ecoSection = '<div class="eco-bonus-banner">'+t(STR.receiptEcoHiddenOk)+'</div>';
+    } else {
+      ecoSection = '<div class="eco-tip-banner">'+t(STR.receiptEcoHiddenTip)+'</div>';
+    }
+  }
   const body =
     '<div class="flow-receipt">' +
       '<div class="receipt-row"><span>'+t(STR.receiptOrderNo)+'</span><b>#'+String(rec.no).padStart(3,'0')+'</b></div>' +
       rows +
       '<div class="receipt-row"><span>'+t(STR.receiptCost)+'</span><b>$'+rec.cost+'</b></div>' +
       '<div class="receipt-row"><span>'+t(STR.receiptPaid)+'</span><b>$'+rec.paid+'</b></div>' +
-      '<div class="receipt-row total"><span>'+t(STR.receiptChange)+'</span><b>$'+rec.change+'</b></div>' +
+      '<div class="receipt-row" data-receipt-change><span>'+t(STR.receiptChange)+'</span><span style="white-space:nowrap;font-variant-numeric:tabular-nums;padding-right:0">$'+rec.change+'</span></div>' +
       '<div class="receipt-row"><span>'+t(STR.receiptExpr)+'</span><b style="white-space:normal;text-align:right">'+esc(rec.expr || '')+'</b></div>' +
       '<div class="receipt-row"><span>'+t(STR.receiptAcc)+'</span><b>'+rec.accuracy+'%</b></div>' +
       '<div class="receipt-row"><span>'+t(STR.receiptTime)+'</span><b>'+rec.time+'s</b></div>' +
-      '<div class="receipt-row"><span>'+t(STR.receiptRevenue)+'</span><b>$'+rec.revenue+'</b></div>' +
-      (isChallenge ? '<div class="receipt-row"><span>'+t(STR.receiptPackaging)+'</span><b style="color:#1f7a4c">✅ '+t(STR.receiptEcoOk)+'</b></div>' : '') +
+      '<div class="receipt-row total" data-receipt-revenue><span>'+t(STR.receiptRevenue)+'</span><b>+$'+rec.revenue+'</b></div>' +
+      ecoSection +
     '</div>';
   openModal({
     tone:'ok', hero:'🎉', title:t(STR.orderDoneTitle), sub:t(STR.orderDoneSub), body:body,
@@ -2473,6 +2669,7 @@ function stopTimer(){
   if(state.timerId){ clearInterval(state.timerId); state.timerId = null; }
 }
 function endShift(){
+  clearFlowAutoTimer();
   stopTimer();
   state.screen = 'report';
   if(state.account){
@@ -2488,7 +2685,7 @@ function endShift(){
       playedAt: new Date().toISOString()
     });
   }
-  renderReport();
+  renderReport(true);
 }
 
 /* ========================= 营业结算 ========================= */
@@ -2504,7 +2701,7 @@ function ecoRating(){
   if(rate >= 0.6) return { name:STR.rating3, rank:3 };
   return { name:STR.rating1, rank:1 };
 }
-function renderReport(){
+function renderReport(animate){
   const L = LEVELS[state.level];
   const acc = state.shiftQuestions>0 ? Math.round(state.shiftCorrect/state.shiftQuestions*100)+'%' : '—';
   const avgTime = state.shiftOrders.length>0 ? Math.round(state.shiftOrders.reduce((s,o)=>s+o.time,0)/state.shiftOrders.length)+'s' : '—';
@@ -2536,6 +2733,12 @@ function renderReport(){
   });
   const achLine = newAch.length ? newAch.map(a=>'<span>'+a.icon+' '+t(a.name)+'</span>').join('') : (state.account ? '—' : t(STR.noAchievements));
 
+  const shouldAnimate = animate === true && (state.earnedRevenue > 0 || state.revenue > 0);
+  const popCls = shouldAnimate ? ' money-pop' : '';
+  const cashFloatBadge = (shouldAnimate && state.revenue > 0)
+    ? '<span class="cash-badge-float" aria-hidden="true">+$'+state.revenue+' 🪙</span>'
+    : '';
+
   app.innerHTML =
     '<div class="page" style="max-width:860px">' +
       '<div class="brand" style="margin-bottom:6px"><div class="brand-badge">🍵</div><div><h1>'+t(STR.appTitle)+'</h1></div></div>' +
@@ -2544,7 +2747,9 @@ function renderReport(){
         '<p>'+t(STR.reportLevel)+'：<b>'+t(L.name)+'</b></p>' +
         '<div class="report-grid">' +
           '<div class="report-card"><span class="label">'+t(STR.reportOrders)+'</span><span class="value">'+state.ordersDone+'</span></div>' +
-          '<div class="report-card"><span class="label">'+t(STR.reportRevenue)+'</span><span class="value">$'+state.revenue+'</span></div>' +
+          '<div class="report-card earned'+popCls+'"><span class="label">'+t(STR.reportEarnedRevenue)+'</span><span class="value" data-count-target="'+state.earnedRevenue+'" data-count-prefix="+$">+$'+state.earnedRevenue+'</span></div>' +
+          '<div class="report-card deducted'+(state.deductedRevenue>0?popCls:'')+'"><span class="label">'+t(STR.reportDeductedRevenue)+'</span><span class="value" data-count-target="'+state.deductedRevenue+'" data-count-prefix="−$">−$'+state.deductedRevenue+'</span></div>' +
+          '<div class="report-card total-rev'+popCls+'">'+cashFloatBadge+'<span class="label">'+t(STR.reportRevenue)+'</span><span class="value" data-count-target="'+state.revenue+'" data-count-prefix="$">$'+state.revenue+'</span></div>' +
           '<div class="report-card"><span class="label">'+t(STR.reportQuestions)+'</span><span class="value">'+state.shiftQuestions+'</span></div>' +
           '<div class="report-card"><span class="label">'+t(STR.reportCorrect)+'</span><span class="value">'+state.shiftCorrect+'</span></div>' +
           '<div class="report-card"><span class="label">'+t(STR.reportAccuracy)+'</span><span class="value">'+acc+'</span></div>' +
@@ -2564,6 +2769,10 @@ function renderReport(){
         '</div>' +
       '</div>' +
     '</div>';
+
+  if(shouldAnimate){
+    playMoneyInAnimation();
+  }
 }
 function topStep(){
   const s = state.shiftMistakeStep;
@@ -2845,7 +3054,7 @@ function switchAccountFlow(){
 function openRules(){
   const L = state.screen !== 'start' && state.level && LEVELS[state.level];
   const focusHTML = L
-    ? '<div class="rules-card-box"><div class="rc-focus">'+t(L.name)+'：'+t(L.focus)+'</div><div class="rc-time">'+t(STR.bizTimeLabel)+t(L.timeLabel)+'</div></div>'
+    ? '<div class="rules-card-box"><div class="rc-focus">'+t(L.ruleTip || L.focus)+'</div><div class="rc-time">'+t(STR.bizTimeLabel)+t(L.timeLabel)+'</div></div>'
     : '';
   openModal({
     hero:'📋', title:t(STR.rulesTitle), sub:t(STR.rulesIntro),
@@ -2854,16 +3063,19 @@ function openRules(){
   });
 }
 function resetFlowState(){
+  clearFlowAutoTimer();
   state.flow = {
     step:1, expr:'', answer:'', status:'', msg:'', hint:false,
-    mcOptions:[], mcAnswered:false, mcChosen:null, _mcType:null, _mcCorrectIndex:0,
     step3Stage:0, step3CurrentExpr:'', step3InnerAst:null, step3TargetOp:null,
+    opSelectedRight:false, wrongOpIdx:null, step3OpNodes:[],
     subAnswer:'', subStatus:'', subMsg:'',
     orderAnswers:{1:null,2:null,3:null,4:null}
   };
 }
 function startLevel(id, options){
   if(!LEVELS[id]) return;
+  clearFlowAutoTimer();
+  clearMoneyFx();
   state.screen = 'game';
   state.level = id;
   state.cart = {};
@@ -2872,8 +3084,9 @@ function startLevel(id, options){
   state.customer = genOrder(id);
   state.orderNo = 1;
   state.orderStartTime = Date.now();
+  state.lives = MAX_LIVES;
   state.timeTotal = LEVELS[id].duration;
-  state.revenue = 0; state.ordersDone = 0;
+  state.earnedRevenue = 0; state.deductedRevenue = 0; state.revenue = 0; state.ordersDone = 0;
   state.shiftQuestions = 0; state.shiftCorrect = 0; state.shiftStreak = 0;
   state.shiftMistakeStep = {}; state.shiftMistakeOp = {};
   state.shiftOrders = [];
@@ -2884,6 +3097,7 @@ function startLevel(id, options){
   if(options && options.showRules) setTimeout(()=>openRules(), 80);
 }
 function nextCustomer(){
+  clearFlowAutoTimer();
   closeModal();
   state.screen = 'game';
   state.cart = {};
@@ -2891,6 +3105,7 @@ function nextCustomer(){
   state.ecoFilter = 'all';
   state.customer = genOrder(state.level);
   state.orderStartTime = Date.now();
+  state.lives = MAX_LIVES;
   resetFlowState();
   render();
   window.scrollTo({ top:0 });
@@ -2915,7 +3130,7 @@ document.addEventListener('click', function(e){
   }
   if((el = hit('[data-nav]'))){ navigate(el.getAttribute('data-nav')); return; }
   if((el = hit('[data-lb-tab]'))){ state.lbLevel = el.getAttribute('data-lb-tab'); renderLeaderboard(); return; }
-  if((el = hit('[data-lb-level]'))){ state.lbLevel = el.getAttribute('data-lb-level'); state.screen = 'leaderboard'; renderLeaderboard(); return; }
+  if((el = hit('[data-lb-level]'))){ clearMoneyFx(); state.lbLevel = el.getAttribute('data-lb-level'); state.screen = 'leaderboard'; renderLeaderboard(); return; }
   if((el = hit('[data-level]'))){ startLevel(el.getAttribute('data-level'), { showRules:true }); return; }
   if((el = hit('[data-rules]'))){ openRules(); return; }
   if((el = hit('[data-close]'))){ closeModal(); return; }
@@ -2929,13 +3144,15 @@ document.addEventListener('click', function(e){
           '<button class="btn btn-ghost" data-close>'+t(STR.endShiftNo)+'</button>'
       });
     } else {
+      clearFlowAutoTimer();
+      clearMoneyFx();
       stopTimer();
       state.screen = 'start';
       render();
     }
     return;
   }
-  if((el = hit('[data-confirm-home]'))){ closeModal(); stopTimer(); state.screen='start'; render(); return; }
+  if((el = hit('[data-confirm-home]'))){ closeModal(); clearFlowAutoTimer(); clearMoneyFx(); stopTimer(); state.screen='start'; render(); return; }
   if((el = hit('[data-end-shift]'))){
     if(state.screen === 'game' || state.screen === 'flow'){
       openModal({
@@ -3010,6 +3227,7 @@ document.addEventListener('click', function(e){
       return;
     }
     state.screen = 'flow';
+    state.lives = MAX_LIVES;
     resetFlowState();
     render();
     window.scrollTo({ top:0 });
@@ -3018,6 +3236,7 @@ document.addEventListener('click', function(e){
 
   /* 翻页流程操作 */
   if((el = hit('[data-flow-exit]'))){
+    clearFlowAutoTimer();
     state.screen = 'game';
     render();
     window.scrollTo({ top:0 });
@@ -3025,6 +3244,7 @@ document.addEventListener('click', function(e){
   }
   if((el = hit('[data-back-to-tray]'))){
     closeModal();
+    clearFlowAutoTimer();
     state.screen = 'game';
     render();
     window.scrollTo({ top:0 });
@@ -3053,21 +3273,17 @@ document.addEventListener('click', function(e){
     else if(state.flow.step === 4) checkFlowAnswer();
     return;
   }
-  if((el = hit('[data-step3-sub-check]'))){
-    checkStep3SubAnswer();
+  if((el = hit('[data-op-idx]'))){
+    clickStep3Operator(Number(el.getAttribute('data-op-idx')));
     return;
   }
-  if((el = hit('[data-flow-next]'))){
-    advanceFlow();
+  if((el = hit('[data-step3-sub-check]'))){
+    checkStep3SubAnswer();
     return;
   }
   if((el = hit('[data-flow-hint]'))){
     state.flow.hint = !state.flow.hint;
     renderFlowStepCard();
-    return;
-  }
-  if((el = hit('[data-mc]'))){
-    answerMC(Number(el.getAttribute('data-mc')));
     return;
   }
   if((el = hit('[data-next-customer]'))){ nextCustomer(); return; }
@@ -3125,13 +3341,18 @@ document.addEventListener('click', function(e){
 
 document.addEventListener('keydown', function(e){
   if(e.key === 'Escape' && !overlay.hidden){ closeModal(); return; }
-  if(state.screen === 'flow' && !overlay.hidden) return;
+  if(state.screen === 'flow' && !overlay.hidden){
+    if(e.key === 'Enter'){
+      const btn = modalBox.querySelector('[data-close],[data-next-customer]');
+      if(btn){ e.preventDefault(); btn.click(); }
+    }
+    return;
+  }
   if(state.screen === 'flow'){
     const f = state.flow;
     if(f.step === 1 || f.step === 2){
       if(e.key === 'Enter'){
-        if(f.status === 'ok') advanceFlow();
-        else checkFlowExpression();
+        if(f.status !== 'ok') checkFlowExpression();
         return;
       }
       if(f.status === 'ok') return;
@@ -3149,15 +3370,13 @@ document.addEventListener('keydown', function(e){
       if(e.key === '*'){ f.expr=(f.expr||'')+'×'; f.status=''; f.msg=''; renderFlowStepCard(); return; }
       if(e.key === '/'){ f.expr=(f.expr||'')+'÷'; f.status=''; f.msg=''; renderFlowStepCard(); return; }
       if(e.key === '(' || e.key === ')'){ f.expr=(f.expr||'')+e.key; f.status=''; f.msg=''; renderFlowStepCard(); return; }
-    } else if(f.step === 3 && e.key === 'Enter' && f.subStatus === 'ok'){
-      advanceFlow();
-    } else if(f.step === 4 && e.key === 'Enter' && f.status === 'ok'){
-      advanceFlow();
     }
   }
 });
 
 function navigate(target){
+  clearFlowAutoTimer();
+  clearMoneyFx();
   if(target === 'start'){ state.screen='start'; render(); return; }
   if(target === 'leaderboard'){ stopTimer(); state.screen='leaderboard'; renderLeaderboard(); return; }
   if(target === 'profile'){ stopTimer(); state.screen='profile'; renderProfile(); return; }
@@ -3285,7 +3504,7 @@ function accImport(){
 function render(){
   if(state.screen === 'game' && state.level) renderGame();
   else if(state.screen === 'flow') renderFlowStepCard();
-  else if(state.screen === 'report') renderReport();
+  else if(state.screen === 'report') renderReport(false);
   else if(state.screen === 'leaderboard') renderLeaderboard();
   else if(state.screen === 'profile') renderProfile();
   else if(state.screen === 'achievements') renderAchievements();
@@ -3327,7 +3546,12 @@ function runSelfTests(){
 
   state.level = 'challenge';
   const oc = genOrder('challenge');
-  ok('challenge 为推荐 3 份模式', oc.request.isRecommend === true && oc.request.totalQty === 3);
+  ok('challenge 为推荐 3 份模式且包含 hasEcoReq 布尔值', oc.request.isRecommend === true && oc.request.totalQty === 3 && typeof oc.request.hasEcoReq === 'boolean');
+  const speechWithEco = customerSpeech({ type:'uncle', paid:40, request:{ isRecommend:true, cats:{ filling:1, drink:2 }, totalQty:3, dineIn:false, hasEcoReq:true } });
+  const speechNoEco = customerSpeech({ type:'uncle', paid:40, request:{ isRecommend:true, cats:{ filling:1, drink:2 }, totalQty:3, dineIn:false, hasEcoReq:false } });
+  ok('挑戰模式有環保要求時話術包含塑膠包裝提示', speechWithEco.includes('塑膠包裝'));
+  ok('挑戰模式無環保要求時話術省略塑膠包裝提示', !speechNoEco.includes('塑膠包裝') && !speechNoEco.includes('包裝'));
+
   const dineInSnacks = FOODS.filter(f => f.tags.includes('snack') && f.eco === 3 && f.packIcon === '🍽️');
   const dineInDrinks = FOODS.filter(f => f.tags.includes('drink') && f.eco === 3 && f.packIcon === '🍽️');
   ok('小食包含至少 3 款無包裝堂食食物', dineInSnacks.length >= 3);
@@ -3344,6 +3568,43 @@ function runSelfTests(){
     { food:FOOD_BY_ID.hotlemonwater, qty:1 }
   ], { dineIn:true });
   ok('堂食誤選紙袋包裝食物判定不通過', ecoFailDineIn.ok === false);
+
+  /* --- 挑戰模式隱藏環保條件測試 --- */
+  state.level = 'challenge';
+  state.ordersDone = 0; state.earnedRevenue = 0; state.deductedRevenue = 0; state.revenue = 0; state.shiftOrders = [];
+  state.customer = { type:'uncle', paid:40, request:{ isRecommend:true, cats:{ filling:1, drink:2 }, totalQty:3, dineIn:false, hasEcoReq:false } };
+  state.cart = { pineapple:1, milktea:2 }; // 膠杯包裝（低環保），但客人無開口要求
+  resetFlowState(); state.flow.orderAnswers[2] = '40−(8+14×2)';
+  completeOrder();
+  ok('無環保要求訂單選低環保食物仍可完成結帳，但 ecoMet=false', state.ordersDone === 1 && state.shiftOrders[0].ecoMet === false);
+  closeModal();
+
+  state.customer = { type:'uncle', paid:40, request:{ isRecommend:true, cats:{ filling:1, drink:2 }, totalQty:3, dineIn:false, hasEcoReq:false } };
+  state.cart = { pineapple:1, freshmilk:2 }; // 高環保包裝，觸發隱藏環保達標
+  resetFlowState(); state.flow.orderAnswers[2] = '40−(8+10×2)';
+  completeOrder();
+  ok('無環保要求訂單主動選高環保食物觸發隱藏環保達標 ecoMet=true', state.ordersDone === 2 && state.shiftOrders[1].ecoMet === true);
+  closeModal();
+
+  /* --- 訂單完成小票「找錢」與「本次營業額」排版檢查 --- */
+  showReceipt({
+    no: 1,
+    items: [{ id: 'cocktail', qty: 1 }, { id: 'water', qty: 1 }],
+    cost: 11,
+    paid: 20,
+    change: 9,
+    expr: '20−(6+5)',
+    accuracy: 83,
+    time: 40,
+    revenue: 11,
+    ecoMet: true,
+    hasEcoReq: false
+  });
+  const changeRow = modalBox.querySelector('[data-receipt-change]');
+  const revenueRow = modalBox.querySelector('[data-receipt-revenue]');
+  ok('電子小票「找錢」列已取消加粗與高亮樣式', !!changeRow && !changeRow.classList.contains('total') && !changeRow.querySelector('b'));
+  ok('電子小票「本次營業額」列已加粗重點強調顯示', !!revenueRow && revenueRow.classList.contains('total') && !!revenueRow.querySelector('b'));
+  closeModal();
 
   /* --- 挑戰模式環保程度分類篩選測試 --- */
   state.screen = 'game';
@@ -3380,70 +3641,54 @@ function runSelfTests(){
   app.querySelector('[data-filter="all"]').click();
   ok('點擊全部按鈕同步重置食物與環保篩選', state.filter === 'all' && state.ecoFilter === 'all' && app.querySelectorAll('.food-card').length === 28);
 
-  /* --- 表达式结构检查 --- */
-  state.level = 'advanced';
-  state.cart = { pineapple:2, lemontea:1 };
-  state.customer = { type:'aunty', paid:50, request:{ items:[{id:'pineapple',qty:2},{id:'lemontea',qty:1}], totalQty:3 } };
-  const astOk = parseExprAST('50 − (2 × 8 + 15)');
-  ok('第二步正确算式求值=19', evalAST(astOk) === 19);
-  const astRev = parseExprAST('(2 × 8 + 15) − 50');
-  ok('被减数减数调转求值=-19', evalAST(astRev) === -19);
-
-  /* --- 进阶/挑战同价合并乘法检查 --- */
-  state.level = 'challenge';
-  state.cart = { eggtart:1, fishball:1, freshmilk:1 };
-  state.customer = { type:'uncle', paid:40, request:{ items:[{id:'eggtart',qty:1},{id:'fishball',qty:1},{id:'freshmilk',qty:1}], totalQty:3 } };
-  const entSamePrice = entries();
-  ok('同价订单预期数字为 [7, 10, 2]', sameMultiset(expectedSpendNumbers(entSamePrice), [7, 10, 2]));
-  ok('同价订单数字总数=4', numbersOf(entSamePrice) === 4);
-  resetFlowState(); state.flow.step = 1; state.flow.expr = '7+10×2';
-  checkFlowExpression();
-  ok('同价订单第一步 7+10×2 通过', state.flow.status === 'ok');
-  resetFlowState(); state.flow.step = 1; state.flow.expr = '7+10+10';
-  checkFlowExpression();
-  ok('同价订单第一步连加 7+10+10 被拦截', state.flow.status === 'bad');
-  resetFlowState(); state.flow.step = 2; state.flow.expr = '40−(7+10×2)';
-  checkFlowExpression();
-  ok('同价订单第二步 40−(7+10×2) 通过', state.flow.status === 'ok');
-  resetFlowState(); state.flow.step = 2; state.flow.expr = '40−(7+10+10)';
-  checkFlowExpression();
-  ok('同价订单第二步连加 40−(7+10+10) 被拦截', state.flow.status === 'bad');
-
-  /* --- 第三步分步計算與動態跳轉驗證：情況 A（2 步算式：30 - (14 + 7)） --- */
+  /* --- 生命值與答錯扣除營業額測試 --- */
+  state.screen = 'flow';
   state.level = 'basic';
   state.cart = { cheungfun:1, eggtart:1 };
-  state.customer = { type:'student', paid:30, request:{ items:[{id:'cheungfun',qty:1},{id:'eggtart',qty:1}], totalQty:2 } };
+  state.customer = { paid:30, type:'uncle', request:{ items:[{id:'cheungfun',qty:1},{id:'eggtart',qty:1}], totalQty:2 } };
+  state.lives = MAX_LIVES;
+  state.earnedRevenue = 50; state.deductedRevenue = 0; state.revenue = 50;
+  resetFlowState(); state.flow.step = 1; state.flow.expr = '14−7';
+  checkFlowExpression();
+  ok('答錯扣除 1 點生命值並扣除 2/3/5 元營業額', state.lives === 2 && PENALTY_POOL.includes(state.deductedRevenue) && state.revenue === (50 - state.deductedRevenue));
+  closeModal();
+
+  /* --- 確認按鈕文案與無下一步按鈕檢查 --- */
+  ok('按鈕文案已改為確認', t(STR.flowCheck) === '確認' && !app.querySelector('[data-flow-next]'));
+
+  /* --- 第三步點擊算式符號與自動跳轉驗證：情況 A（2 步算式：30 - (14 + 7)） --- */
+  state.lives = MAX_LIVES;
   resetFlowState();
   state.flow.step = 2;
   state.flow.orderAnswers[2] = '30−(14+7)';
   advanceFlow();
-  ok('2步算式進入第3步目標運算為 14 + 7', state.flow.step === 3 && state.flow.step3TargetOp.label === '14 + 7');
-  answerMC(state.flow._mcCorrectIndex);
-  ok('2步算式選對順序後展開計算輸入框', state.flow.mcAnswered === true && state.flow.status === 'ok');
+  ok('2步算式進入第3步目標運算為 14 + 7 且無選擇題', state.flow.step === 3 && state.flow.step3TargetOp.label === '14 + 7' && !app.querySelector('.mc-list') && app.querySelectorAll('[data-op-idx]').length === 2);
+  clickStep3Operator(1);
+  ok('2步算式點擊算式中 + 符號後展開計算輸入框', state.flow.opSelectedRight === true && state.flow.status === 'ok');
   state.flow.subAnswer = '21';
   checkStep3SubAnswer();
   ok('2步算式算對 14 + 7 = 21 後化簡為 30 − 21', state.flow.subStatus === 'ok' && state.flow.step3CurrentExpr === '30 − 21');
   advanceFlow();
-  ok('2步算式點擊下一步直接跳轉至第4頁找錢答案頁', state.flow.step === 4);
+  ok('2步算式自動跳轉至第4頁找錢答案頁', state.flow.step === 4);
   ok('第4頁算式直接代入結果且不顯示原算式', !app.querySelector('.orig-expr') && app.querySelector('.summary-expr').textContent.includes('30 − 21') && !app.querySelector('.summary-expr').textContent.includes('30−(14+7)'));
 
-  /* --- 第三步分步計算與動態跳轉驗證：情況 B（3 步算式：50 - (2 × 8 + 15)） --- */
+  /* --- 第三步點擊算式符號與自動跳轉驗證：情況 B（3 步算式：50 - (2 × 8 + 15)） --- */
   state.level = 'advanced';
   state.cart = { pineapple:2, lemontea:1 };
-  state.customer = { type:'grandma', paid:50, request:{ items:[{id:'pineapple',qty:2},{id:'lemontea',qty:1}], totalQty:3 } };
+  state.customer = { paid:50, type:'uncle', request:{ items:[{id:'pineapple',qty:2},{id:'lemontea',qty:1}], totalQty:3 } };
+  state.lives = MAX_LIVES;
   resetFlowState();
   state.flow.step = 2;
   state.flow.orderAnswers[2] = '50−(2×8+15)';
   advanceFlow();
-  ok('3步算式第1輪目標運算為 2 × 8', state.flow.step === 3 && state.flow.step3TargetOp.label === '2 × 8');
-  answerMC(state.flow._mcCorrectIndex);
+  ok('3步算式第1輪目標運算為 2 × 8 且有 3 個可點擊符號', state.flow.step === 3 && state.flow.step3TargetOp.label === '2 × 8' && app.querySelectorAll('[data-op-idx]').length === 3);
+  clickStep3Operator(1);
   state.flow.subAnswer = '16';
   checkStep3SubAnswer();
   ok('3步算式算對 2 × 8 = 16 後化簡為 50 − (16 + 15)', state.flow.subStatus === 'ok' && state.flow.step3CurrentExpr === '50 − (16 + 15)');
   advanceFlow();
   ok('3步算式第1輪完成後繼續留在第3步追問 16 + 15', state.flow.step === 3 && state.flow.step3TargetOp.label === '16 + 15');
-  ok('第3.2步算式直接代入結果且不顯示原算式', !app.querySelector('.orig-expr') && app.querySelector('.summary-expr').textContent.includes('50 − (16 + 15)') && !app.querySelector('.summary-expr').textContent.includes('50−(2×8+15)'));
-  answerMC(state.flow._mcCorrectIndex);
+  clickStep3Operator(1);
   state.flow.subAnswer = '31';
   checkStep3SubAnswer();
   ok('3步算式算對 16 + 15 = 31 後化簡為 50 − 31', state.flow.subStatus === 'ok' && state.flow.step3CurrentExpr === '50 − 31');
@@ -3451,19 +3696,36 @@ function runSelfTests(){
   ok('3步算式第2輪完成後跳轉至第4頁找錢答案頁', state.flow.step === 4);
   ok('3步算式第4頁只顯示 50 − 31 且無 .orig-expr', !app.querySelector('.orig-expr') && app.querySelector('.summary-expr').textContent.includes('50 − 31') && !app.querySelector('.summary-expr').textContent.includes('50−(2×8+15)'));
 
-  /* --- 起始页与难度页规则弹窗检查 --- */
+  /* --- 結算頁賺取金額、扣除金額明細與金錢進賬動畫檢查 --- */
+  state.earnedRevenue = 80; state.deductedRevenue = 7; state.revenue = 73;
+  renderReport();
+  ok('結算報告顯示賺取金額與扣除金額', app.querySelector('.report-card.earned').textContent.includes('+$80') && app.querySelector('.report-card.deducted').textContent.includes('−$7'));
+  renderReport(true);
+  ok('結算報告開啟動畫時生成金錢粒子層與卡片彈跳發光樣式', !!document.querySelector('.money-fx-layer') && !!app.querySelector('.report-card.money-pop'));
+  clearMoneyFx();
+
+  /* --- 起始頁與三難度規則彈窗新文案檢查 --- */
   state.screen = 'start';
   state.level = 'basic';
   openRules();
-  ok('起始页規則彈窗不包含 .rules-card-box', !modalBox.querySelector('.rules-card-box'));
+  ok('起始頁規則彈窗不包含 .rules-card-box', !modalBox.querySelector('.rules-card-box'));
   state.screen = 'game';
   state.level = 'basic';
   openRules();
-  ok('難度頁規則彈窗保留 .rules-card-box', !!modalBox.querySelector('.rules-card-box'));
+  ok('基礎難度規則彈窗顯示專屬提示文案', modalBox.querySelector('.rc-focus').textContent === '基礎：嘗試使用圓括號和三個數加減混合運算吧，實習店長！');
+  state.level = 'advanced';
+  openRules();
+  ok('進階難度規則彈窗顯示專屬提示文案', modalBox.querySelector('.rc-focus').textContent === '進階：使用乘加乘減混合運算，成為正式店長！');
+  state.level = 'challenge';
+  openRules();
+  ok('挑戰難度規則彈窗顯示專屬提示文案', modalBox.querySelector('.rc-focus').textContent === '挑戰：努力完成高環保和高營業額的要求，成為環保達人吧！');
   closeModal();
 
   /* --- 重置状态 --- */
+  clearFlowAutoTimer();
+  clearMoneyFx();
   state.level = null; state.cart = {}; state.customer = null; state.filter = 'all'; state.ecoFilter = 'all'; state.screen = 'start';
+  state.earnedRevenue = 0; state.deductedRevenue = 0; state.revenue = 0; state.lives = MAX_LIVES;
   render();
 
   const summary = 'Self-test: ' + pass + ' passed, ' + fail + ' failed';
