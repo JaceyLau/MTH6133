@@ -478,7 +478,7 @@ const FOODS = [
   {id:'fishball', name:T('魚蛋','Fish Balls'), emoji:'🍢', bg:'#e4f1ff', desc:T('彈牙魚蛋，街頭風味','Springy fish balls, street-food style'), price:10, unit:T('份','portion'), packaging:T('紙杯包裝','Paper cup'), packIcon:'🥤', eco:2, tags:['snack']},
   {id:'congee', name:T('艇仔粥','Sampan Congee'), emoji:'🥣', bg:'#fff3db', desc:T('綿滑靚粥，材料豐富','Smooth congee with rich toppings'), price:18, unit:T('碗','bowl'), packaging:T('沒有包裝（堂食）','No packaging (dine-in)'), packIcon:'🍽️', eco:3, tags:['filling']},
   {id:'soymilk', name:T('豆漿','Soy Milk'), emoji:'🥛', bg:'#e4f1ff', desc:T('微甜豆香，香濃飲品','Lightly sweet soy milk'), price:7, unit:T('杯','cup'), packaging:T('膠杯包裝','Plastic cup'), packIcon:'🥤', eco:1, tags:['drink']},
-  {id:'milktea', name:T('奶茶','Milk Tea'), emoji:'☕', bg:'#f3e4d2', desc:T('港式絲襪奶茶，香濃滑','HK-style milk tea, rich and smooth'), price:14, unit:T('杯','cup'), packaging:T('膠杯包裝','Plastic cup'), packIcon:'🥤', eco:1, tags:['drink']},
+  {id:'milktea', name:T('凍奶茶','Iced Milk Tea'), emoji:'☕', bg:'#f3e4d2', desc:T('港式凍絲襪奶茶，香濃滑','HK-style iced milk tea, rich and smooth'), price:14, unit:T('杯','cup'), packaging:T('膠杯包裝','Plastic cup'), packIcon:'🥤', eco:1, tags:['drink']},
   {id:'lemontea', name:T('檸檬茶','Lemon Tea'), emoji:'🍋', bg:'#fff6c9', desc:T('清新檸檬，醒神之選','Refreshing lemon tea'), price:15, unit:T('杯','cup'), packaging:T('膠杯包裝','Plastic cup'), packIcon:'🥤', eco:1, tags:['drink']},
   {id:'water', name:T('樽裝水','Bottled Water'), emoji:'💧', bg:'#e4f1ff', desc:T('方便攜帶，但膠樽不環保','Convenient, but not eco-friendly'), price:5, unit:T('樽','bottle'), packaging:T('膠樽包裝','Plastic bottle'), packIcon:'🧴', eco:0, tags:['drink']},
   {id:'freshmilk', name:T('鮮奶','Fresh Milk'), emoji:'🥛', bg:'#eef2ff', desc:T('紙包鮮奶，香滑可口','Fresh milk in a paper carton'), price:10, unit:T('盒','carton'), packaging:T('紙包飲品','Paper carton'), packIcon:'🧃', eco:2, tags:['drink']},
@@ -931,6 +931,7 @@ const state = {
   orderNo:1,
   orderStartTime:0,
   lives:MAX_LIVES,
+  orderDeducted:0,   // 本張訂單內累計的計算錯誤扣款（用於小票淨額）
   // 营业
   timeLeft:0, timeTotal:0, timerId:null,
   earnedRevenue:0, deductedRevenue:0, revenue:0, ordersDone:0,
@@ -2167,6 +2168,7 @@ function handleCalcMistake(detailHint){
   state.shiftStreak = 0;
   const penalty = PENALTY_POOL[Math.floor(Math.random() * PENALTY_POOL.length)];
   state.deductedRevenue += penalty;
+  state.orderDeducted += penalty;
   state.revenue = Math.max(0, state.earnedRevenue - state.deductedRevenue);
 
   renderFlowStepCard();
@@ -2453,7 +2455,7 @@ function completeOrder(){
   const orderRec = {
     no: state.orderNo, items: ent.map(e=>({id:e.food.id, qty:e.qty})),
     cost: sp, paid: c.paid, change: change, expr: state.flow.orderAnswers[2],
-    accuracy: orderAcc, time: timeTaken, revenue: sp,
+    accuracy: orderAcc, time: timeTaken, revenue: Math.max(0, sp - state.orderDeducted),
     eco: eco, health: health,
     ecoMet: ecoEval.ok,
     hasEcoReq: hasExplicitEcoReq,
@@ -3085,6 +3087,7 @@ function startLevel(id, options){
   state.orderNo = 1;
   state.orderStartTime = Date.now();
   state.lives = MAX_LIVES;
+  state.orderDeducted = 0;
   state.timeTotal = LEVELS[id].duration;
   state.earnedRevenue = 0; state.deductedRevenue = 0; state.revenue = 0; state.ordersDone = 0;
   state.shiftQuestions = 0; state.shiftCorrect = 0; state.shiftStreak = 0;
@@ -3106,6 +3109,7 @@ function nextCustomer(){
   state.customer = genOrder(state.level);
   state.orderStartTime = Date.now();
   state.lives = MAX_LIVES;
+  state.orderDeducted = 0;
   resetFlowState();
   render();
   window.scrollTo({ top:0 });
@@ -3604,6 +3608,27 @@ function runSelfTests(){
   const revenueRow = modalBox.querySelector('[data-receipt-revenue]');
   ok('電子小票「找錢」列已取消加粗與高亮樣式', !!changeRow && !changeRow.classList.contains('total') && !changeRow.querySelector('b'));
   ok('電子小票「本次營業額」列已加粗重點強調顯示', !!revenueRow && revenueRow.classList.contains('total') && !!revenueRow.querySelector('b'));
+  closeModal();
+
+  /* --- 小票「本次營業額」已扣除同單計算錯誤罰款 --- */
+  state.screen = 'flow';
+  state.level = 'basic';
+  state.cart = { cheungfun:1, eggtart:1 };
+  state.customer = { type:'uncle', paid:30, request:{ items:[{id:'cheungfun',qty:1},{id:'eggtart',qty:1}], totalQty:2 } };
+  state.orderStartTime = Date.now();
+  state.lives = MAX_LIVES;
+  state.orderDeducted = 0;
+  state.earnedRevenue = 0; state.deductedRevenue = 0; state.revenue = 0;
+  state.shiftQuestions = 0; state.shiftCorrect = 0;
+  resetFlowState(); state.flow.step = 1; state.flow.expr = '14−7';
+  checkFlowExpression();
+  closeModal();
+  const orderPenalty = state.orderDeducted;
+  completeOrder();
+  const netRec = state.shiftOrders[state.shiftOrders.length-1];
+  ok('同單罰款已記錄在小票淨額計算', orderPenalty >= 2 && orderPenalty <= 5);
+  ok('小票本次營業額已扣除同單罰款（$21 − 罰款）', netRec.revenue === Math.max(0, 21 - orderPenalty) && netRec.revenue < 21);
+  ok('小票畫面顯示扣除罰款後的淨額', modalBox.querySelector('[data-receipt-revenue]').textContent.includes('$' + netRec.revenue));
   closeModal();
 
   /* --- 挑戰模式環保程度分類篩選測試 --- */
